@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/home_fr">
+
+    <fragment
+        android:id="@+id/home_fr"
+        android:name="com.aredruss.mangatana.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_media"
+            app:destination="@id/media_fr"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit">
+            <argument
+                android:name="screenType"
+                android:defaultValue="1"
+                app:argType="integer" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/media_fr"
+        android:name="com.aredruss.mangatana.ui.media.list.MediaListFragment"
+        android:label="MediaFragment"
+        tools:layout="@layout/fragment_media_list">
+        <action
+            android:id="@+id/action_show_media"
+            app:destination="@id/mediaBottomDialog">
+            <argument
+                android:name="mediaId"
+                android:defaultValue="1L"
+                app:argType="long" />
+            <argument
+                android:name="mediaType"
+                android:defaultValue="manga"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediaBottomDialog"
+        android:name="com.aredruss.mangatana.ui.media.dialog.MediaFragment"
+        android:label="MediaBottomDialog"
+        tools:layout="@layout/fragment_media" />
+
+</navigation>

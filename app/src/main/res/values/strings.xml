@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Mangatana</string>
+    <string name="media_fr_tab_manga">Manga</string>
+    <string name="media_fr_tab_anime">Anime</string>
+    <string name="fr_in_progress">In Progress</string>
+    <string name="fr_backlog">Backlog</string>
+    <string name="fr_finished">Finished</string>
+    <string name="fr_starred">Starred</string>
+    <string name="fr_explore">Explore</string>
+
+    <string name="fr_in_progress_sub">Stuff you are going through right now</string>
+    <string name="fr_up_next_sub">Series you plan on catching up later</string>
+    <string name="fr_finished_sub">Series you’re already done with</string>
+    <string name="fr_starred_sub">Your personal favourites</string>
+    <string name="fr_explore_sub">Find something new for yourself</string>
+
+    <string name="carousel_recent">Recent series</string>
+    <string name="media_cover">Media Cover</string>
+</resources>

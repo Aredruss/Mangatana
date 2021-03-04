@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ViewFlipper
+        android:id="@+id/media_vf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:indeterminate="false"
+                android:rotationY="5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/media_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/media_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="TITLE" />
+
+
+            <TextView
+                android:id="@+id/media_status_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_status"
+                android:padding="10dp"
+                android:text="status placeholder"
+                app:layout_constraintStart_toStartOf="@id/media_rating_tv"
+                app:layout_constraintTop_toBottomOf="@id/media_rating_tv" />
+
+            <ImageView
+                android:id="@+id/media_cover_iv"
+                android:layout_width="150dp"
+                android:layout_height="250dp"
+                android:layout_margin="15dp"
+                android:contentDescription="@string/media_cover"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/media_title_tv"
+
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/media_author_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toEndOf="@id/media_cover_iv"
+                app:layout_constraintTop_toTopOf="@id/media_cover_iv"
+                tools:text="Author" />
+
+            <TextView
+                android:id="@+id/media_rating_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toEndOf="@id/media_cover_iv"
+                app:layout_constraintTop_toBottomOf="@id/media_author_tv"
+                tools:text="Rating" />
+
+            <hakobastvatsatryan.DropdownTextView
+                android:id="@+id/media_desc_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:focusedByDefault="false"
+                android:defaultFocusHighlightEnabled="false"
+                app:arrow_drawable="@drawable/ic_arrow_right"
+                app:bg_drawable_expanded="@drawable/bg_primary_color"
+                app:bg_drawable_regular="@drawable/bg_primary_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/media_cover_iv" />
+
+            <Button
+                android:id="@+id/add_progress_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:drawableRight="@drawable/ic_progress"
+                android:text="Add to ongoings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/media_desc_tv" />
+
+            <Button
+                android:id="@+id/add_backlog_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:drawableRight="@drawable/ic_backlog"
+                android:text="Move to backlog"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_progress_btn" />
+
+            <Button
+                android:id="@+id/add_finished_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:drawableRight="@drawable/ic_finished"
+                android:text="Move to finished"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_backlog_btn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/media_error_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Error"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ViewFlipper>
+</ScrollView>
