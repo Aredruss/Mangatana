@@ -1,6 +1,6 @@
 package com.aredruss.mangatana.ui.util
 
-object ScreenType {
+object ScreenCategory {
     const val IN_PROGRESS = 1
     const val BACKLOG = 2
     const val FINISHED = 3

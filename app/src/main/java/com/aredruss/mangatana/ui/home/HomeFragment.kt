@@ -2,18 +2,15 @@ package com.aredruss.mangatana.ui.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentHomeBinding
-import com.aredruss.mangatana.ui.MainViewModel
-import com.aredruss.mangatana.ui.util.ScreenType
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.aredruss.mangatana.modo.Screens
+import com.aredruss.mangatana.ui.util.BaseFragment
+import com.aredruss.mangatana.ui.util.ScreenCategory
+import com.github.terrakok.modo.forward
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
-
-    private val viewModel: MainViewModel by viewModel()
+class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val binding: FragmentHomeBinding by viewBinding()
 
@@ -24,20 +21,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         with(binding) {
             inProgressBtn.setOnClickListener {
-                openMediaFragment(ScreenType.IN_PROGRESS, R.string.fr_in_progress)
+                openMediaFragment(ScreenCategory.IN_PROGRESS, R.string.fr_in_progress)
             }
             upNextBtn.setOnClickListener {
-                openMediaFragment(ScreenType.BACKLOG, R.string.fr_backlog)
+                openMediaFragment(ScreenCategory.BACKLOG, R.string.fr_backlog)
             }
             finishedBtn.setOnClickListener {
-                openMediaFragment(ScreenType.FINISHED, R.string.fr_finished)
+                openMediaFragment(ScreenCategory.FINISHED, R.string.fr_finished)
             }
             starredBtn.setOnClickListener {
-                openMediaFragment(ScreenType.STARRED, R.string.fr_starred)
-
+                openMediaFragment(ScreenCategory.STARRED, R.string.fr_starred)
             }
             exploreBtn.setOnClickListener {
-                openMediaFragment(ScreenType.EXPLORE, R.string.fr_explore)
+                openMediaFragment(ScreenCategory.EXPLORE, R.string.fr_explore)
             }
 
             clearBtn.setOnClickListener {
@@ -47,12 +43,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun openMediaFragment(type: Int, fragmentTitle: Int) {
-        val navController = findNavController()
-
         activity?.title = getString(fragmentTitle)
+        modo.forward(Screens.MediaList(type))
+    }
 
-        val action = HomeFragmentDirections.actionHomeToMedia(type)
-        navController.navigate(action)
+    companion object {
+        fun create() = HomeFragment()
     }
 
 }

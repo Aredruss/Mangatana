@@ -23,7 +23,7 @@ data class MediaDb(
     @ColumnInfo(name = "image")
     var imageUrl: String,
     @ColumnInfo(name = "is_starred")
-    var isStarred:Boolean
+    var isStarred: Boolean
 ) {
     companion object {
         const val UNKNOWN_STATUS = -1

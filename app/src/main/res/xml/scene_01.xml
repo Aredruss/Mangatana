@@ -2,8 +2,9 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
-    <Transition motion:duration="1000"
-        motion:autoTransition="animateToEnd">
+    <Transition
+        motion:autoTransition="animateToEnd"
+        motion:duration="1000">
 
 
     </Transition>

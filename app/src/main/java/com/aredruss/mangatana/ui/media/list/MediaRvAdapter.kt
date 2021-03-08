@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aredruss.mangatana.databinding.ListItemMediaBinding
 
-class MediaRvAdapter(val open: (Long, String) -> Unit) : RecyclerView.Adapter<MediaViewHolder>() {
+class MediaRvAdapter(val open: (Long) -> Unit) : RecyclerView.Adapter<MediaViewHolder>() {
 
     private var mediaList = ArrayList<LiteMedia>()
 
