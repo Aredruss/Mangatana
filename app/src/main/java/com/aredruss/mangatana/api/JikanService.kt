@@ -1,8 +1,8 @@
 package com.aredruss.mangatana.api
 
-import com.aredruss.mangatana.data.model.JikanApiResponse
-import com.aredruss.mangatana.data.model.MediaResponse
-import com.aredruss.mangatana.data.model.MediaTop
+import com.aredruss.mangatana.model.JikanApiResponse
+import com.aredruss.mangatana.model.MediaResponse
+import com.aredruss.mangatana.model.MediaTop
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

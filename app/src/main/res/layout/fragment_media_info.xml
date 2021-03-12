@@ -3,33 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <ViewFlipper
-        android:id="@+id/media_vf"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/info_loading_cl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
             <ProgressBar
                 style="@style/Widget.AppCompat.ProgressBar"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:indeterminate="false"
-                android:rotationY="5"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/media_cl"
+            android:id="@+id/info_content_cl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingBottom="10dp">
 
             <TextView
@@ -44,7 +40,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="TITLE" />
-
 
             <TextView
                 android:id="@+id/media_status_tv"
@@ -73,9 +68,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:text="Author|Producer placeholder"
                 app:layout_constraintStart_toEndOf="@id/media_cover_iv"
-                app:layout_constraintTop_toTopOf="@id/media_cover_iv"
-                tools:text="Author" />
+                app:layout_constraintTop_toTopOf="@id/media_cover_iv" />
 
             <TextView
                 android:id="@+id/media_rating_tv"
@@ -85,20 +80,6 @@
                 app:layout_constraintStart_toEndOf="@id/media_cover_iv"
                 app:layout_constraintTop_toBottomOf="@id/media_author_tv"
                 tools:text="Rating" />
-
-            <hakobastvatsatryan.DropdownTextView
-                android:id="@+id/media_desc_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:defaultFocusHighlightEnabled="false"
-                android:focusedByDefault="false"
-                app:arrow_drawable="@drawable/ic_arrow_right"
-                app:bg_drawable_expanded="@drawable/bg_primary_color"
-                app:bg_drawable_regular="@drawable/bg_primary_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/media_cover_iv" />
 
             <Button
                 android:id="@+id/add_progress_btn"
@@ -111,7 +92,7 @@
                 android:text="Add to ongoings"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/media_desc_tv" />
+                app:layout_constraintTop_toBottomOf="@id/media_cover_iv" />
 
             <Button
                 android:id="@+id/add_backlog_btn"
@@ -142,8 +123,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/info_error_cl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/media_error_tv"
@@ -156,5 +142,5 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ViewFlipper>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

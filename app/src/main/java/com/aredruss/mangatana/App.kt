@@ -2,7 +2,7 @@ package com.aredruss.mangatana
 
 import android.app.Application
 import androidx.room.Room
-import com.aredruss.mangatana.data.AppDatabase
+import com.aredruss.mangatana.data.database.AppDatabase
 import com.aredruss.mangatana.di.mangatanaModules
 import com.github.terrakok.modo.AppReducer
 import com.github.terrakok.modo.Modo
@@ -35,5 +35,4 @@ class App : Application() {
 
         Timber.plant(Timber.DebugTree())
     }
-
 }

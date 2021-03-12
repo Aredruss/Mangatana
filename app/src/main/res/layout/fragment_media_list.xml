@@ -8,14 +8,14 @@
         android:id="@+id/media_type_tl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorFullWidth="false"
-        app:tabMode="scrollable"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="start"
         app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="scrollable"
         app:tabTextColor="@color/white">
 
         <com.google.android.material.tabs.TabItem
@@ -29,7 +29,7 @@
             android:text="@string/media_fr_tab_anime" />
     </com.google.android.material.tabs.TabLayout>
 
-    <ViewFlipper
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/media_list_vf"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -39,6 +39,7 @@
         app:layout_constraintTop_toBottomOf="@id/media_type_tl">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/list_loading_cl"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -55,6 +56,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/list_content_cl"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -69,6 +71,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/list_error_cl"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -83,5 +86,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ViewFlipper>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

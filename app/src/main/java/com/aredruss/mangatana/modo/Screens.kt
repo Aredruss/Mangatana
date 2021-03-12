@@ -1,10 +1,11 @@
 package com.aredruss.mangatana.modo
 
-import com.aredruss.mangatana.ui.home.HomeFragment
-import com.aredruss.mangatana.ui.media.info.MediaInfoFragment
-import com.aredruss.mangatana.ui.media.list.MediaListFragment
+import com.aredruss.mangatana.view.home.HomeFragment
+import com.aredruss.mangatana.view.media.info.MediaInfoFragment
+import com.aredruss.mangatana.view.media.list.MediaListFragment
 import com.github.terrakok.modo.AppScreen
 
+@Suppress("FunctionNaming")
 object Screens {
     fun Home() = AppScreen("home") {
         HomeFragment.create()
