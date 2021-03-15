@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="InfoMessageView">
+        <attr name="info_text" format="string" />
+        <attr name="info_icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CategoryButton">
+        <attr name="text" format="string" />
+        <attr name="subText" format="string" />
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+</resources>

@@ -8,8 +8,4 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 abstract class BaseFragment(layoutId: Int) : Fragment(layoutId) {
     protected val modo = App.INSTANCE.modo
     protected val viewModel: MainViewModel by sharedViewModel()
-
-    abstract fun onLoading()
-
-    abstract fun onError(e: Throwable)
 }

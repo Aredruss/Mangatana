@@ -1,6 +1,6 @@
 # Mangatana 
 
-An app for you to track those weird cartoons of yours
+An app to help you track those weird Japanese cartoons you're ashamed to tell your friends about.
 
 ## TO-DO
 ### Features
@@ -11,7 +11,9 @@ An app for you to track those weird cartoons of yours
 + Implement 'starred' media logic: views & and business-logic 
 + Implement proper status logic
 + About screen
-+ Custom views for showing loading animation, Errors, Buttons and synopsis info
++ Lottie for showing loading animation :ballot_box_with_check:
++ Custom views for showing errors, buttons :ballot_box_with_check:
++ Custom view for showing media synopsis 
 + Proper tests
 
 ### Quality of life

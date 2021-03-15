@@ -9,7 +9,6 @@ import com.aredruss.mangatana.modo.Screens
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.ScreenCategory
 import com.github.terrakok.modo.forward
-import timber.log.Timber
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
@@ -26,33 +25,25 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         with(binding) {
             inProgressBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.IN_PROGRESS, R.string.fr_in_progress)
+                openMediaFragment(ScreenCategory.ON_GOING, R.string.fr_ongoing_title)
             }
             upNextBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.BACKLOG, R.string.fr_backlog)
+                openMediaFragment(ScreenCategory.BACKLOG, R.string.fr_backlog_title)
             }
             finishedBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.FINISHED, R.string.fr_finished)
+                openMediaFragment(ScreenCategory.FINISHED, R.string.fr_finished_title)
             }
             starredBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.STARRED, R.string.fr_starred)
+                openMediaFragment(ScreenCategory.STARRED, R.string.fr_starred_title)
             }
             exploreBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.EXPLORE, R.string.fr_explore)
+                openMediaFragment(ScreenCategory.EXPLORE, R.string.fr_explore_title)
             }
 
             clearBtn.setOnClickListener {
                 viewModel.clearDatabase()
             }
         }
-    }
-
-    override fun onLoading() {
-        Timber.e("Nothing to load yet")
-    }
-
-    override fun onError(e: Throwable) {
-        Timber.e(e)
     }
 
     private fun openMediaFragment(type: Int, fragmentTitle: Int) {

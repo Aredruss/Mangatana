@@ -8,21 +8,18 @@ import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentMediaListBinding
 import com.aredruss.mangatana.modo.Screens
 import com.aredruss.mangatana.repo.JikanRepository
-import com.aredruss.mangatana.view.extensions.gone
 import com.aredruss.mangatana.view.extensions.hideViews
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.ScreenCategory
 import com.github.terrakok.modo.forward
 import com.google.android.material.tabs.TabLayout
-import timber.log.Timber
 
 class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
 
     companion object {
         private const val CATEGORY = "category"
         fun create(category: Int) = MediaListFragment().apply {
-            Timber.e("screen cat = $category")
             arguments = Bundle().apply { putInt(CATEGORY, category) }
         }
     }
@@ -74,7 +71,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                         onLoading()
                     }
                     is ListState.Empty -> {
-                        onLoading()
+                        onEmpty()
                     }
                     is ListState.Success -> {
                         onLoaded(it.payload)
@@ -87,21 +84,29 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         )
     }
 
-    override fun onLoading() = with(binding) {
-        listLoadingCl.visible()
-        hideViews(listOf(listContentCl, listErrorCl))
+    private fun onLoading() = with(binding) {
+        hideViews(listOf(mediaRv, listInfoMv))
+        listLoadingAv.visible()
+    }
+
+    private fun onEmpty() = with(binding) {
+        hideViews(listOf(listLoadingAv, mediaRv))
+        listInfoMv.setIcon(R.drawable.empty_logo)
+        listInfoMv.setText(R.string.empty_result_message)
+        listInfoMv.visible()
     }
 
     private fun onLoaded(payload: ArrayList<LiteMedia>) = with(binding) {
-        listContentCl.visible()
-        hideViews(listOf(listLoadingCl, listErrorCl))
+        hideViews(listOf(listLoadingAv, listInfoMv))
+        mediaRv.visible()
         mediaRvAdapter.setMedia(payload)
     }
 
-    override fun onError(e: Throwable) = with(binding) {
-        listErrorCl.visible()
-        listLoadingCl.gone()
-        mediaListErrorTv.text = e.message
+    private fun onError(e: Throwable) = with(binding) {
+        hideViews(listOf(listLoadingAv, mediaRv))
+        listInfoMv.setIcon(R.drawable.error_logo)
+        listInfoMv.setText(e::class.java.name)
+        listInfoMv.visible()
     }
 
     private fun openMedia(id: Long) {

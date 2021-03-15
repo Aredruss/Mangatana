@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@drawable/bg_category_btn"
+    android:padding="5dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
+
+    <View
+        android:id="@+id/icon_host_v"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_category_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/category_icon_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/icon_host_v"
+        app:layout_constraintEnd_toEndOf="@id/icon_host_v"
+        app:layout_constraintStart_toStartOf="@id/icon_host_v"
+        app:layout_constraintTop_toTopOf="@id/icon_host_v"
+        app:tint="@color/colorPrimaryDark"
+        tools:src="@drawable/ic_progress" />
+
+    <TextView
+        android:id="@+id/category_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/category_sub_tv"
+        app:layout_constraintStart_toEndOf="@id/icon_host_v"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Ongoing" />
+
+    <TextView
+        android:id="@+id/category_sub_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/category_name_tv"
+        app:layout_constraintTop_toBottomOf="@+id/category_name_tv"
+        tools:text="Series you're going through right now" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/colorAccent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

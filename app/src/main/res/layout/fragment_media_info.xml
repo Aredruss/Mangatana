@@ -10,17 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/info_loading_cl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible">
-
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/media_loading_av"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/info_content_cl"
@@ -48,9 +48,9 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_status"
                 android:padding="10dp"
-                android:text="status placeholder"
                 app:layout_constraintStart_toStartOf="@id/media_rating_tv"
-                app:layout_constraintTop_toBottomOf="@id/media_rating_tv" />
+                app:layout_constraintTop_toBottomOf="@id/media_rating_tv"
+                tools:text="status placeholder" />
 
             <ImageView
                 android:id="@+id/media_cover_iv"
@@ -68,9 +68,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Author|Producer placeholder"
                 app:layout_constraintStart_toEndOf="@id/media_cover_iv"
-                app:layout_constraintTop_toTopOf="@id/media_cover_iv" />
+                app:layout_constraintTop_toTopOf="@id/media_cover_iv"
+                tools:text="Author|Producer placeholder" />
 
             <TextView
                 android:id="@+id/media_rating_tv"
@@ -89,7 +89,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:drawableRight="@drawable/ic_progress"
-                android:text="Add to ongoings"
+                android:text="@string/media.add_to_ongoings_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/media_cover_iv" />
@@ -102,7 +102,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="15dp"
                 android:drawableRight="@drawable/ic_backlog"
-                android:text="Move to backlog"
+                android:text="@string/media.move_to_backlog.btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_progress_btn" />
@@ -115,32 +115,23 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="15dp"
                 android:drawableRight="@drawable/ic_finished"
-                android:text="Move to finished"
+                android:text="@string/media.move_to_finished.btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_backlog_btn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/info_error_cl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <com.aredruss.mangatana.view.util.views.InfoMessageView
+            android:id="@+id/media_info_mv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:visibility="gone"
+            app:info_icon="@drawable/error_logo"
+            app:info_text="@string/error_message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/media_error_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Error"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

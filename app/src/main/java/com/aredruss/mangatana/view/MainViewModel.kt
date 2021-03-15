@@ -83,7 +83,7 @@ class MainViewModel(
     // Get Media either from the database or the API
     private fun getMedia(type: String, screenCategory: Int) {
         when (screenCategory) {
-            ScreenCategory.IN_PROGRESS -> getSavedMedia(MediaDb.ONGOING_STATUS, type)
+            ScreenCategory.ON_GOING -> getSavedMedia(MediaDb.ONGOING_STATUS, type)
             ScreenCategory.BACKLOG -> getSavedMedia(MediaDb.BACKLOG_STATUS, type)
             ScreenCategory.FINISHED -> getSavedMedia(MediaDb.FINISHED_STATUS, type)
             // ScreenCategory.STARRED -> getStarredMedia(type)
@@ -115,7 +115,13 @@ class MainViewModel(
             mediaList.postValue(ListState.Loading)
             try {
                 val result = databaseRepository.getSavedMedia(status, type)
-                if (!result.isEmpty()) mediaList.postValue(ListState.Success(result))
+                mediaList.postValue(
+                    if (result.isEmpty()) {
+                        ListState.Empty
+                    } else {
+                        ListState.Success(result)
+                    }
+                )
             } catch (e: Throwable) {
                 mediaList.postValue(ListState.Error(e))
             }

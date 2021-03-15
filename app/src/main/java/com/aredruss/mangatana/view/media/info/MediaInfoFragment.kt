@@ -70,14 +70,13 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
         )
     }
 
-    override fun onLoading() = with(binding) {
-        infoLoadingCl.visible()
-        hideViews(listOf(infoContentCl, infoErrorCl))
+    private fun onLoading() = with(binding) {
+        hideViews(listOf(infoContentCl, mediaInfoMv))
+        mediaLoadingAv.visible()
     }
 
     private fun onMediaLoaded(media: MediaResponse) = with(binding) {
-        infoContentCl.visible()
-        hideViews(listOf(infoLoadingCl, infoErrorCl))
+        hideViews(listOf(mediaLoadingAv, mediaInfoMv))
 
         mediaTitleTv.text = media.title
         mediaRatingTv.text = media.score.toString()
@@ -99,12 +98,15 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
         addFinishedBtn.setOnClickListener {
             saveMedia(MediaDb.FINISHED_STATUS)
         }
+
+        infoContentCl.visible()
     }
 
-    override fun onError(e: Throwable) = with(binding) {
-        infoErrorCl.visible()
-        infoLoadingCl.gone()
-        mediaErrorTv.text = e.message
+    private fun onError(e: Throwable) = with(binding) {
+        mediaLoadingAv.gone()
+        mediaInfoMv.setIcon(R.drawable.error_logo)
+        mediaInfoMv.setText(e::class.java.name)
+        mediaInfoMv.visible()
     }
 
     private fun saveMedia(status: Int) {

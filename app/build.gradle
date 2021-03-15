@@ -108,4 +108,7 @@ dependencies {
     def modo_version = "0.5"
     implementation "com.github.terrakok:modo:$modo_version"
 
+    def lottie_version = "3.6.1"
+    implementation "com.airbnb.android:lottie:$lottie_version"
+
 }
