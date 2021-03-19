@@ -81,6 +81,16 @@
                 app:layout_constraintTop_toBottomOf="@id/media_author_tv"
                 tools:text="Rating" />
 
+            <TextView
+                android:id="@+id/media_about_tv"
+                android:background="@drawable/bg_category_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/media_cover_iv" />
+
             <Button
                 android:id="@+id/add_progress_btn"
                 android:layout_width="match_parent"
@@ -88,11 +98,12 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:drawableRight="@drawable/ic_progress"
+                android:drawableEnd="@drawable/ic_progress"
                 android:text="@string/media.add_to_ongoings_btn"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/media_cover_iv" />
+                app:layout_constraintTop_toBottomOf="@id/media_about_tv" />
 
             <Button
                 android:id="@+id/add_backlog_btn"
@@ -101,8 +112,9 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="15dp"
-                android:drawableRight="@drawable/ic_backlog"
+                android:drawableEnd="@drawable/ic_backlog"
                 android:text="@string/media.move_to_backlog.btn"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_progress_btn" />
@@ -114,8 +126,9 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="15dp"
-                android:drawableRight="@drawable/ic_finished"
+                android:drawableEnd="@drawable/ic_finished"
                 android:text="@string/media.move_to_finished.btn"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_backlog_btn" />

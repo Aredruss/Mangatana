@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:paddingTop="10dp"
     android:layout_height="match_parent">
 
     <com.aredruss.mangatana.view.util.views.CategoryButton
@@ -59,25 +60,5 @@
         app:layout_constraintTop_toBottomOf="@id/starred_btn"
         app:subText="@string/fr_explore_sub"
         app:text="@string/fr_explore_title" />
-
-    <TextView
-        android:id="@+id/debug_menu_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/debug_menu_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/explore_btn"
-        app:layout_constraintTop_toBottomOf="@id/explore_btn" />
-
-    <Button
-        android:id="@+id/clear_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/clear_button_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/debug_menu_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

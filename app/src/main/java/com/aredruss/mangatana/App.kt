@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.aredruss.mangatana.data.database.AppDatabase
 import com.aredruss.mangatana.di.mangatanaModules
-import com.github.terrakok.modo.AppReducer
 import com.github.terrakok.modo.Modo
+import com.github.terrakok.modo.android.AppReducer
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber

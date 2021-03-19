@@ -39,10 +39,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             exploreBtn.setOnClickListener {
                 openMediaFragment(ScreenCategory.EXPLORE, R.string.fr_explore_title)
             }
-
-            clearBtn.setOnClickListener {
-                viewModel.clearDatabase()
-            }
         }
     }
 

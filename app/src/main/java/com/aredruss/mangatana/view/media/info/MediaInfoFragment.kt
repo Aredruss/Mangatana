@@ -88,6 +88,7 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
             COVER_WIDTH,
             COVER_HEIGHT
         )
+        mediaAboutTv.text = media.synopsis
 
         addProgressBtn.setOnClickListener {
             saveMedia(MediaDb.ONGOING_STATUS)

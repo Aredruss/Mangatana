@@ -5,29 +5,31 @@ An app to help you track those weird Japanese cartoons you're ashamed to tell yo
 ## TO-DO
 ### Features
 + Add support for more media types :ballot_box_with_check:
-+ Implement proper genre and author adapters
-+ Implement the search feature 
++ Implement proper genre and author adapters :soon:
++ Implement the search feature :soon:
 + Implement Pagination
-+ Implement 'starred' media logic: views & and business-logic 
-+ Implement proper status logic
-+ About screen
++ Implement 'starred' media logic: views & and business-logic :soon:
++ Implement proper status logic :soon:
++ About screen :ballot_box_with_check:  
 + Lottie for showing loading animation :ballot_box_with_check:
 + Custom views for showing errors, buttons :ballot_box_with_check:
-+ Custom view for showing media synopsis 
++ Custom view for showing media synopsis :soon:
 + Proper tests
 
 ### Quality of life
-+ Animations
++ Motion Layout in several fragments
++ Fragment enter & exit animations :ballot_box_with_check:
 + Logo :ballot_box_with_check:
-+ Display empty result or error related messages properly
++ Display empty result or error related messages properly :ballot_box_with_check:   
 + Alternative color themes
-+ Russian Localization 
++ Russian Localization :soon:
 + Improve overall design and refactor XML files
 + Code Style and Minor Architecture Refactoring :ballot_box_with_check:
-+ AppCenter/Github Actions/Firebase CI
++ AppCenter/Github Actions/Firebase CI :soon:
 + Add Detekt Linter :ballot_box_with_check:
 + Better Navigation :ballot_box_with_check:
-+ Proper branches instead of super commits
++ Modo extensions to edit activity menu programmatically :ballot_box_with_check:  
++ Proper branches instead of super commits :soon:
 
 ### Bugs
-+ TabLayout state is not saved during fragment transition :ballot_box_with_check:
++ Bug-free as of now :bug:
