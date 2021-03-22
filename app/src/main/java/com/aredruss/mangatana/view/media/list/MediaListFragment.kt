@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
+import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.FragmentMediaListBinding
 import com.aredruss.mangatana.modo.Screens
 import com.aredruss.mangatana.repo.JikanRepository
@@ -96,7 +97,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         listInfoMv.visible()
     }
 
-    private fun onLoaded(payload: ArrayList<LiteMedia>) = with(binding) {
+    private fun onLoaded(payload: ArrayList<MediaDb>) = with(binding) {
         hideViews(listOf(listLoadingAv, listInfoMv))
         mediaRv.visible()
         mediaRvAdapter.setMedia(payload)

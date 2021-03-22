@@ -55,6 +55,7 @@ class MainViewModel(
                 )
             } catch (e: Throwable) {
                 mediaInfo.postValue(DetailsState.Error(e))
+                e.printStackTrace()
             }
         }
     }
@@ -93,7 +94,7 @@ class MainViewModel(
 
     // Get Media from the Jikan API
     private fun exploreMedia(type: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             mediaList.postValue(ListState.Loading)
             try {
                 mediaList.postValue(
@@ -105,13 +106,14 @@ class MainViewModel(
                 )
             } catch (e: Throwable) {
                 mediaList.postValue(ListState.Error(e))
+                e.printStackTrace()
             }
         }
     }
 
     // Get Media from the Database
     private fun getSavedMedia(status: Int, type: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             mediaList.postValue(ListState.Loading)
             try {
                 val result = databaseRepository.getSavedMedia(status, type)

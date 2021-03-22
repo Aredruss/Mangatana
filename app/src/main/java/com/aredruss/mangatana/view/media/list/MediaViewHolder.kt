@@ -1,6 +1,7 @@
 package com.aredruss.mangatana.view.media.list
 
 import androidx.recyclerview.widget.RecyclerView
+import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.ListItemMediaBinding
 import com.aredruss.mangatana.view.util.GlideHelper
 
@@ -14,10 +15,10 @@ class MediaViewHolder(
         private const val COVER_WIDTH = 190
     }
 
-    fun onBind(media: LiteMedia) {
+    fun onBind(media: MediaDb) {
 
         binding.root.setOnClickListener {
-            open(media.id)
+            open(media.malId)
         }
 
         GlideHelper.loadCover(

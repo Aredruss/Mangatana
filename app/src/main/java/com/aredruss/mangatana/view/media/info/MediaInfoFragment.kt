@@ -16,6 +16,7 @@ import com.aredruss.mangatana.view.extensions.hideViews
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.GlideHelper
+import com.google.android.material.chip.Chip
 
 class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
 
@@ -25,6 +26,8 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
 
         private const val COVER_WIDTH = 150
         private const val COVER_HEIGHT = 250
+
+        private const val GENRE_COUNT = 5
 
         fun create(malId: Long, mediaType: String) = MediaInfoFragment().apply {
             arguments = Bundle().apply {
@@ -80,6 +83,8 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
 
         mediaTitleTv.text = media.title
         mediaRatingTv.text = media.score.toString()
+        mediaAboutTv.setContentText(media.synopsis)
+        mediaGenreCg.removeAllViews()
 
         GlideHelper.loadCover(
             root.context,
@@ -88,7 +93,6 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
             COVER_WIDTH,
             COVER_HEIGHT
         )
-        mediaAboutTv.text = media.synopsis
 
         addProgressBtn.setOnClickListener {
             saveMedia(MediaDb.ONGOING_STATUS)
@@ -98,6 +102,30 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
         }
         addFinishedBtn.setOnClickListener {
             saveMedia(MediaDb.FINISHED_STATUS)
+        }
+
+        val type = arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA
+        when (type) {
+            JikanRepository.TYPE_MANGA -> {
+                mediaAuthorTv.text = media.authorList?.first()?.name
+            }
+            JikanRepository.TYPE_ANIME -> {
+                mediaAuthorTv.text = media.producerList?.first()?.name
+            }
+        }
+
+        val genres = if (media.genreList.size <= GENRE_COUNT) {
+            (media.genreList)
+        } else {
+            media.genreList.subList(0, GENRE_COUNT)
+        }
+
+        genres.shuffled().forEach {
+            mediaGenreCg.addView(
+                Chip(context).apply {
+                    text = it.name
+                }
+            )
         }
 
         infoContentCl.visible()

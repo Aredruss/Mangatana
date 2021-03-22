@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,6 +34,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                app:layout_goneMarginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -51,6 +54,16 @@
                 app:layout_constraintStart_toStartOf="@id/media_rating_tv"
                 app:layout_constraintTop_toBottomOf="@id/media_rating_tv"
                 tools:text="status placeholder" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/media_genre_cg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/media_status_tv"
+                app:layout_constraintTop_toBottomOf="@id/media_status_tv" />
 
             <ImageView
                 android:id="@+id/media_cover_iv"
@@ -81,15 +94,19 @@
                 app:layout_constraintTop_toBottomOf="@id/media_author_tv"
                 tools:text="Rating" />
 
-            <TextView
+            <com.aredruss.mangatana.view.util.views.CollapseTextView
                 android:id="@+id/media_about_tv"
-                android:background="@drawable/bg_category_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:elevation="5dp"
+                app:arrow_drawable="@drawable/ic_arrow_right"
+                app:bg_drawable_regular="@drawable/bg_about_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/media_cover_iv" />
+                app:layout_constraintTop_toBottomOf="@id/media_cover_iv"
+                app:title_text="@string/fr_about" />
+
 
             <Button
                 android:id="@+id/add_progress_btn"

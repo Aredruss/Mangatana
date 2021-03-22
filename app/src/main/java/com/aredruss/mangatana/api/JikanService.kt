@@ -20,7 +20,7 @@ interface JikanService {
     ): MediaTop
 
     @GET("/v3/{type}/{id}")
-    suspend fun getMedia(
+    suspend fun getMediaById(
         @Path("type") type: String,
         @Path("id") id: Long
     ): MediaResponse

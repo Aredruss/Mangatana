@@ -10,4 +10,12 @@
         <attr name="subText" format="string" />
         <attr name="icon" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="CollapseTextView">
+        <attr name="title_text" format="string" />
+        <attr name="content_text" format="string" />
+        <attr name="bg_drawable_regular" format="reference" />
+        <attr name="arrow_drawable" format="reference" />
+        <attr name="expand_duration" format="integer" />
+    </declare-styleable>
 </resources>

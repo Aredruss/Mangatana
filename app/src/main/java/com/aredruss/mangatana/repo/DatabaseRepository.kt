@@ -1,31 +1,34 @@
 package com.aredruss.mangatana.repo
 
 import com.aredruss.mangatana.data.dao.MediaDao
+import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.model.MediaResponse
-import com.aredruss.mangatana.view.media.list.LiteMedia
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DatabaseRepository(
-    val mediaDao: MediaDao
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val mediaDao: MediaDao,
+    private val mediaMapper: MediaMapper
 ) {
     suspend fun addNewMediaEntry(media: MediaResponse, status: Int) {
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             mediaDao.insertEntry(
-                MediaMapper.mapToMedia(
+                mediaMapper.mapToMedia(
                     media, status
                 )
             )
         }
     }
 
-    suspend fun getSavedMedia(status: Int, type: String): ArrayList<LiteMedia> {
-        return withContext(Dispatchers.IO) {
-            MediaMapper.mapToLiteMediaList(
-                mediaDao.getEntriesByStatus(status, type) as ArrayList
-            )
+    suspend fun getSavedMedia(status: Int, type: String): ArrayList<MediaDb> {
+        return withContext(ioDispatcher) {
+            mediaDao.getEntriesByStatus(status, type) as ArrayList
         }
     }
 
-    suspend fun clear() = mediaDao.clearDatabase()
+    suspend fun clear() = withContext(ioDispatcher) {
+        mediaDao.clearDatabase()
+    }
 }
