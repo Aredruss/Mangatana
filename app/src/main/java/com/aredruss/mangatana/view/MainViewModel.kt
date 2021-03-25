@@ -6,11 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.repo.DatabaseRepository
 import com.aredruss.mangatana.repo.JikanRepository
+import com.aredruss.mangatana.view.home.HomeState
 import com.aredruss.mangatana.view.media.info.DetailsState
 import com.aredruss.mangatana.view.media.list.ListState
 import com.aredruss.mangatana.view.util.ScreenCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainViewModel(
     private val jikanRepository: JikanRepository,
@@ -24,6 +26,7 @@ class MainViewModel(
 
     // Get Content for the list Screen
     fun getMediaList(tabType: String?, screenCategory: Int) {
+        Timber.e("TABTYPE " + tabType)
         if (contentCategory != screenCategory) {
             contentCategory = screenCategory
             getMedia(mediaType, screenCategory)
@@ -43,6 +46,8 @@ class MainViewModel(
 
     // Get Info about a certain media piece - a manga series or an anime
     fun getMediaDetails(type: String, malId: Long) {
+        Timber.e("TYPE " + type)
+        Timber.e("MEDIA TYPE " + mediaType)
         mediaInfo.postValue(DetailsState.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             try {

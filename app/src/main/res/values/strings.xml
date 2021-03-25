@@ -13,7 +13,7 @@
     <string name="fr_starred_sub">Your personal favourites</string>
     <string name="fr_explore_sub">Find something new for yourself</string>
 
-    <string name="carousel_recent">Recent series</string>
+    <string name="carousel_recent">Recent activity</string>
 
     <string name="media_cover">Media Cover</string>
     <string name="media.move_to_finished.btn">Mark as finished</string>

@@ -39,11 +39,17 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
             mediaRv.layoutManager = GridLayoutManager(context, 2)
 
             when (viewModel.mediaType) {
-                JikanRepository.TYPE_ANIME -> mediaTypeTl.getTabAt(1)?.select()
-                else -> mediaTypeTl.getTabAt(0)?.select()
+                JikanRepository.TYPE_ANIME -> {
+                    mediaType = JikanRepository.TYPE_ANIME
+                    mediaTypeTl.getTabAt(1)?.select()
+                }
+                else -> {
+                    mediaType = JikanRepository.TYPE_MANGA
+                    mediaTypeTl.getTabAt(0)?.select()
+                }
             }
 
-            viewModel.getMediaList(null, screenCategory = screenCategory)
+            viewModel.getMediaList(mediaType, screenCategory = screenCategory)
 
             mediaTypeTl.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {

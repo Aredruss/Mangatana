@@ -23,7 +23,7 @@ An app to help you track those weird Japanese cartoons you're ashamed to tell yo
 + Logo :ballot_box_with_check:
 + Display empty result or error related messages properly :ballot_box_with_check:   
 + Alternative color themes
-+ Russian Localization :soon:
++ Russian Localization  :ballot_box_with_check:
 + Improve overall design and refactor XML files
 + Code Style and Minor Architecture Refactoring :ballot_box_with_check:
 + AppCenter/Github Actions/Firebase CI :soon:

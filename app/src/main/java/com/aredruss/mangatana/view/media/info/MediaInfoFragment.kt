@@ -104,10 +104,14 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
             saveMedia(MediaDb.FINISHED_STATUS)
         }
 
-        val type = arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA
-        when (type) {
+        when (arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA) {
             JikanRepository.TYPE_MANGA -> {
-                mediaAuthorTv.text = media.authorList?.first()?.name
+                mediaAuthorTv.text =
+                    media.authorList?.first()?.name
+                        ?.replace(",", "")
+                        ?.split(" ")
+                        ?.reversed()
+                        ?.joinToString(" ")
             }
             JikanRepository.TYPE_ANIME -> {
                 mediaAuthorTv.text = media.producerList?.first()?.name

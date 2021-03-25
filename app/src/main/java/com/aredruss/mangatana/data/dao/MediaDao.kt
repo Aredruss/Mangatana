@@ -17,6 +17,9 @@ interface MediaDao {
     @Query("SELECT * FROM $TABLE_NAME WHERE status =:status AND type = :type")
     suspend fun getEntriesByStatus(status: Int, type: String): List<MediaDb>
 
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY id LIMIT(5)")
+    suspend fun getRecentEntries(): List<MediaDb>
+
     // update
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEntry(entry: MediaDb)

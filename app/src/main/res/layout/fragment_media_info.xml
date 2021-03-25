@@ -30,12 +30,12 @@
             android:paddingBottom="10dp">
 
             <TextView
+                android:background="@drawable/bg_about_view"
                 android:id="@+id/media_title_tv"
                 android:layout_width="0dp"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_goneMarginStart="10dp"
-                android:layout_marginEnd="10dp"
+               android:layout_margin="15dp"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -43,27 +43,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="TITLE" />
-
-            <TextView
-                android:id="@+id/media_status_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_status"
-                android:padding="10dp"
-                app:layout_constraintStart_toStartOf="@id/media_rating_tv"
-                app:layout_constraintTop_toBottomOf="@id/media_rating_tv"
-                tools:text="status placeholder" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/media_genre_cg"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/media_status_tv"
-                app:layout_constraintTop_toBottomOf="@id/media_status_tv" />
 
             <ImageView
                 android:id="@+id/media_cover_iv"
@@ -73,7 +52,6 @@
                 android:contentDescription="@string/media_cover"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/media_title_tv"
-
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
@@ -85,14 +63,57 @@
                 app:layout_constraintTop_toTopOf="@id/media_cover_iv"
                 tools:text="Author|Producer placeholder" />
 
-            <TextView
-                android:id="@+id/media_rating_tv"
+            <ImageView
+                android:id="@+id/rating_icon_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 app:layout_constraintStart_toEndOf="@id/media_cover_iv"
                 app:layout_constraintTop_toBottomOf="@id/media_author_tv"
+                android:src="@drawable/ic_star"/>
+
+            <TextView
+                android:id="@+id/media_rating_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/rating_icon_iv"
+                app:layout_constraintTop_toTopOf="@id/rating_icon_iv"
+                app:layout_constraintBottom_toBottomOf="@id/rating_icon_iv"
                 tools:text="Rating" />
+
+            <TextView
+                android:id="@+id/media_status_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_status"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="@id/rating_icon_iv"
+                app:layout_constraintTop_toBottomOf="@id/rating_icon_iv"
+                android:text="status placeholder" />
+
+            <ImageView
+                android:id="@+id/media_fav_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/ic_favorite_border"
+                android:padding="10dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@id/media_status_tv"
+                app:layout_constraintTop_toTopOf="@id/media_status_tv"
+                app:layout_constraintBottom_toBottomOf="@id/media_status_tv"
+                android:text="fav" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/media_genre_cg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/media_status_tv"
+                app:layout_constraintTop_toBottomOf="@id/media_status_tv" />
 
             <com.aredruss.mangatana.view.util.views.CollapseTextView
                 android:id="@+id/media_about_tv"
@@ -106,7 +127,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/media_cover_iv"
                 app:title_text="@string/fr_about" />
-
 
             <Button
                 android:id="@+id/add_progress_btn"

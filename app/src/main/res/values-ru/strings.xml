@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mangatana</string>
+    <string name="media_fr_tab_manga">Mанга</string>
+    <string name="media_fr_tab_anime">Аниме</string>
+    <string name="fr_ongoing_title">Онгоинги</string>
+    <string name="fr_backlog_title">Бэклог</string>
+    <string name="fr_finished_title">Прочитанное</string>
+    <string name="fr_starred_title">Избранное</string>
+    <string name="fr_explore_title">Рекомендации</string>
+    <string name="fr_in_ongoing_sub">То, что вы читаете сейчас</string>
+    <string name="fr_backlog_sub">Это вы отложили на потом</string>
+    <string name="fr_finished_sub">С этим вы уже закончили</string>
+    <string name="fr_starred_sub">Ваш личный топ</string>
+    <string name="fr_explore_sub">Найдите для себя что-нибудь новое</string>
+
+    <string name="carousel_recent">Недавняя активность</string>
+
+    <string name="media_cover">Обложка</string>
+    <string name="media.move_to_finished.btn">Пометить как прочитанное</string>
+    <string name="media.move_to_backlog.btn">Добавить в бэклог</string>
+    <string name="media.add_to_ongoings_btn">Добавить к онгоигам</string>
+
+    <string name="error_message">Ошибка:\n%1$s</string>
+    <string name="empty_result_message">Здесь ничего нет…</string>
+
+    <string name="clear_button_text">Очистить всё</string>
+    <string name="debug_menu_title">Меню разработчика</string>
+    <string name="fr_settings">Настройки</string>
+    <string name="fr_about">О тайтле</string>
+</resources>
