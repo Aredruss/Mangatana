@@ -28,4 +28,7 @@
     <string name="debug_menu_title">Меню разработчика</string>
     <string name="fr_settings">Настройки</string>
     <string name="fr_about">О тайтле</string>
+    <string name="status_ongoing">Читаю</string>
+    <string name="status_finished">Прочитано</string>
+    <string name="status_backlog">Отложено</string>
 </resources>

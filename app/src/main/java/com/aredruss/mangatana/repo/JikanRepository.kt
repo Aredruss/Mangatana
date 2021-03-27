@@ -5,7 +5,9 @@ import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.model.MediaResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class JikanRepository(
     private val jikanService: JikanService,
@@ -17,26 +19,23 @@ class JikanRepository(
         const val TYPE_ANIME = "anime"
     }
 
-    suspend fun searchForMedia(type: String, title: String): ArrayList<MediaDb> {
-        return withContext(ioDispatcher) {
-            mediaMapper.mapToMediaList(
-                jikanService.searchMedia(type, title)
-                    .results
-            )
-        }
+    suspend fun searchForMedia(type: String, title: String): Flow<ArrayList<MediaDb>> {
+        return flow {
+            val searchResult = jikanService.searchMedia(type, title).results
+            emit(mediaMapper.mapToMediaList(searchResult))
+        }.flowOn(ioDispatcher)
     }
 
-    suspend fun getTopMedia(type: String): ArrayList<MediaDb> {
-        return withContext(ioDispatcher) {
-            mediaMapper.mapToMediaList(
-                jikanService.exploreMedia(type).top
-            )
-        }
+    suspend fun getTopMediaList(type: String): Flow<List<MediaDb>> {
+        return flow {
+            val topMedia = jikanService.exploreMedia(type, 1).top
+            emit(mediaMapper.mapToMediaList(topMedia))
+        }.flowOn(ioDispatcher)
     }
 
-    suspend fun getMedia(type: String, malId: Long): MediaResponse {
-        return withContext(ioDispatcher) {
-            jikanService.getMediaById(type, malId)
-        }
+    suspend fun getMedia(type: String, malId: Long): Flow<MediaResponse> {
+        return flow {
+            emit(jikanService.getMediaById(type, malId))
+        }.flowOn(ioDispatcher)
     }
 }

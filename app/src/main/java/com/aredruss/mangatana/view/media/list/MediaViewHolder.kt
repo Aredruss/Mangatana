@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.ListItemMediaBinding
 import com.aredruss.mangatana.view.util.GlideHelper
+import com.aredruss.mangatana.view.util.context
 
 class MediaViewHolder(
     private val binding: ListItemMediaBinding,
@@ -22,7 +23,7 @@ class MediaViewHolder(
         }
 
         GlideHelper.loadCover(
-            binding.root.context,
+            binding.context(),
             media.imageUrl,
             binding.mediaCoverIv,
             COVER_WIDTH,

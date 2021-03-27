@@ -14,9 +14,10 @@ interface JikanService {
         @Query("q") title: String
     ): JikanApiResponse<ArrayList<MediaResponse>>
 
-    @GET("/v3/top/{type}/1/")
+    @GET("/v3/top/{type}/{page_num}/")
     suspend fun exploreMedia(
-        @Path("type") type: String
+        @Path("type") type: String,
+        @Path("page_num") pageNum: Int
     ): MediaTop
 
     @GET("/v3/{type}/{id}")

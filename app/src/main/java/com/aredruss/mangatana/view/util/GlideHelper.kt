@@ -1,7 +1,6 @@
 package com.aredruss.mangatana.view.util
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
 import com.aredruss.mangatana.R

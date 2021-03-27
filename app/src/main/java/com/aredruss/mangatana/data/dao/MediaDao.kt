@@ -17,8 +17,8 @@ interface MediaDao {
     @Query("SELECT * FROM $TABLE_NAME WHERE status =:status AND type = :type")
     suspend fun getEntriesByStatus(status: Int, type: String): List<MediaDb>
 
-    @Query("SELECT * FROM $TABLE_NAME ORDER BY id LIMIT(5)")
-    suspend fun getRecentEntries(): List<MediaDb>
+    @Query("SELECT * FROM $TABLE_NAME WHERE mal_id =:malId AND type = :type ")
+    suspend fun getEntryByIdType(malId: Long, type: String): MediaDb?
 
     // update
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -38,6 +38,6 @@ interface MediaDao {
     suspend fun clearDatabase()
 
     // update
-    @Query("UPDATE $TABLE_NAME SET status = :status WHERE mal_id = :malId AND type = :type")
-    suspend fun updateStatus(malId: Long, status: Int, type: String)
+    @Query("UPDATE $TABLE_NAME SET status = :status AND is_starred =:isStarred WHERE mal_id = :malId AND type = :type")
+    suspend fun updateEntry(malId: Long, type: String, status: Int, isStarred: Boolean)
 }

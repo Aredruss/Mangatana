@@ -70,7 +70,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
             })
         }
 
-        viewModel.mediaList.observe(
+        viewModel.listState.observe(
             viewLifecycleOwner,
             {
                 when (it) {
