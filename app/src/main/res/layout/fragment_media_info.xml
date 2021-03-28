@@ -62,10 +62,10 @@
                 <TextView
                     android:id="@+id/media_author_tv"
                     android:layout_width="wrap_content"
-                    android:padding="5dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/bg_about_view"
+                    android:padding="5dp"
                     app:layout_constraintStart_toEndOf="@id/media_cover_iv"
                     app:layout_constraintTop_toTopOf="@id/media_cover_iv"
                     tools:text="Author|Producer placeholder" />
@@ -74,7 +74,8 @@
                     android:id="@+id/rating_icon_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
                     android:src="@drawable/ic_star"
                     app:layout_constraintStart_toEndOf="@id/media_cover_iv"
                     app:layout_constraintTop_toBottomOf="@id/media_author_tv" />
@@ -105,6 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:padding="10dp"
+                    android:src="@drawable/ic_favorite_border"
                     app:layout_constraintBottom_toBottomOf="@id/media_status_tv"
                     app:layout_constraintStart_toEndOf="@id/media_status_tv"
                     app:layout_constraintTop_toTopOf="@id/media_status_tv" />
@@ -130,50 +132,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/media_cover_iv"
-                    app:title_text="@string/fr_about" />
-
-                <Button
-                    android:id="@+id/add_ongoing_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="15dp"
-                    android:drawableEnd="@drawable/ic_progress"
-                    android:text="@string/media.add_to_ongoings_btn"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/media_about_tv" />
-
-                <Button
-                    android:id="@+id/add_backlog_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:drawableEnd="@drawable/ic_backlog"
-                    android:text="@string/media.move_to_backlog.btn"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_ongoing_btn" />
-
-                <Button
-                    android:id="@+id/add_finish_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:drawableEnd="@drawable/ic_finished"
-                    android:text="@string/media.move_to_finished.btn"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_backlog_btn" />
-
+                    app:title_text="@string/media_about" />
 
                 <Button
                     android:id="@+id/add_delete_btn"
@@ -187,9 +146,9 @@
                     android:text="delete"
                     android:textColor="@color/white"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/media_about_tv"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -206,6 +165,22 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <io.github.kobakei.materialfabspeeddial.FabSpeedDial
+        android:id="@+id/media_actions_fab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        app:fab_miniFabDrawableTint="@color/white"
+        app:fab_fabDrawableTint="@color/white"
+        app:fab_fabDrawable="@null"
+        app:fab_fabBackgroundColor="@color/colorAccent"
+        app:fab_miniFabTextBackground="@drawable/bg_about_view"
+        android:layout_alignParentBottom="true"
+        app:fab_miniFabBackgroundColor="@color/colorAccent"
+        app:fab_miniFabTextColor="@color/white"
+        android:backgroundTintMode="add"
+        app:fab_menu="@menu/menu_save" />
 
 </RelativeLayout>
 

@@ -13,13 +13,16 @@
     <string name="fr_finished_sub">С этим вы уже закончили</string>
     <string name="fr_starred_sub">Ваш личный топ</string>
     <string name="fr_explore_sub">Найдите для себя что-нибудь новое</string>
+    <string name="fr_about_app">О приложении</string>
+    <string name="fr_about_media">О тайтле</string>
 
     <string name="carousel_recent">Недавняя активность</string>
 
     <string name="media_cover">Обложка</string>
-    <string name="media.move_to_finished.btn">Пометить как прочитанное</string>
-    <string name="media.move_to_backlog.btn">Добавить в бэклог</string>
-    <string name="media.add_to_ongoings_btn">Добавить к онгоигам</string>
+    <string name="media.move_to_finished.btn">Прочитанное</string>
+    <string name="media.move_to_backlog.btn">Бэклог</string>
+    <string name="media.add_to_ongoings_btn">Онгоинги</string>
+    <string name="media_about">Описание</string>
 
     <string name="error_message">Ошибка:\n%1$s</string>
     <string name="empty_result_message">Здесь ничего нет…</string>
@@ -27,7 +30,6 @@
     <string name="clear_button_text">Очистить всё</string>
     <string name="debug_menu_title">Меню разработчика</string>
     <string name="fr_settings">Настройки</string>
-    <string name="fr_about">О тайтле</string>
     <string name="status_ongoing">Читаю</string>
     <string name="status_finished">Прочитано</string>
     <string name="status_backlog">Отложено</string>

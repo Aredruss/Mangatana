@@ -12,32 +12,17 @@ import com.aredruss.mangatana.model.MediaResponse
 import com.aredruss.mangatana.repo.JikanRepository
 import com.aredruss.mangatana.view.extensions.gone
 import com.aredruss.mangatana.view.extensions.hideViews
+import com.aredruss.mangatana.view.extensions.setBarTitle
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.GlideHelper
 import com.aredruss.mangatana.view.util.context
+import com.aredruss.mangatana.view.util.getDrawable
 import com.aredruss.mangatana.view.util.getString
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 
 class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
-
-    companion object {
-        private const val MEDIA_ID = "malId"
-        private const val MEDIA_TYPE = "type"
-
-        private const val COVER_WIDTH = 150
-        private const val COVER_HEIGHT = 250
-
-        private const val GENRE_COUNT = 5
-
-        fun create(malId: Long, mediaType: String) = MediaInfoFragment().apply {
-            arguments = Bundle().apply {
-                putLong(MEDIA_ID, malId)
-                putString(MEDIA_TYPE, mediaType)
-            }
-        }
-    }
 
     private val binding: FragmentMediaInfoBinding by viewBinding()
 
@@ -53,6 +38,7 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.setBarTitle(R.string.media_about)
 
         viewModel.getMediaDetails(
             type = this.arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA,
@@ -89,27 +75,34 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
         setUpMainInfo(media)
         setupAuthor(media)
         setupGenres(media)
-        setupButtons()
 
         if (localEntry != null) {
             addDeleteBtn.visible()
             setupStatus(localEntry.status)
-            setupButtons()
             isStarred = localEntry.isStarred
-//            setupFavorite(isStarred)
-
+            setupFavorite()
+            mediaActionsFab.mainFab.setImageDrawable(binding.getDrawable(R.drawable.ic_edit))
             addDeleteBtn.setOnClickListener {
                 viewModel.deleteMediaEntry(localEntry)
             }
         } else {
-            hideViews(listOf(addDeleteBtn, mediaStatusTv))
+            mediaActionsFab.mainFab.setImageDrawable(binding.getDrawable(R.drawable.ic_add))
+            hideViews(listOf(addDeleteBtn, mediaStatusTv, mediaFavIv))
         }
 
-//        mediaFavIv.setOnClickListener {
-//            isStarred = !isStarred
-//            setupFavorite(isStarred)
-//            saveMedia(localEntry?.status ?: MediaDb.UNKNOWN_STATUS)
-//        }
+        mediaActionsFab.addOnMenuItemClickListener { _, _, itemId ->
+            when (itemId) {
+                R.id.action_ongoing -> saveMedia(MediaDb.ONGOING_STATUS)
+                R.id.action_backlog -> saveMedia(MediaDb.BACKLOG_STATUS)
+                R.id.action_finish -> saveMedia(MediaDb.FINISHED_STATUS)
+            }
+        }
+
+        mediaFavIv.setOnClickListener {
+            isStarred = !isStarred
+            setupFavorite()
+            saveMedia(localEntry?.status ?: MediaDb.UNKNOWN_STATUS)
+        }
 
         infoContentCl.visible()
     }
@@ -135,31 +128,19 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
         )
     }
 
-    private fun setupButtons() = with(binding) {
-        addOngoingBtn.setOnClickListener {
-            saveMedia(MediaDb.ONGOING_STATUS)
-        }
-        addBacklogBtn.setOnClickListener {
-            saveMedia(MediaDb.BACKLOG_STATUS)
-        }
-        addFinishBtn.setOnClickListener {
-            saveMedia(MediaDb.FINISHED_STATUS)
-        }
-    }
-
     private fun setupStatus(status: Int) = with(binding) {
         mediaStatusTv.visible()
         mediaStatusTv.text = getStatus(status)
     }
 
-//    private fun setupFavorite(isStarred: Boolean) = with(binding) {
-//        mediaFavIv.visible()
-//        if (isStarred) {
-//            mediaFavIv.setImageDrawable(binding.getDrawable(R.drawable.ic_favorite))
-//        } else {
-//            mediaFavIv.setImageDrawable(binding.getDrawable(R.drawable.ic_favorite_border))
-//        }
-//    }
+    private fun setupFavorite() = with(binding) {
+        mediaFavIv.visible()
+        if (isStarred) {
+            mediaFavIv.setImageDrawable(binding.getDrawable(R.drawable.ic_favorite))
+        } else {
+            mediaFavIv.setImageDrawable(binding.getDrawable(R.drawable.ic_favorite_border))
+        }
+    }
 
     private fun setupGenres(media: MediaResponse) = with(binding) {
         val genres = if (media.genreList.size <= GENRE_COUNT) {
@@ -212,5 +193,22 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
         MediaDb.BACKLOG_STATUS -> binding.getString(R.string.status_backlog)
         MediaDb.UNKNOWN_STATUS -> "Favorite"
         else -> binding.getString(R.string.status_finished)
+    }
+
+    companion object {
+        private const val MEDIA_ID = "malId"
+        private const val MEDIA_TYPE = "type"
+
+        private const val COVER_WIDTH = 150
+        private const val COVER_HEIGHT = 250
+
+        private const val GENRE_COUNT = 5
+
+        fun create(malId: Long, mediaType: String) = MediaInfoFragment().apply {
+            arguments = Bundle().apply {
+                putLong(MEDIA_ID, malId)
+                putString(MEDIA_TYPE, mediaType)
+            }
+        }
     }
 }

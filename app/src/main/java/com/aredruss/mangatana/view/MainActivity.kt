@@ -17,7 +17,6 @@ import com.aredruss.mangatana.view.extensions.backWithAction
 import com.github.terrakok.modo.android.AppScreen
 import com.github.terrakok.modo.android.ModoRender
 import com.github.terrakok.modo.android.init
-import com.github.terrakok.modo.android.saveState
 import com.github.terrakok.modo.forward
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -91,10 +90,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onBackPressed() {
         modo.backWithAction(this)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        modo.saveState(outState)
     }
 }

@@ -10,6 +10,7 @@ import com.aredruss.mangatana.databinding.FragmentMediaListBinding
 import com.aredruss.mangatana.modo.Screens
 import com.aredruss.mangatana.repo.JikanRepository
 import com.aredruss.mangatana.view.extensions.hideViews
+import com.aredruss.mangatana.view.extensions.setBarTitle
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.ScreenCategory
@@ -33,9 +34,19 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         super.onViewCreated(view, savedInstanceState)
 
         val screenCategory = this.arguments?.getInt(CATEGORY) ?: ScreenCategory.EXPLORE
+        activity?.setBarTitle(
+            stringId = when (screenCategory) {
+                ScreenCategory.ON_GOING -> R.string.fr_ongoing_title
+                ScreenCategory.BACKLOG -> R.string.fr_backlog_title
+                ScreenCategory.FINISHED -> R.string.fr_finished_title
+                ScreenCategory.EXPLORE -> R.string.fr_explore_title
+                else -> R.string.fr_starred_title
+            }
+        )
 
         binding.apply {
             mediaRv.adapter = mediaRvAdapter
+            mediaRv.itemAnimator = null
             mediaRv.layoutManager = GridLayoutManager(context, 2)
 
             when (viewModel.mediaType) {
@@ -51,23 +62,24 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
 
             viewModel.getMediaList(mediaType, screenCategory = screenCategory)
 
-            mediaTypeTl.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    mediaType = when (tab?.position) {
-                        1 -> JikanRepository.TYPE_ANIME
-                        else -> JikanRepository.TYPE_MANGA
+            mediaTypeTl.addOnTabSelectedListener(object :
+                    TabLayout.OnTabSelectedListener {
+                    override fun onTabSelected(tab: TabLayout.Tab?) {
+                        mediaType = when (tab?.position) {
+                            1 -> JikanRepository.TYPE_ANIME
+                            else -> JikanRepository.TYPE_MANGA
+                        }
+                        viewModel.getMediaList(mediaType, screenCategory)
                     }
-                    viewModel.getMediaList(mediaType, screenCategory)
-                }
 
-                @Suppress("EmptyFunctionBlock")
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
-                }
+                    @Suppress("EmptyFunctionBlock")
+                    override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    }
 
-                @Suppress("EmptyFunctionBlock")
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-                }
-            })
+                    @Suppress("EmptyFunctionBlock")
+                    override fun onTabReselected(tab: TabLayout.Tab?) {
+                    }
+                })
         }
 
         viewModel.listState.observe(

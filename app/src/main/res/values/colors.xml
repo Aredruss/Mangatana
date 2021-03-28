@@ -10,4 +10,5 @@
     <color name="transparent">#0A000000</color>
     <color name="colorFadeAccent">#50CC234B</color>
     <color name="alertRed">#BB4141</color>
+    <color name="statusBlue">#1565C0</color>
 </resources>

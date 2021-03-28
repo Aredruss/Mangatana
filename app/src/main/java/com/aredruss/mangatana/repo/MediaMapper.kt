@@ -8,13 +8,13 @@ import kotlinx.coroutines.withContext
 
 class MediaMapper(private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default) {
 
-    suspend fun mapToMedia(media: MediaResponse, status: Int = 0): MediaDb {
+    suspend fun mapToMedia(media: MediaResponse, type: String, status: Int = 0): MediaDb {
         return withContext(defaultDispatcher) {
             MediaDb(
                 malId = media.malId,
                 status = status,
                 title = media.title,
-                type = media.type.toLowerCase(),
+                type = type,
                 imageUrl = media.imageUrl,
                 url = media.url,
                 isStarred = false
@@ -22,10 +22,10 @@ class MediaMapper(private val defaultDispatcher: CoroutineDispatcher = Dispatche
         }
     }
 
-    suspend fun mapToMediaList(media: List<MediaResponse>): ArrayList<MediaDb> {
+    suspend fun mapToMediaList(media: List<MediaResponse>, type: String): ArrayList<MediaDb> {
         return withContext(defaultDispatcher) {
             val mediaList = media.map {
-                mapToMedia(it)
+                mapToMedia(it, type)
             }
             return@withContext mediaList as ArrayList<MediaDb>
         }

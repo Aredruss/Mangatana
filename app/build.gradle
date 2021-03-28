@@ -108,4 +108,6 @@ dependencies {
     def lottie_version = "3.6.1"
     implementation "com.airbnb.android:lottie:$lottie_version"
 
+    implementation 'com.github.kobakei:MaterialFabSpeedDial:2.0.0'
+
 }
