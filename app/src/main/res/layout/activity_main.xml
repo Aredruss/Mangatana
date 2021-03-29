@@ -10,7 +10,6 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_tb"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
         android:elevation="3dp"
         app:title="@string/app_name"
         app:menu="@menu/menu_main"

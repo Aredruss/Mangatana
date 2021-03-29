@@ -24,23 +24,23 @@ class CategoryButton(
     }
 
     fun setIcon(image: Int) = with(binding) {
-        categoryIconIv.setImageDrawable(ContextCompat.getDrawable(context, image))
+        iconIv.setImageDrawable(ContextCompat.getDrawable(context, image))
     }
 
     fun setText(text: String) = with(binding) {
-        categoryNameTv.text = text
+        nameTv.text = text
     }
 
     fun setText(text: Int) = with(binding) {
-        categoryNameTv.text = root.context.getString(text)
+        nameTv.text = root.context.getString(text)
     }
 
     fun setSubText(subText: String) = with(binding) {
-        categorySubTv.text = subText
+        subTv.text = subText
     }
 
     fun setSubText(text: Int) = with(binding) {
-        categorySubTv.text = root.context.getString(text)
+        subTv.text = root.context.getString(text)
     }
 
     private fun setAttributes() {
@@ -49,9 +49,9 @@ class CategoryButton(
             R.styleable.CategoryButton
         )
         binding.apply {
-            categoryIconIv.setImageDrawable(attributes.getDrawable(R.styleable.CategoryButton_icon))
-            categoryNameTv.text = attributes.getString(R.styleable.CategoryButton_text)
-            categorySubTv.text = attributes.getString(R.styleable.CategoryButton_subText)
+            iconIv.setImageDrawable(attributes.getDrawable(R.styleable.CategoryButton_icon))
+            nameTv.text = attributes.getString(R.styleable.CategoryButton_text)
+            subTv.text = attributes.getString(R.styleable.CategoryButton_subText)
         }
         attributes.recycle()
     }

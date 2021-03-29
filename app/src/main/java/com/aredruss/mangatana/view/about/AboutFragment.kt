@@ -17,7 +17,7 @@ class AboutFragment : BaseFragment(R.layout.fragment_about) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setBarTitle(R.string.fr_about_app)
         with(binding) {
-            aboutVersionTv.text = BuildConfig.VERSION_NAME
+            versionTv.text = BuildConfig.VERSION_NAME
         }
     }
 

@@ -9,6 +9,7 @@ import com.github.terrakok.modo.back
 fun Modo.backWithAction(activity: MainActivity) {
     back()
     activity.menu?.forEach {
+        if (state.chain.isEmpty()) return
         it.isVisible = when (state.chain.last()) {
             is Screens.About, is Screens.Settings -> false
             else -> true

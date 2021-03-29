@@ -24,15 +24,15 @@ class InfoMessageView(
     }
 
     fun setIcon(image: Int) = with(binding) {
-        infoIconIv.setImageDrawable(ContextCompat.getDrawable(context, image))
+        iconIv.setImageDrawable(ContextCompat.getDrawable(context, image))
     }
 
     fun setText(text: String) = with(binding) {
-        infoMessageTv.text = root.context.getString(R.string.error_message, text)
+        messageTv.text = root.context.getString(R.string.error_message, text)
     }
 
     fun setText(text: Int) = with(binding) {
-        infoMessageTv.text = root.context.getString(text)
+        messageTv.text = root.context.getString(text)
     }
 
     private fun setAttributes() {
@@ -41,8 +41,8 @@ class InfoMessageView(
             R.styleable.InfoMessageView
         )
         binding.apply {
-            infoIconIv.setImageDrawable(attributes.getDrawable(R.styleable.InfoMessageView_info_icon))
-            infoMessageTv.text = attributes.getString(R.styleable.InfoMessageView_info_text)
+            iconIv.setImageDrawable(attributes.getDrawable(R.styleable.InfoMessageView_info_icon))
+            messageTv.text = attributes.getString(R.styleable.InfoMessageView_info_text)
         }
         attributes.recycle()
     }

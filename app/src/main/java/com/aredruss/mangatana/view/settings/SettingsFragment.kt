@@ -16,7 +16,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setBarTitle(R.string.fr_settings)
         with(binding) {
-            settingsClearBtn.setOnClickListener {
+            clearBtn.setOnClickListener {
                 viewModel.clearDatabase()
             }
         }

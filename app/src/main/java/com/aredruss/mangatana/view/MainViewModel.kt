@@ -67,7 +67,7 @@ class MainViewModel(
         }.catch { e ->
             listState.postValue(ListState.Error(e))
         }.collect { topMedia ->
-            listState.postValue(ListState.Success(topMedia as ArrayList<MediaDb>))
+            listState.postValue(ListState.Success(topMedia))
         }
     }
 

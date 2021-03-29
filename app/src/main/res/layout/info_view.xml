@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/info_icon_iv"
+        android:id="@+id/icon_iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,14 +16,14 @@
         tools:srcCompat="@drawable/error_logo" />
 
     <TextView
-        android:id="@+id/info_message_tv"
+        android:id="@+id/message_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/info_icon_iv"
+        app:layout_constraintTop_toBottomOf="@id/icon_iv"
         tools:text="Error 404" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

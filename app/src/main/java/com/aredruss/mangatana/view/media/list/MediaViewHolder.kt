@@ -25,7 +25,7 @@ class MediaViewHolder(
         GlideHelper.loadCover(
             binding.context(),
             media.imageUrl,
-            binding.mediaCoverIv,
+            binding.coverIv,
             COVER_WIDTH,
             COVER_HEIGHT
         )

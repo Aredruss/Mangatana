@@ -104,28 +104,28 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
     }
 
     private fun onLoading() = with(binding) {
-        hideViews(listOf(mediaRv, listInfoMv))
-        listLoadingAv.visible()
+        hideViews(listOf(mediaRv, infoMv))
+        loadingAv.visible()
     }
 
     private fun onEmpty() = with(binding) {
-        hideViews(listOf(listLoadingAv, mediaRv))
-        listInfoMv.setIcon(R.drawable.empty_logo)
-        listInfoMv.setText(R.string.empty_result_message)
-        listInfoMv.visible()
+        hideViews(listOf(loadingAv, mediaRv))
+        infoMv.setIcon(R.drawable.empty_logo)
+        infoMv.setText(R.string.empty_result_message)
+        infoMv.visible()
     }
 
     private fun onLoaded(payload: ArrayList<MediaDb>) = with(binding) {
-        hideViews(listOf(listLoadingAv, listInfoMv))
+        hideViews(listOf(loadingAv, infoMv))
         mediaRv.visible()
         mediaRvAdapter.setMedia(payload)
     }
 
     private fun onError(e: Throwable) = with(binding) {
-        hideViews(listOf(listLoadingAv, mediaRv))
-        listInfoMv.setIcon(R.drawable.error_logo)
-        listInfoMv.setText(e::class.java.name)
-        listInfoMv.visible()
+        hideViews(listOf(loadingAv, mediaRv))
+        infoMv.setIcon(R.drawable.error_logo)
+        infoMv.setText(e::class.java.name)
+        infoMv.visible()
     }
 
     private fun openMedia(id: Long) {

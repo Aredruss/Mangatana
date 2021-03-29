@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +6,7 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/info_sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content">
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/media_loading_av"
+                android:id="@+id/loading_av"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -29,17 +29,18 @@
                 app:lottie_rawRes="@raw/loading" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/info_content_cl"
+                android:id="@+id/content_cl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="10dp">
+                android:paddingBottom="30dp">
 
                 <TextView
                     android:id="@+id/media_title_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:background="@drawable/bg_about_view"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/bg_primary"
                     android:padding="5dp"
                     android:textAlignment="center"
                     android:textSize="18sp"
@@ -50,7 +51,7 @@
                     tools:text="TITLE" />
 
                 <ImageView
-                    android:id="@+id/media_cover_iv"
+                    android:id="@+id/cover_iv"
                     android:layout_width="150dp"
                     android:layout_height="250dp"
                     android:layout_margin="15dp"
@@ -60,14 +61,14 @@
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                    android:id="@+id/media_author_tv"
+                    android:id="@+id/author_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:background="@drawable/bg_about_view"
+                    android:background="@drawable/bg_primary"
                     android:padding="5dp"
-                    app:layout_constraintStart_toEndOf="@id/media_cover_iv"
-                    app:layout_constraintTop_toTopOf="@id/media_cover_iv"
+                    app:layout_constraintStart_toEndOf="@id/cover_iv"
+                    app:layout_constraintTop_toTopOf="@id/cover_iv"
                     tools:text="Author|Producer placeholder" />
 
                 <ImageView
@@ -77,11 +78,11 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/ic_star"
-                    app:layout_constraintStart_toEndOf="@id/media_cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/media_author_tv" />
+                    app:layout_constraintStart_toEndOf="@id/cover_iv"
+                    app:layout_constraintTop_toBottomOf="@id/author_tv" />
 
                 <TextView
-                    android:id="@+id/media_rating_tv"
+                    android:id="@+id/rating_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="@id/rating_icon_iv"
@@ -90,70 +91,87 @@
                     tools:text="Rating" />
 
                 <TextView
-                    android:id="@+id/media_status_tv"
+                    android:id="@+id/status_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_status"
                     android:padding="10dp"
-                    android:text="status placeholder"
                     app:layout_constraintStart_toStartOf="@id/rating_icon_iv"
-                    app:layout_constraintTop_toBottomOf="@id/rating_icon_iv" />
-
-                <ImageView
-                    android:id="@+id/media_fav_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_favorite_border"
-                    app:layout_constraintBottom_toBottomOf="@id/media_status_tv"
-                    app:layout_constraintStart_toEndOf="@id/media_status_tv"
-                    app:layout_constraintTop_toTopOf="@id/media_status_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/rating_icon_iv"
+                    tools:text="status placeholder" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/media_genre_cg"
+                    android:id="@+id/genre_cg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/media_status_tv"
-                    app:layout_constraintTop_toBottomOf="@id/media_status_tv" />
+                    app:layout_constraintStart_toStartOf="@id/status_tv"
+                    app:layout_constraintTop_toBottomOf="@id/status_tv" />
+
+                <ImageButton
+                    android:id="@+id/like_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/ic_favorite_border"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@id/cover_iv"
+                    app:layout_constraintTop_toBottomOf="@id/about_tv" />
+
+                <ImageButton
+                    android:id="@+id/share_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/ic_share"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="@id/cover_iv"
+                    app:layout_constraintTop_toTopOf="@id/like_btn" />
+
+                <ImageButton
+                    android:id="@+id/delete_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/bg_delete"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/ic_delete"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/like_btn" />
 
                 <com.aredruss.mangatana.view.util.views.CollapseTextView
-                    android:id="@+id/media_about_tv"
+                    android:id="@+id/about_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:elevation="5dp"
                     app:arrow_drawable="@drawable/ic_arrow_right"
-                    app:bg_drawable_regular="@drawable/bg_about_view"
+                    app:bg_drawable_regular="@drawable/bg_primary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/media_cover_iv"
+                    app:layout_constraintTop_toBottomOf="@id/cover_iv"
                     app:title_text="@string/media_about" />
-
-                <Button
-                    android:id="@+id/add_delete_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:backgroundTint="@color/alertRed"
-                    android:drawableEnd="@drawable/ic_delete"
-                    android:text="delete"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/media_about_tv"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.aredruss.mangatana.view.util.views.InfoMessageView
-                android:id="@+id/media_info_mv"
+                android:id="@+id/info_mv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
@@ -167,20 +185,21 @@
     </ScrollView>
 
     <io.github.kobakei.materialfabspeeddial.FabSpeedDial
-        android:id="@+id/media_actions_fab"
+        android:id="@+id/actions_fab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        app:fab_miniFabDrawableTint="@color/white"
-        app:fab_fabDrawableTint="@color/white"
-        app:fab_fabDrawable="@null"
-        app:fab_fabBackgroundColor="@color/colorAccent"
-        app:fab_miniFabTextBackground="@drawable/bg_about_view"
         android:layout_alignParentBottom="true"
-        app:fab_miniFabBackgroundColor="@color/colorAccent"
-        app:fab_miniFabTextColor="@color/white"
         android:backgroundTintMode="add"
-        app:fab_menu="@menu/menu_save" />
+        app:fab_extraMargin="0dp"
+        app:fab_fabBackgroundColor="@color/colorAccent"
+        app:fab_fabDrawable="@null"
+        app:fab_fabDrawableTint="@color/white"
+        app:fab_menu="@menu/menu_save"
+        app:fab_miniFabBackgroundColor="@color/colorAccent"
+        app:fab_miniFabDrawableTint="@color/white"
+        app:fab_miniFabTextBackground="@drawable/bg_primary"
+        app:fab_miniFabTextColor="@color/white" />
 
 </RelativeLayout>
 

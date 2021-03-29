@@ -29,7 +29,7 @@
     </com.google.android.material.tabs.TabLayout>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/list_loading_av"
+        android:id="@+id/loading_av"
         android:layout_width="200dp"
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +51,7 @@
        app:layout_constraintTop_toBottomOf="@id/media_type_tl" />
 
     <com.aredruss.mangatana.view.util.views.InfoMessageView
-        android:id="@+id/list_info_mv"
+        android:id="@+id/info_mv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
