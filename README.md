@@ -1,6 +1,13 @@
 # Mangatana 
 
 An app to help you track those weird Japanese cartoons you're ashamed to tell your friends and family about.
+
+```
+Please note, this app is still in development and the upcoming updates will feature more content.
+Also I'm planning on migrating this improvised task tracker to a proper trello board.
+That being said, if you have any ideas on how to improve this project - I'm more than willing to listen.
+```
+
 ***
 ## TO-DO
 ### Features
@@ -44,6 +51,3 @@ An app to help you track those weird Japanese cartoons you're ashamed to tell yo
 + Russian Localization  :ballot_box_with_check:   
 + Logo :ballot_box_with_check:
 + Display empty result or error related messages properly :ballot_box_with_check:
-
-### Bugs
-+ Anime entries do not save properly :ballot_box_with_check:
