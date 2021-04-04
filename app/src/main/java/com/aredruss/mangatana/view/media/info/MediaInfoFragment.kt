@@ -1,5 +1,6 @@
 package com.aredruss.mangatana.view.media.info
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,22 +11,23 @@ import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.FragmentMediaInfoBinding
 import com.aredruss.mangatana.model.MediaResponse
 import com.aredruss.mangatana.repo.JikanRepository
+import com.aredruss.mangatana.view.extensions.context
+import com.aredruss.mangatana.view.extensions.getColor
+import com.aredruss.mangatana.view.extensions.getDrawable
+import com.aredruss.mangatana.view.extensions.getString
 import com.aredruss.mangatana.view.extensions.hideViews
-import com.aredruss.mangatana.view.extensions.setBarTitle
+import com.aredruss.mangatana.view.extensions.openLink
+import com.aredruss.mangatana.view.extensions.shareLink
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
+import com.aredruss.mangatana.view.util.DateHelper
 import com.aredruss.mangatana.view.util.GlideHelper
-import com.aredruss.mangatana.view.util.context
-import com.aredruss.mangatana.view.util.getColor
-import com.aredruss.mangatana.view.util.getDrawable
-import com.aredruss.mangatana.view.util.getString
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 
 class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
 
     private val binding: FragmentMediaInfoBinding by viewBinding()
-
     private var isStarred: Boolean = false
 
     override fun onCreateView(
@@ -38,7 +40,12 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setBarTitle(R.string.media_about)
+
+        super.setupFragment(
+            titleRes = R.string.fr_about_media,
+            showBackButton = true,
+            showMenu = false
+        )
 
         viewModel.getMediaDetails(
             type = this.arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA,
@@ -72,37 +79,53 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
         hideViews(listOf(loadingAv, infoMv))
         genreCg.removeAllViews()
 
-        setUpMainInfo(media)
-        setupAuthor(media)
-        setupGenres(media)
-
         if (localEntry != null) {
-            deleteBtn.visible()
             setupStatus(localEntry.status)
             isStarred = localEntry.isStarred
-            setupFavorite()
-            actionsFab.mainFab.setImageDrawable(binding.getDrawable(R.drawable.ic_edit))
+            deleteBtn.visible()
             deleteBtn.setOnClickListener {
-                viewModel.deleteMediaEntry(localEntry)
+                AlertDialog.Builder(
+                    binding.context(),
+                    R.style.ThemeOverlay_MaterialComponents_Dialog
+                )
+                    .apply {
+                        setTitle(R.string.dialog_delete)
+                        setMessage(R.string.dialog_delete_message)
+                        setPositiveButton(R.string.dialog_ok) { _, _ ->
+
+                            viewModel.deleteMediaEntry(media.malId)
+                        }
+                        setNegativeButton(R.string.dialog_cancel) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        create()
+                        show()
+                    }
             }
         } else {
-            actionsFab.mainFab.setImageDrawable(binding.getDrawable(R.drawable.ic_add))
+            isStarred = false
             hideViews(listOf(deleteBtn, statusTv))
-        }
-
-        actionsFab.addOnMenuItemClickListener { _, _, itemId ->
-            when (itemId) {
-                R.id.action_ongoing -> saveMedia(MediaDb.ONGOING_STATUS)
-                R.id.action_backlog -> saveMedia(MediaDb.BACKLOG_STATUS)
-                R.id.action_finish -> saveMedia(MediaDb.FINISHED_STATUS)
-            }
         }
 
         likeBtn.setOnClickListener {
             isStarred = !isStarred
-            setupFavorite()
-            saveMedia(localEntry?.status ?: MediaDb.UNKNOWN_STATUS)
+            starMedia(localEntry?.status ?: MediaDb.ONGOING_STATUS, isStarred)
         }
+
+        shareBtn.setOnClickListener {
+            activity?.shareLink(media.url)
+        }
+
+        browserBtn.setOnClickListener {
+            activity?.openLink(media.url)
+        }
+
+        setupMainInfo(media)
+        setupAuthor(media)
+        setupGenres(media)
+        setupFab(localEntry != null)
+        setupFavorite()
+        setupYear(media.releaseDate.started)
 
         contentCl.visible()
     }
@@ -114,7 +137,7 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
         infoMv.visible()
     }
 
-    private fun setUpMainInfo(media: MediaResponse) = with(binding) {
+    private fun setupMainInfo(media: MediaResponse) = with(binding) {
         mediaTitleTv.text = media.title
         ratingTv.text = media.score.toString()
         aboutTv.setContentText(media.synopsis)
@@ -134,7 +157,6 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
     }
 
     private fun setupFavorite() = with(binding) {
-        likeBtn.visible()
         if (isStarred) {
             likeBtn.setImageDrawable(binding.getDrawable(R.drawable.ic_favorite))
         } else {
@@ -149,14 +171,16 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
             media.genreList.subList(0, GENRE_COUNT)
         }
 
-        genres.sortedBy { it.name.length }.forEach {
-            genreCg.addView(
-                Chip(context).apply {
-                    text = it.name
-                    backgroundDrawable = binding.getDrawable(R.drawable.bg_primary)
-                }
-            )
+        genres.sortedBy {
+            it.name.length
         }
+            .forEach {
+                genreCg.addView(
+                    Chip(context).apply {
+                        text = it.name
+                    }
+                )
+            }
     }
 
     private fun setupAuthor(media: MediaResponse) = with(binding) {
@@ -170,33 +194,59 @@ class MediaInfoFragment : BaseFragment(R.layout.fragment_media_info) {
                         ?.joinToString(" ")
             }
             JikanRepository.TYPE_ANIME -> {
-                authorTv.text = media.producerList?.first()?.name
+                authorTv.text = media.authorList?.first()?.name
             }
         }
     }
 
+    private fun setupYear(date: String) = with(binding) {
+        yearTv.text = DateHelper.parseDate(date)
+    }
+
     private fun saveMedia(status: Int) {
-        viewModel.saveMediaEntry(
-            status,
-            isStarred,
-            arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA
-        )
+        viewModel.editMediaEntry(status, isStarred)
+        showActionResult("Saved!")
+    }
+
+    private fun starMedia(status: Int, isLiked: Boolean) {
+        if (isLiked) showActionResult(binding.getString(R.string.media_favorite))
+        viewModel.editMediaEntry(status, isLiked)
+    }
+
+    private fun showActionResult(message: String) {
         Snackbar.make(
             binding.context(),
             binding.root,
-            "Saved with status \"${getStatus(status)}\"",
+            message,
             Snackbar.LENGTH_SHORT
         )
-            .setBackgroundTint(binding.getColor(R.color.statusBlue))
-            .setTextColor(binding.getColor(R.color.white))
+            .setBackgroundTint(binding.getColor(R.color.mainStatus))
+            .setTextColor(binding.getColor(R.color.mainIconTint))
             .show()
     }
 
     private fun getStatus(status: Int) = when (status) {
         MediaDb.ONGOING_STATUS -> binding.getString(R.string.status_ongoing)
         MediaDb.BACKLOG_STATUS -> binding.getString(R.string.status_backlog)
-        MediaDb.UNKNOWN_STATUS -> "Favorite"
         else -> binding.getString(R.string.status_finished)
+    }
+
+    private fun setupFab(isLocal: Boolean) = with(binding) {
+        actionsFab.mainFab.setImageDrawable(
+            if (isLocal) {
+                binding.getDrawable(R.drawable.ic_edit)
+            } else {
+                binding.getDrawable(R.drawable.ic_add)
+            }
+        )
+
+        actionsFab.addOnMenuItemClickListener { _, _, itemId ->
+            when (itemId) {
+                R.id.action_ongoing -> saveMedia(MediaDb.ONGOING_STATUS)
+                R.id.action_backlog -> saveMedia(MediaDb.BACKLOG_STATUS)
+                R.id.action_finish -> saveMedia(MediaDb.FINISHED_STATUS)
+            }
+        }
     }
 
     companion object {

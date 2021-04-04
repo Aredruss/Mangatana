@@ -1,10 +1,10 @@
 package com.aredruss.mangatana.repo
 
 import com.aredruss.mangatana.data.dao.MediaDao
-import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.model.MediaResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
@@ -26,15 +26,19 @@ class DatabaseRepository(
         emit(mediaDao.getEntryByIdType(malId, type))
     }.flowOn(ioDispatcher)
 
-    suspend fun insertMediaEntry(media: MediaResponse, type: String, status: Int) =
-        mediaDao.insertEntry(
-            mediaMapper.mapToMedia(media, type, status)
-        )
+    suspend fun insertMediaEntry(
+        media: MediaResponse,
+        type: String,
+        status: Int,
+        isStarred: Boolean
+    ) = mediaDao.insertEntry(mediaMapper.mapToMedia(media, type, status, isStarred))
 
     suspend fun updateMediaEntry(malId: Long, status: Int, isStarred: Boolean, type: String) =
         mediaDao.updateEntry(malId, type, status, isStarred)
 
-    suspend fun deleteMediaEntry(mediaDb: MediaDb) = mediaDao.deleteEntry(mediaDb)
+    suspend fun deleteMediaEntry(malId: Long, type: String) = mediaDao.deleteEntry(malId, type)
 
     suspend fun clear() = mediaDao.clearDatabase()
+
+    fun cancelAll() = ioDispatcher.cancel()
 }

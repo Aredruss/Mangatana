@@ -1,6 +1,7 @@
 package com.aredruss.mangatana.view
 
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.aredruss.mangatana.App
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val jikanRepository: JikanRepository,
     private val databaseRepository: DatabaseRepository
-) : AndroidViewModel(App.INSTANCE) {
+) : AndroidViewModel(App.INSTANCE), LifecycleObserver {
 
     var listState = MutableLiveData<ListState>()
     var detailsState = MutableLiveData<DetailsState>()
@@ -85,12 +86,12 @@ class MainViewModel(
     }
 
     // Save media with a certain status or update an existing entry
-    fun saveMediaEntry(status: Int, isStarred: Boolean, type: String) = viewModelScope.launch {
+    fun editMediaEntry(status: Int, isStarred: Boolean) = viewModelScope.launch {
         if (detailsState.value is DetailsState.Success) {
             val successState = detailsState.value as DetailsState.Success
             if (successState.localEntry != null) {
                 with(successState.localEntry) {
-                    databaseRepository.updateMediaEntry(this.malId, status, isStarred, type)
+                    databaseRepository.updateMediaEntry(this.malId, status, isStarred, mediaType)
                 }
                 detailsState.postValue(
                     successState.apply {
@@ -99,8 +100,13 @@ class MainViewModel(
                     }
                 )
             } else {
-                databaseRepository.insertMediaEntry(successState.payload, type, status)
-                databaseRepository.getMediaEntry(successState.payload.malId, type)
+                databaseRepository.insertMediaEntry(
+                    successState.payload,
+                    mediaType,
+                    status,
+                    isStarred
+                )
+                databaseRepository.getMediaEntry(successState.payload.malId, mediaType)
                     .catch { e -> detailsState.postValue(DetailsState.Error(e)) }
                     .collect {
                         detailsState.postValue(DetailsState.Success(successState.payload, it))
@@ -109,10 +115,10 @@ class MainViewModel(
         }
     }
 
-    fun deleteMediaEntry(mediaDb: MediaDb) = viewModelScope.launch {
+    fun deleteMediaEntry(mediaId: Long) = viewModelScope.launch {
         if (detailsState.value is DetailsState.Success) {
             val successPayload = (detailsState.value as DetailsState.Success).payload
-            databaseRepository.deleteMediaEntry(mediaDb)
+            databaseRepository.deleteMediaEntry(mediaId, mediaType)
             detailsState.postValue(DetailsState.Success(successPayload, null))
         }
     }
@@ -120,6 +126,11 @@ class MainViewModel(
     // Debug function as if now - clears all entries from the database
     fun clearDatabase() = viewModelScope.launch {
         databaseRepository.clear()
+    }
+
+    fun cancelJobs() {
+        jikanRepository.cancelAll()
+        databaseRepository.cancelAll()
     }
 
     // Get Media from the Database
@@ -146,7 +157,10 @@ class MainViewModel(
         databaseRepository.getFavoriteMediaList(type)
             .onStart {
                 listState.postValue(ListState.Loading)
-            }.catch { e -> listState.postValue(ListState.Error(e)) }
+            }
+            .catch { e ->
+                listState.postValue(ListState.Error(e))
+            }
             .collect { list ->
                 listState.postValue(
                     if (list.isEmpty()) {

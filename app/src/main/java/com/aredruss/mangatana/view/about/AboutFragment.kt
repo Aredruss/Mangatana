@@ -6,7 +6,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.BuildConfig
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentAboutBinding
-import com.aredruss.mangatana.view.extensions.setBarTitle
 import com.aredruss.mangatana.view.util.BaseFragment
 
 class AboutFragment : BaseFragment(R.layout.fragment_about) {
@@ -15,7 +14,11 @@ class AboutFragment : BaseFragment(R.layout.fragment_about) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setBarTitle(R.string.fr_about_app)
+        super.setupFragment(
+            titleRes = R.string.fr_about_app,
+            showBackButton = true,
+            showMenu = false
+        )
         with(binding) {
             versionTv.text = BuildConfig.VERSION_NAME
         }

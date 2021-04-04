@@ -5,7 +5,6 @@ import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentSettingsBinding
-import com.aredruss.mangatana.view.extensions.setBarTitle
 import com.aredruss.mangatana.view.util.BaseFragment
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
@@ -14,7 +13,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setBarTitle(R.string.fr_settings)
+        super.setupFragment(
+            titleRes = R.string.fr_settings,
+            showBackButton = true,
+            showMenu = false
+        )
         with(binding) {
             clearBtn.setOnClickListener {
                 viewModel.clearDatabase()

@@ -39,6 +39,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/bg_primary"
                     android:padding="5dp"
@@ -56,17 +57,21 @@
                     android:layout_height="250dp"
                     android:layout_margin="15dp"
                     android:contentDescription="@string/media_cover"
+                    android:scaleType="centerCrop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/media_title_tv"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
                 <TextView
                     android:id="@+id/author_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/bg_primary"
+                    android:ellipsize="end"
                     android:padding="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/cover_iv"
                     app:layout_constraintTop_toTopOf="@id/cover_iv"
                     tools:text="Author|Producer placeholder" />
@@ -89,6 +94,17 @@
                     app:layout_constraintStart_toEndOf="@id/rating_icon_iv"
                     app:layout_constraintTop_toTopOf="@id/rating_icon_iv"
                     tools:text="Rating" />
+
+                <TextView
+                    android:id="@+id/year_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondaryText"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="@id/rating_icon_iv"
+                    app:layout_constraintStart_toEndOf="@id/rating_tv"
+                    app:layout_constraintTop_toTopOf="@id/rating_icon_iv"
+                    tools:text="1999" />
 
                 <TextView
                     android:id="@+id/status_tv"
@@ -115,29 +131,33 @@
                     android:id="@+id/like_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="70dp"
                     android:backgroundTint="@color/colorPrimaryDark"
-                    android:paddingStart="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="10dp"
+                    android:padding="10dp"
                     android:src="@drawable/ic_favorite_border"
-                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="@id/cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/about_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/cover_iv" />
 
                 <ImageButton
                     android:id="@+id/share_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorPrimaryDark"
-                    android:paddingStart="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="10dp"
+                    android:padding="10dp"
                     android:src="@drawable/ic_share"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="@id/cover_iv"
+                    android:tint="@color/mainIconTint"
+                    app:layout_constraintStart_toEndOf="@id/like_btn"
+                    app:layout_constraintTop_toTopOf="@id/like_btn" />
+
+                <ImageButton
+                    android:id="@+id/browser_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_browser"
+                    android:tint="@color/mainIconTint"
+                    app:layout_constraintStart_toEndOf="@id/share_btn"
                     app:layout_constraintTop_toTopOf="@id/like_btn" />
 
                 <ImageButton
@@ -151,7 +171,8 @@
                     android:paddingEnd="20dp"
                     android:paddingBottom="5dp"
                     android:src="@drawable/ic_delete"
-                    android:textColor="@color/white"
+                    android:tint="@color/mainAlert"
+                    app:layout_constraintBottom_toBottomOf="@id/like_btn"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/like_btn" />
 
@@ -160,6 +181,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
+                    android:layout_marginTop="20dp"
                     android:elevation="5dp"
                     app:arrow_drawable="@drawable/ic_arrow_right"
                     app:bg_drawable_regular="@drawable/bg_primary"
@@ -194,12 +216,12 @@
         app:fab_extraMargin="0dp"
         app:fab_fabBackgroundColor="@color/colorAccent"
         app:fab_fabDrawable="@null"
-        app:fab_fabDrawableTint="@color/white"
+        app:fab_fabDrawableTint="@color/mainIconTint"
         app:fab_menu="@menu/menu_save"
         app:fab_miniFabBackgroundColor="@color/colorAccent"
-        app:fab_miniFabDrawableTint="@color/white"
+        app:fab_miniFabDrawableTint="@color/mainIconTint"
         app:fab_miniFabTextBackground="@drawable/bg_primary"
-        app:fab_miniFabTextColor="@color/white" />
+        app:fab_miniFabTextColor="@color/mainIconTint" />
 
 </RelativeLayout>
 

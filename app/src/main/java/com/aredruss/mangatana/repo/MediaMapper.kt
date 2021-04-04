@@ -8,7 +8,12 @@ import kotlinx.coroutines.withContext
 
 class MediaMapper(private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default) {
 
-    suspend fun mapToMedia(media: MediaResponse, type: String, status: Int = 0): MediaDb {
+    suspend fun mapToMedia(
+        media: MediaResponse,
+        type: String,
+        status: Int = 0,
+        isStarred: Boolean = false
+    ): MediaDb {
         return withContext(defaultDispatcher) {
             MediaDb(
                 malId = media.malId,
@@ -17,7 +22,7 @@ class MediaMapper(private val defaultDispatcher: CoroutineDispatcher = Dispatche
                 type = type,
                 imageUrl = media.imageUrl,
                 url = media.url,
-                isStarred = false
+                isStarred = isStarred
             )
         }
     }

@@ -1,7 +1,6 @@
 package com.aredruss.mangatana.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -31,11 +30,8 @@ interface MediaDao {
     suspend fun insertEntries(entries: List<MediaDb>)
 
     // delete
-    @Delete
-    suspend fun deleteEntry(mediaDb: MediaDb)
-
-    @Delete
-    suspend fun deleteEntries(entries: List<MediaDb>)
+    @Query("DELETE FROM $TABLE_NAME WHERE mal_id =:malId AND type = :type")
+    suspend fun deleteEntry(malId: Long, type: String)
 
     @Query("DELETE FROM $TABLE_NAME")
     suspend fun clearDatabase()

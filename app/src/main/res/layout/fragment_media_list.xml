@@ -15,7 +15,7 @@
         app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorFullWidth="false"
         app:tabMode="scrollable"
-        app:tabTextColor="@color/white">
+        app:tabTextColor="@color/mainIconTint">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
