@@ -13,11 +13,12 @@ import com.aredruss.mangatana.App
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.ActivityMainBinding
 import com.aredruss.mangatana.modo.Screens
-import com.aredruss.mangatana.view.extensions.backWithAction
 import com.github.terrakok.modo.android.AppScreen
 import com.github.terrakok.modo.android.ModoRender
 import com.github.terrakok.modo.android.init
+import com.github.terrakok.modo.back
 import com.github.terrakok.modo.forward
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -56,6 +57,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         binding.apply {
             setContentView(root)
             setSupportActionBar(binding.mainTb)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
         modo.init(savedInstanceState, Screens.Home())
     }
@@ -74,8 +77,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.action_settings -> {
                 modo.forward(Screens.Settings())
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return true
+        return false
     }
 
     override fun onResume() {
@@ -89,6 +93,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onBackPressed() {
-        modo.backWithAction(this)
+        modo.back()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        modo.back()
+        Timber.e("AAAAAAAAAAAAAAAAA")
+        return true
     }
 }

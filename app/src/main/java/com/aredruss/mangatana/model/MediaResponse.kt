@@ -19,12 +19,10 @@ data class MediaResponse(
     val score: Double,
     @SerializedName("genres")
     val genreList: List<Genre>,
-    @SerializedName("authors")
+    @SerializedName(value = "authors", alternate = ["producers"])
     val authorList: List<Author>?,
-    @SerializedName("chapters")
+    @SerializedName(value = "chapters", alternate = ["episodes"])
     val chapters: Int?,
-    @SerializedName("producers")
-    val producerList: List<Author>?,
-    @SerializedName("episodes")
-    val episodes: Int?,
+    @SerializedName(value = "published", alternate = ["aired"])
+    val releaseDate: ReleaseDate
 )

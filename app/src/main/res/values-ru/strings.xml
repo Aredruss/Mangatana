@@ -23,14 +23,21 @@
     <string name="media.move_to_backlog.btn">Бэклог</string>
     <string name="media.add_to_ongoings_btn">Онгоинги</string>
     <string name="media_about">Описание</string>
+    <string name="media_favorite">Добавлено в избранное</string>
+    <string name="media_action_result">Сохранено как \"%1$s\</string>
 
     <string name="error_message">Ошибка:\n%1$s</string>
     <string name="empty_result_message">Здесь ничего нет…</string>
+    <string name="dialog_ok">ОК</string>
+    <string name="dialog_cancel">Отмена</string>
+    <string name="dialog_delete">Удалить запись</string>
+    <string name="dialog_delete_message">Вы уверены, что хотите удалить эту запись?</string>
 
     <string name="clear_button_text">Очистить всё</string>
-    <string name="debug_menu_title">Меню разработчика</string>
+    <string name="data_menu">Данные</string>
     <string name="fr_settings">Настройки</string>
-    <string name="status_ongoing">Читаю</string>
-    <string name="status_finished">Прочитано</string>
-    <string name="status_backlog">Отложено</string>
+    <string name="status_ongoing">Онгоинг</string>
+    <string name="status_finished">Прочитанное</string>
+    <string name="status_backlog">Отложенное</string>
+
 </resources>

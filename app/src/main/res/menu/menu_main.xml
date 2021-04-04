@@ -4,7 +4,7 @@
     <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_about"
-        android:title="@string/fr_about_media"
+        android:title="@string/fr_about_app"
         app:showAsAction="collapseActionView" />
 
     <item

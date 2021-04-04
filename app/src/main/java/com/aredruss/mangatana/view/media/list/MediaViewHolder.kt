@@ -3,8 +3,8 @@ package com.aredruss.mangatana.view.media.list
 import androidx.recyclerview.widget.RecyclerView
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.ListItemMediaBinding
+import com.aredruss.mangatana.view.extensions.context
 import com.aredruss.mangatana.view.util.GlideHelper
-import com.aredruss.mangatana.view.util.context
 
 class MediaViewHolder(
     private val binding: ListItemMediaBinding,
@@ -12,15 +12,17 @@ class MediaViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     companion object {
-        private const val COVER_HEIGHT = 290
-        private const val COVER_WIDTH = 190
+        private const val COVER_HEIGHT = 270
+        private const val COVER_WIDTH = 170
     }
 
-    fun onBind(media: MediaDb) {
+    fun onBind(media: MediaDb) = with(binding) {
 
-        binding.root.setOnClickListener {
+        root.setOnClickListener {
             open(media.malId)
         }
+
+        titleTv.text = media.title
 
         GlideHelper.loadCover(
             binding.context(),
