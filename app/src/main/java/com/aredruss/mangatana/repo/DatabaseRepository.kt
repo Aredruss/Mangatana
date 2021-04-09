@@ -26,6 +26,14 @@ class DatabaseRepository(
         emit(mediaDao.getEntryByIdType(malId, type))
     }.flowOn(ioDispatcher)
 
+    fun searchCategoryByName(type: String, status: Int, query: String) = flow {
+        emit(mediaDao.getEntriesByQuery(type, status, query))
+    }.flowOn(ioDispatcher)
+
+    fun searchFavoriteByName(type: String, query: String) = flow {
+        emit(mediaDao.getEntriesByQueryStatus(type, query))
+    }.flowOn(ioDispatcher)
+
     suspend fun insertMediaEntry(
         media: MediaResponse,
         type: String,

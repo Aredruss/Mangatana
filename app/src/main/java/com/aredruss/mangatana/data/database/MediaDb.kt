@@ -27,8 +27,8 @@ data class MediaDb(
 ) {
     companion object {
         const val UNKNOWN_STATUS = -1
-        const val FINISHED_STATUS = 0
         const val ONGOING_STATUS = 1
         const val BACKLOG_STATUS = 2
+        const val FINISHED_STATUS = 3
     }
 }

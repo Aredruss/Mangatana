@@ -7,7 +7,8 @@ import com.aredruss.mangatana.data.database.AppDatabase
 import com.aredruss.mangatana.repo.DatabaseRepository
 import com.aredruss.mangatana.repo.JikanRepository
 import com.aredruss.mangatana.repo.MediaMapper
-import com.aredruss.mangatana.view.MainViewModel
+import com.aredruss.mangatana.view.media.info.DetailsViewModel
+import com.aredruss.mangatana.view.media.list.MediaListViewModel
 import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -20,5 +21,6 @@ val AppModule = module {
     single { get<AppDatabase>().mediaDao() }
     single { JikanRepository(jikanService = get(), mediaMapper = get()) }
     single { DatabaseRepository(mediaDao = get(), mediaMapper = get()) }
-    viewModel { MainViewModel(jikanRepository = get(), databaseRepository = get()) }
+    viewModel { MediaListViewModel(jikanRepository = get(), databaseRepository = get()) }
+    viewModel { DetailsViewModel(jikanRepository = get(), databaseRepository = get()) }
 }
