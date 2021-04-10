@@ -22,6 +22,15 @@ interface MediaDao {
     @Query("SELECT * FROM $TABLE_NAME WHERE type=:type AND is_starred = 1")
     suspend fun getStarredEntries(type: String): List<MediaDb>
 
+    @Query("SELECT * FROM $TABLE_NAME WHERE type = :type AND status = :status AND title LIKE :query")
+    suspend fun getEntriesByQuery(type: String, status: Int, query: String): List<MediaDb>
+
+    @Query("SELECT * FROM $TABLE_NAME WHERE type = :type AND is_starred = 1 AND title LIKE :query")
+    suspend fun getEntriesByQueryStatus(
+        type: String,
+        query: String
+    ): List<MediaDb>
+
     // update
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEntry(entry: MediaDb)

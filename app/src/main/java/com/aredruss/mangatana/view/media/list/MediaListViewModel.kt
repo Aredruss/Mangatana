@@ -1,35 +1,46 @@
-package com.aredruss.mangatana.view
+package com.aredruss.mangatana.view.media.list
 
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.viewModelScope
 import com.aredruss.mangatana.App
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.repo.DatabaseRepository
 import com.aredruss.mangatana.repo.JikanRepository
-import com.aredruss.mangatana.view.media.info.DetailsState
-import com.aredruss.mangatana.view.media.list.ListState
 import com.aredruss.mangatana.view.util.ScreenCategory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
-class MainViewModel(
+class MediaListViewModel(
     private val jikanRepository: JikanRepository,
     private val databaseRepository: DatabaseRepository
 ) : AndroidViewModel(App.INSTANCE), LifecycleObserver {
 
     var listState = MutableLiveData<ListState>()
-    var detailsState = MutableLiveData<DetailsState>()
     var screenCategory = -1
     var mediaType: String = JikanRepository.TYPE_MANGA
+    var isSearch: Boolean = false
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun onFragmentDestroy() {
+        listState.postValue(null)
+        cancelJobs()
+    }
 
     // Get Content for the list Screen
     // Need to check what type of content list should be populated with
-    fun getMediaList(tabType: String?, screenCategory: Int) {
+    fun getMediaList(tabType: String?, screenCategory: Int, isSearch: Boolean = false) {
+        // State of search differs -> the list should be reloaded
+        if (this.isSearch != isSearch) {
+            this.isSearch = isSearch
+            getMedia(mediaType, screenCategory)
+        }
+
         // Category of content differs -> the list should be fully reloaded
         if (this.screenCategory != screenCategory) {
             this.screenCategory = screenCategory
@@ -50,12 +61,44 @@ class MainViewModel(
         }
     }
 
+    fun searchForMedia(query: String, type: String) {
+        mediaType = type
+        viewModelScope.launch {
+            when (screenCategory) {
+                ScreenCategory.ON_GOING,
+                ScreenCategory.BACKLOG,
+                ScreenCategory.FINISHED ->
+                    search(
+                        isLocal = true,
+                        isFavorite = false,
+                        query = query
+                    )
+                ScreenCategory.STARRED -> search(
+                    isLocal = true,
+                    isFavorite = true,
+                    query = query
+                )
+                else -> search(
+                    isLocal = false,
+                    isFavorite = false,
+                    query = query
+                )
+            }
+        }
+    }
+
+    // Debug function as if now - clears all entries from the database
+    fun clearDatabase() = viewModelScope.launch {
+        databaseRepository.clear()
+    }
+
     // Get Media either from the database or the API depending on the category of the screen
     private fun getMedia(type: String, screenCategory: Int) {
         when (screenCategory) {
-            ScreenCategory.ON_GOING -> getSavedMedia(MediaDb.ONGOING_STATUS, type)
-            ScreenCategory.BACKLOG -> getSavedMedia(MediaDb.BACKLOG_STATUS, type)
-            ScreenCategory.FINISHED -> getSavedMedia(MediaDb.FINISHED_STATUS, type)
+            ScreenCategory.ON_GOING,
+            ScreenCategory.BACKLOG,
+            ScreenCategory.FINISHED ->
+                getSavedMedia(screenCategory, type)
             ScreenCategory.STARRED -> getFavoriteMedia(type)
             else -> getTopMedia(type)
         }
@@ -70,67 +113,6 @@ class MainViewModel(
         }.collect { topMedia ->
             listState.postValue(ListState.Success(topMedia))
         }
-    }
-
-    // Get Info about a certain media piece - a manga series or an anime
-    fun getMediaDetails(type: String, malId: Long) = viewModelScope.launch {
-        jikanRepository.getMedia(type, malId)
-            .onStart {
-                detailsState.postValue(DetailsState.Loading)
-            }
-            .zip(databaseRepository.getMediaEntry(malId, type)) { mediaResponse, mediaDb ->
-                detailsState.postValue(DetailsState.Success(mediaResponse, mediaDb))
-            }.catch { e ->
-                detailsState.postValue(DetailsState.Error(e))
-            }.collect()
-    }
-
-    // Save media with a certain status or update an existing entry
-    fun editMediaEntry(status: Int, isStarred: Boolean) = viewModelScope.launch {
-        if (detailsState.value is DetailsState.Success) {
-            val successState = detailsState.value as DetailsState.Success
-            if (successState.localEntry != null) {
-                with(successState.localEntry) {
-                    databaseRepository.updateMediaEntry(this.malId, status, isStarred, mediaType)
-                }
-                detailsState.postValue(
-                    successState.apply {
-                        localEntry?.status = status
-                        localEntry?.isStarred = isStarred
-                    }
-                )
-            } else {
-                databaseRepository.insertMediaEntry(
-                    successState.payload,
-                    mediaType,
-                    status,
-                    isStarred
-                )
-                databaseRepository.getMediaEntry(successState.payload.malId, mediaType)
-                    .catch { e -> detailsState.postValue(DetailsState.Error(e)) }
-                    .collect {
-                        detailsState.postValue(DetailsState.Success(successState.payload, it))
-                    }
-            }
-        }
-    }
-
-    fun deleteMediaEntry(mediaId: Long) = viewModelScope.launch {
-        if (detailsState.value is DetailsState.Success) {
-            val successPayload = (detailsState.value as DetailsState.Success).payload
-            databaseRepository.deleteMediaEntry(mediaId, mediaType)
-            detailsState.postValue(DetailsState.Success(successPayload, null))
-        }
-    }
-
-    // Debug function as if now - clears all entries from the database
-    fun clearDatabase() = viewModelScope.launch {
-        databaseRepository.clear()
-    }
-
-    fun cancelJobs() {
-        jikanRepository.cancelAll()
-        databaseRepository.cancelAll()
     }
 
     // Get Media from the Database
@@ -170,5 +152,37 @@ class MainViewModel(
                     }
                 )
             }
+    }
+
+    private suspend fun search(isLocal: Boolean, isFavorite: Boolean, query: String) {
+        when {
+            isLocal && !isFavorite -> databaseRepository.searchCategoryByName(
+                mediaType,
+                screenCategory,
+                query
+            )
+            isFavorite -> databaseRepository.searchFavoriteByName(mediaType, query)
+            else -> jikanRepository.searchForMedia(mediaType, query)
+        }
+            .onStart {
+                listState.postValue(ListState.Loading)
+            }
+            .catch { e ->
+                listState.postValue(ListState.Error(e))
+            }
+            .collect { list ->
+                listState.postValue(
+                    if (list.isEmpty()) {
+                        ListState.Empty
+                    } else {
+                        ListState.Success(list as ArrayList<MediaDb>)
+                    }
+                )
+            }
+    }
+
+    private fun cancelJobs() {
+        jikanRepository.cancelAll()
+        databaseRepository.cancelAll()
     }
 }

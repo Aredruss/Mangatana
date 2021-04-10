@@ -18,7 +18,6 @@ import com.github.terrakok.modo.android.ModoRender
 import com.github.terrakok.modo.android.init
 import com.github.terrakok.modo.back
 import com.github.terrakok.modo.forward
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -98,7 +97,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onSupportNavigateUp(): Boolean {
         modo.back()
-        Timber.e("AAAAAAAAAAAAAAAAA")
         return true
     }
 }

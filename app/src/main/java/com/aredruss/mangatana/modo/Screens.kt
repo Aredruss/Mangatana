@@ -2,7 +2,7 @@ package com.aredruss.mangatana.modo
 
 import com.aredruss.mangatana.view.about.AboutFragment
 import com.aredruss.mangatana.view.home.HomeFragment
-import com.aredruss.mangatana.view.media.info.MediaInfoFragment
+import com.aredruss.mangatana.view.media.info.DetailsFragment
 import com.aredruss.mangatana.view.media.list.MediaListFragment
 import com.aredruss.mangatana.view.settings.SettingsFragment
 import com.github.terrakok.modo.android.AppScreen
@@ -29,7 +29,7 @@ object Screens {
 
     @Parcelize
     class MediaInfo(val malId: Long, val type: String) : AppScreen(INFO) {
-        override fun create() = MediaInfoFragment.create(malId, type)
+        override fun create() = DetailsFragment.create(malId, type)
     }
 
     @Parcelize
