@@ -5,13 +5,43 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_tb"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="@id/label_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/label_tv" />
+
+        <TextView
+            android:id="@+id/label_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/media_type_tl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/list_tb"
         app:tabGravity="start"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorFullWidth="false"
@@ -57,9 +87,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@color/colorAccent"
         android:elevation="3dp"
+        android:scrollbarThumbVertical="@color/colorAccent"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

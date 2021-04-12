@@ -55,9 +55,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         binding.apply {
             setContentView(root)
-            setSupportActionBar(binding.mainTb)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
         modo.init(savedInstanceState, Screens.Home())
     }

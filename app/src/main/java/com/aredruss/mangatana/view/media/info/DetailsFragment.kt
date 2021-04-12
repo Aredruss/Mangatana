@@ -2,6 +2,7 @@ package com.aredruss.mangatana.view.media.info
 
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.data.database.MediaDb
@@ -20,6 +21,7 @@ import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.DateHelper
 import com.aredruss.mangatana.view.util.GlideHelper
+import com.github.terrakok.modo.back
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,16 +34,19 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        super.setupFragment(
-            titleRes = R.string.fr_about_media,
-            showBackButton = true,
-            showMenu = false
-        )
         lifecycle.addObserver(viewModel)
+        setupViews()
+        setupAction()
+    }
 
+    @Suppress("EmptyFunctionBlock")
+    override fun setupViews() {
+    }
+
+    private fun setupAction() {
         viewModel.getMediaDetails(
-            type = this.arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA,
-            malId = this.arguments?.getLong(MEDIA_ID) ?: 1L
+            type = arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA,
+            malId = arguments?.getLong(MEDIA_ID) ?: 1L
         )
 
         viewModel.detailsState.observe(
@@ -74,26 +79,14 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         if (localEntry != null) {
             setupStatus(localEntry.status)
             isStarred = localEntry.isStarred
-            deleteBtn.visible()
-            deleteBtn.setOnClickListener {
-                viewModel.deleteMediaEntry(media.malId)
-            }
         } else {
             isStarred = false
-            hideViews(listOf(deleteBtn, statusTv))
+            hideViews(listOf(statusTv))
         }
 
         likeBtn.setOnClickListener {
             isStarred = !isStarred
             starMedia(localEntry?.status ?: MediaDb.ONGOING_STATUS)
-        }
-
-        shareBtn.setOnClickListener {
-            activity?.shareLink(media.url)
-        }
-
-        browserBtn.setOnClickListener {
-            activity?.openLink(media.url)
         }
 
         setupMainInfo(media)
@@ -102,6 +95,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         setupFab(localEntry != null)
         setupFavorite()
         setupYear(media.releaseDate.started)
+        setupToolbar(media.malId, media.url, localEntry != null)
 
         contentCl.visible()
     }
@@ -141,33 +135,24 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     }
 
     private fun setupGenres(media: MediaResponse) = with(binding) {
-        val genres = if (media.genreList.size <= GENRE_COUNT) {
-            (media.genreList)
-        } else {
-            media.genreList.subList(0, GENRE_COUNT)
+        media.genreList.forEach {
+            genreCg.addView(
+                Chip(context).apply {
+                    text = it.name
+                }
+            )
         }
-
-        genres.sortedBy {
-            it.name.length
-        }
-            .forEach {
-                genreCg.addView(
-                    Chip(context).apply {
-                        text = it.name
-                    }
-                )
-            }
     }
 
     private fun setupAuthor(media: MediaResponse) = with(binding) {
+        if (media.authorList?.isEmpty() == true) {
+            authorTv.gone()
+            return@with
+        }
         when (arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA) {
             JikanRepository.TYPE_ANIME -> {
                 authorTv.apply {
-                    if (media.authorList?.isEmpty() == true) {
-                        gone()
-                    } else {
-                        authorTv.text = media.authorList?.first()?.name
-                    }
+                    authorTv.text = media.authorList?.first()?.name
                 }
             }
             else -> {
@@ -231,14 +216,36 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         }
     }
 
+    private fun setupToolbar(id: Long, url: String, isLocal: Boolean) = with(binding) {
+        shareBtn.setOnClickListener {
+            activity?.shareLink(url)
+        }
+        backBtn.setOnClickListener {
+            modo.back()
+        }
+
+        detailsMenuIb.setOnClickListener {
+            val menu = PopupMenu(this.root.context, it).apply {
+                inflate(R.menu.menu_details)
+                menu.findItem(R.id.action_delete).isVisible = isLocal
+                setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.action_browser -> activity?.openLink(url)
+                        R.id.action_delete -> viewModel.deleteMediaEntry(id)
+                    }
+                    return@setOnMenuItemClickListener false
+                }
+                show()
+            }
+        }
+    }
+
     companion object {
         private const val MEDIA_ID = "malId"
         private const val MEDIA_TYPE = "type"
 
         private const val COVER_WIDTH = 150
         private const val COVER_HEIGHT = 250
-
-        private const val GENRE_COUNT = 5
 
         fun create(malId: Long, mediaType: String) = DetailsFragment().apply {
             arguments = Bundle().apply {

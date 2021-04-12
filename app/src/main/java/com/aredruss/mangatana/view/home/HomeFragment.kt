@@ -2,6 +2,7 @@ package com.aredruss.mangatana.view.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentHomeBinding
@@ -16,28 +17,46 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViews()
+    }
 
-        super.setupFragment(
-            titleRes = R.string.app_name,
-            showBackButton = false,
-            showMenu = true
-        )
+    override fun setupViews() {
+        setupButtons()
+        setupMenu()
+    }
 
-        with(binding) {
-            inProgressBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.ON_GOING)
-            }
-            upNextBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.BACKLOG)
-            }
-            finishedBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.FINISHED)
-            }
-            starredBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.STARRED)
-            }
-            exploreBtn.setOnClickListener {
-                openMediaFragment(ScreenCategory.EXPLORE)
+    private fun setupButtons() = with(binding) {
+        homeMenuIb.setOnClickListener {
+        }
+        inProgressBtn.setOnClickListener {
+            openMediaFragment(ScreenCategory.ON_GOING)
+        }
+        upNextBtn.setOnClickListener {
+            openMediaFragment(ScreenCategory.BACKLOG)
+        }
+        finishedBtn.setOnClickListener {
+            openMediaFragment(ScreenCategory.FINISHED)
+        }
+        starredBtn.setOnClickListener {
+            openMediaFragment(ScreenCategory.STARRED)
+        }
+        exploreBtn.setOnClickListener {
+            openMediaFragment(ScreenCategory.EXPLORE)
+        }
+    }
+
+    private fun setupMenu() = with(binding) {
+        homeMenuIb.setOnClickListener {
+            val menu = PopupMenu(this.root.context, it).apply {
+                inflate(R.menu.menu_main)
+                setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.action_about -> modo.forward(Screens.About())
+                        R.id.action_settings -> modo.forward(Screens.Settings())
+                    }
+                    return@setOnMenuItemClickListener false
+                }
+                show()
             }
         }
     }
