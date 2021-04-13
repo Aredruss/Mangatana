@@ -1,6 +1,8 @@
 package com.aredruss.mangatana.view.media.info
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
 import android.view.View
 import android.widget.PopupMenu
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -22,7 +24,6 @@ import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.DateHelper
 import com.aredruss.mangatana.view.util.GlideHelper
 import com.github.terrakok.modo.back
-import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -40,7 +41,8 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     }
 
     @Suppress("EmptyFunctionBlock")
-    override fun setupViews() {
+    override fun setupViews() = with(binding) {
+        genreCg.text = ""
     }
 
     private fun setupAction() {
@@ -74,7 +76,6 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     private fun onMediaLoaded(media: MediaResponse, localEntry: MediaDb?) = with(binding) {
         hideViews(listOf(loadingAv, infoMv))
-        genreCg.removeAllViews()
 
         if (localEntry != null) {
             setupStatus(localEntry.status)
@@ -91,11 +92,12 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
         setupMainInfo(media)
         setupAuthor(media)
-        setupGenres(media)
+        if (genreCg.text.isEmpty()) setupGenres(media)
         setupFab(localEntry != null)
         setupFavorite()
         setupYear(media.releaseDate.started)
         setupToolbar(media.malId, media.url, localEntry != null)
+        setupViewers(media.viewerCount)
 
         contentCl.visible()
     }
@@ -136,11 +138,16 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     private fun setupGenres(media: MediaResponse) = with(binding) {
         media.genreList.forEach {
-            genreCg.addView(
-                Chip(context).apply {
-                    text = it.name
-                }
+            val genre = SpannableString(it.name)
+            genre.setSpan(
+                Typeface.BOLD,
+                0,
+                it.name.length,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             )
+
+            genreCg.append(genre)
+            genreCg.append(" · ")
         }
     }
 
@@ -170,32 +177,8 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         yearTv.text = DateHelper.parseDate(date)
     }
 
-    private fun saveMedia(status: Int) {
-        viewModel.editMediaEntry(status, isStarred)
-        showActionResult("Saved with status \"${getStatus(status)}\"!")
-    }
-
-    private fun starMedia(status: Int) {
-        viewModel.editMediaEntry(status, isStarred)
-        if (isStarred) showActionResult(binding.getString(R.string.media_favorite))
-    }
-
-    private fun showActionResult(message: String) {
-        Snackbar.make(
-            binding.context(),
-            binding.root,
-            message,
-            Snackbar.LENGTH_SHORT
-        )
-            .setBackgroundTint(binding.getColor(R.color.mainStatus))
-            .setTextColor(binding.getColor(R.color.mainIconTint))
-            .show()
-    }
-
-    private fun getStatus(status: Int) = when (status) {
-        MediaDb.ONGOING_STATUS -> binding.getString(R.string.status_ongoing)
-        MediaDb.BACKLOG_STATUS -> binding.getString(R.string.status_backlog)
-        else -> binding.getString(R.string.status_finished)
+    private fun setupViewers(count: Long) = with(binding) {
+        viewersTv.text = count.toString()
     }
 
     private fun setupFab(isLocal: Boolean) = with(binding) {
@@ -238,6 +221,34 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                 show()
             }
         }
+    }
+
+    private fun saveMedia(status: Int) {
+        viewModel.editMediaEntry(status, isStarred)
+        showActionResult("Saved with status \"${getStatus(status)}\"!")
+    }
+
+    private fun starMedia(status: Int) {
+        viewModel.editMediaEntry(status, isStarred)
+        if (isStarred) showActionResult(binding.getString(R.string.media_favorite))
+    }
+
+    private fun showActionResult(message: String) {
+        Snackbar.make(
+            binding.context(),
+            binding.root,
+            message,
+            Snackbar.LENGTH_SHORT
+        )
+            .setBackgroundTint(binding.getColor(R.color.mainStatus))
+            .setTextColor(binding.getColor(R.color.mainIconTint))
+            .show()
+    }
+
+    private fun getStatus(status: Int) = when (status) {
+        MediaDb.ONGOING_STATUS -> binding.getString(R.string.status_ongoing)
+        MediaDb.BACKLOG_STATUS -> binding.getString(R.string.status_backlog)
+        else -> binding.getString(R.string.status_finished)
     }
 
     companion object {
