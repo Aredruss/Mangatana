@@ -7,6 +7,7 @@ import com.aredruss.mangatana.BuildConfig
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentAboutBinding
 import com.aredruss.mangatana.view.util.BaseFragment
+import com.github.terrakok.modo.back
 
 class AboutFragment : BaseFragment(R.layout.fragment_about) {
 
@@ -14,13 +15,13 @@ class AboutFragment : BaseFragment(R.layout.fragment_about) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        super.setupFragment(
-            titleRes = R.string.fr_about_app,
-            showBackButton = true,
-            showMenu = false
-        )
-        with(binding) {
-            versionTv.text = BuildConfig.VERSION_NAME
+        setupViews()
+    }
+
+    override fun setupViews() = with(binding) {
+        versionTv.text = BuildConfig.VERSION_NAME
+        backBtn.setOnClickListener {
+            modo.back()
         }
     }
 

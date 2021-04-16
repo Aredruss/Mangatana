@@ -12,11 +12,13 @@ import com.aredruss.mangatana.databinding.FragmentMediaListBinding
 import com.aredruss.mangatana.modo.Screens
 import com.aredruss.mangatana.repo.JikanRepository
 import com.aredruss.mangatana.view.extensions.clear
+import com.aredruss.mangatana.view.extensions.getString
 import com.aredruss.mangatana.view.extensions.hide
 import com.aredruss.mangatana.view.extensions.hideViews
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.ScreenCategory
+import com.github.terrakok.modo.back
 import com.github.terrakok.modo.forward
 import com.google.android.material.tabs.TabLayout
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -27,63 +29,73 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
     private val binding: FragmentMediaListBinding by viewBinding()
     private val mediaRvAdapter = MediaRvAdapter(this::openMedia)
     private var mediaType: String = JikanRepository.TYPE_MANGA
+    private var screenCategory = 0
     private var isSearch: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycle.addObserver(viewModel)
-        val screenCategory = this.arguments?.getInt(CATEGORY) ?: ScreenCategory.EXPLORE
+        screenCategory = this.arguments?.getInt(CATEGORY) ?: ScreenCategory.EXPLORE
 
-        super.setupFragment(
-            titleRes = getFragmentTitle(screenCategory),
-            showBackButton = true,
-            showMenu = false
-        )
+        setupViews()
+        setupAction()
+    }
 
-        binding.apply {
-            mediaRv.adapter = mediaRvAdapter
-            mediaRv.itemAnimator = null
-            mediaRv.layoutManager = GridLayoutManager(context, 2)
-            setupSearch()
+    override fun setupViews() = with(binding) {
+        setupToolbar()
+        setupTabs()
+        setupRv()
+        setupSearch()
+    }
 
-            when (viewModel.mediaType) {
-                JikanRepository.TYPE_ANIME -> {
-                    mediaType = JikanRepository.TYPE_ANIME
-                    mediaTypeTl.getTabAt(1)?.select()
-                }
-                else -> {
-                    mediaType = JikanRepository.TYPE_MANGA
-                    mediaTypeTl.getTabAt(0)?.select()
+    private fun setupAction() {
+        viewModel.getMediaList(mediaType, screenCategory = screenCategory)
+        viewModel.listState.observe(
+            viewLifecycleOwner,
+            {
+                when (it) {
+                    is ListState.Loading -> {
+                        onLoading()
+                    }
+                    is ListState.Empty -> {
+                        onEmpty()
+                    }
+                    is ListState.Success -> {
+                        onLoaded(it.payload)
+                    }
+                    is ListState.Error -> {
+                        onError(it.error)
+                    }
                 }
             }
+        )
+    }
 
-            viewModel.getMediaList(mediaType, screenCategory = screenCategory)
+    private fun setupToolbar() = with(binding) {
+        labelTv.text = binding.getString(getFragmentTitle(screenCategory))
+        backBtn.setOnClickListener { modo.back() }
+    }
 
-            mediaTypeTl.addOnTabSelectedListener(
-                object : TabLayout.OnTabSelectedListener {
-                    override fun onTabSelected(tab: TabLayout.Tab?) {
-                        mediaType = when (tab?.position) {
-                            1 -> JikanRepository.TYPE_ANIME
-                            else -> JikanRepository.TYPE_MANGA
-                        }
+    private fun setupRv() = with(binding) {
+        mediaRv.adapter = mediaRvAdapter
+        mediaRv.itemAnimator = null
+        mediaRv.layoutManager = GridLayoutManager(context, 2)
+    }
 
-                        if (isSearch) {
-                            viewModel.searchForMedia(searchSv.query.toString(), mediaType)
-                        } else {
-                            viewModel.getMediaList(mediaType, screenCategory)
-                        }
-                    }
+    private fun setupSearch() = with(binding) {
+        searchIb.setOnClickListener {
+            if (searchSv.isVisible) {
+                searchSv.hide()
+                isSearch = false
+            } else {
+                isSearch = true
+                searchSv.visible()
+            }
+        }
 
-                    @Suppress("EmptyFunctionBlock")
-                    override fun onTabUnselected(tab: TabLayout.Tab?) {
-                    }
-
-                    @Suppress("EmptyFunctionBlock")
-                    override fun onTabReselected(tab: TabLayout.Tab?) {
-                    }
-                })
-
-            searchSv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        with(searchSv) {
+            setOnClickListener { isIconified = false }
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (query != null) {
                         viewModel.searchForMedia(query, mediaType)
@@ -101,45 +113,53 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                     return false
                 }
             })
-
-            searchSv.setOnCloseListener {
-                viewModel.getMediaList(mediaType, screenCategory = screenCategory, isSearch)
-                isSearch = false
-                mediaRv.scrollToPosition(0)
-                return@setOnCloseListener false
-            }
-
-            searchSv.setOnClickListener {
-                searchSv.isIconified = false
-            }
-
-            searchIb.setOnClickListener {
-                if (searchSv.isVisible) {
-                    searchSv.hide()
+            setOnCloseListener {
+                if (this.query.isEmpty()) {
+                    hide()
+                    viewModel.getMediaList(mediaType, screenCategory = screenCategory, isSearch)
                     isSearch = false
+                    mediaRv.scrollToPosition(0)
                 } else {
-                    isSearch = true
-                    searchSv.visible()
+                    clear()
                 }
+                return@setOnCloseListener true
+            }
+        }
+    }
+
+    private fun setupTabs() = with(binding) {
+        when (viewModel.mediaType) {
+            JikanRepository.TYPE_ANIME -> {
+                mediaType = JikanRepository.TYPE_ANIME
+                mediaTypeTl.getTabAt(1)?.select()
+            }
+            else -> {
+                mediaType = JikanRepository.TYPE_MANGA
+                mediaTypeTl.getTabAt(0)?.select()
             }
         }
 
-        viewModel.listState.observe(
-            viewLifecycleOwner,
-            {
-                when (it) {
-                    is ListState.Loading -> {
-                        onLoading()
+        mediaTypeTl.addOnTabSelectedListener(
+            object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    mediaType = when (tab?.position) {
+                        1 -> JikanRepository.TYPE_ANIME
+                        else -> JikanRepository.TYPE_MANGA
                     }
-                    is ListState.Empty -> {
-                        onEmpty()
+
+                    if (isSearch) {
+                        viewModel.searchForMedia(searchSv.query.toString(), mediaType)
+                    } else {
+                        viewModel.getMediaList(mediaType, screenCategory)
                     }
-                    is ListState.Success -> {
-                        onLoaded(it.payload)
-                    }
-                    is ListState.Error -> {
-                        onError(it.error)
-                    }
+                }
+
+                @Suppress("EmptyFunctionBlock")
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                @Suppress("EmptyFunctionBlock")
+                override fun onTabReselected(tab: TabLayout.Tab?) {
                 }
             }
         )
@@ -168,17 +188,6 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         infoMv.setIcon(R.drawable.error_logo)
         infoMv.setText(e::class.java.name)
         infoMv.visible()
-    }
-
-    private fun setupSearch() = with(binding) {
-        searchSv.setOnCloseListener {
-            if (searchSv.query.isEmpty()) {
-                searchSv.hide()
-            } else {
-                searchSv.clear()
-            }
-            return@setOnCloseListener true
-        }
     }
 
     private fun openMedia(id: Long) {

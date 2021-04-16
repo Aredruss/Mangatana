@@ -23,6 +23,8 @@ data class MediaResponse(
     val authorList: List<Author>?,
     @SerializedName(value = "chapters", alternate = ["episodes"])
     val chapters: Int?,
+    @SerializedName(value = "members")
+    val viewerCount: Long,
     @SerializedName(value = "published", alternate = ["aired"])
     val releaseDate: ReleaseDate
 )

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:background="@drawable/bg_category_btn"
-    android:padding="5dp"
     android:elevation="5dp"
+    android:padding="5dp"
     android:paddingStart="10dp"
     android:paddingEnd="10dp">
 
@@ -17,7 +17,7 @@
         android:background="@drawable/bg_category_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/icon_iv"
@@ -45,10 +45,10 @@
     <TextView
         android:id="@+id/sub_tv"
         android:layout_width="wrap_content"
-        android:textStyle="normal"
-        android:textSize="14sp"
-        android:textColor="@color/secondaryIconTint"
         android:layout_height="wrap_content"
+        android:textColor="@color/secondaryIconTint"
+        android:textSize="14sp"
+        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/name_tv"
         app:layout_constraintTop_toBottomOf="@+id/name_tv"

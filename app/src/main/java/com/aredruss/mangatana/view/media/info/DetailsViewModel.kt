@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class DetailsViewModel(
     private val jikanRepository: JikanRepository,

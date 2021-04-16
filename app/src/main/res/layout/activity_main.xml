@@ -7,17 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_tb"
-        android:layout_width="match_parent"
-        android:elevation="3dp"
-        app:title="@string/app_name"
-        app:menu="@menu/menu_main"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_host_fr"
         android:layout_width="match_parent"
@@ -25,5 +14,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_tb" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
