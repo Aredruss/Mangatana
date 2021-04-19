@@ -10,11 +10,13 @@ import com.aredruss.mangatana.App
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.repo.DatabaseRepository
 import com.aredruss.mangatana.repo.JikanRepository
+import com.aredruss.mangatana.view.util.ErrorCodes
 import com.aredruss.mangatana.view.util.ScreenCategory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class MediaListViewModel(
     private val jikanRepository: JikanRepository,
@@ -35,6 +37,9 @@ class MediaListViewModel(
     // Get Content for the list Screen
     // Need to check what type of content list should be populated with
     fun getMediaList(tabType: String?, screenCategory: Int, isSearch: Boolean = false) {
+        // Screen state differs (after failed search, etc) -> the list should be loaded
+        if (listState.value !is ListState.Success) getMedia(mediaType, screenCategory)
+
         // State of search differs -> the list should be reloaded
         if (this.isSearch != isSearch) {
             this.isSearch = isSearch
@@ -168,7 +173,14 @@ class MediaListViewModel(
                 listState.postValue(ListState.Loading)
             }
             .catch { e ->
-                listState.postValue(ListState.Error(e))
+                if (e is HttpException) {
+                    listState.postValue(
+                        when (e.code()) {
+                            ErrorCodes.NOT_FOUND -> ListState.Empty
+                            else -> ListState.Error(e)
+                        }
+                    )
+                }
             }
             .collect { list ->
                 listState.postValue(

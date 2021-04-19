@@ -89,6 +89,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                 isSearch = false
             } else {
                 isSearch = true
+                searchIb.backgroundTintList
                 searchSv.visible()
             }
         }

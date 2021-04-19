@@ -40,5 +40,9 @@
     <string name="status_finished">Прочитанное</string>
     <string name="status_backlog">Отложенное</string>
     <string name="open_browser">Открыть в браузере</string>
+    <string name="dialog_clear">Очистить базу данных</string>
+    <string name="dialog_clear_message">Вы уверены, что хотите удалить все записи?</string>
+    <string name="share_to">Поделиться</string>
+    <string name="open_with">Открыть с помощью</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.aredruss.mangatana.repo
 
 import com.aredruss.mangatana.data.dao.MediaDao
 import com.aredruss.mangatana.model.MediaResponse
+import com.aredruss.mangatana.utils.MediaMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -39,12 +40,9 @@ class DatabaseRepository(
         type: String,
         status: Int,
         isStarred: Boolean
-    ) = mediaDao.insertEntry(mediaMapper.mapToMedia(media, type, status, isStarred))
+    ) = mediaDao.upsertEntry(mediaMapper.mapToMedia(media, type, status, isStarred))
 
-    suspend fun updateMediaEntry(malId: Long, status: Int, isStarred: Boolean, type: String) =
-        mediaDao.updateEntry(malId, type, status, isStarred)
-
-    suspend fun deleteMediaEntry(malId: Long, type: String) = mediaDao.deleteEntry(malId, type)
+    suspend fun deleteEntry(malId: Long, type: String) = mediaDao.delete(malId, type)
 
     suspend fun clear() = mediaDao.clearDatabase()
 
