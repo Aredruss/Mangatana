@@ -1,12 +1,13 @@
-package com.aredruss.mangatana.repo
+package com.aredruss.mangatana.utils
 
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.model.MediaResponse
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MediaMapper(private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default) {
+class MediaMapper(
+    private val defaultDispatcher: CoroutineDispatcher
+) {
 
     suspend fun mapToMedia(
         media: MediaResponse,

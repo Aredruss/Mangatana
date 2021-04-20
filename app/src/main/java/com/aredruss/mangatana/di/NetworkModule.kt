@@ -1,5 +1,6 @@
 package com.aredruss.mangatana.di
 
+import com.aredruss.mangatana.api.JikanService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -26,4 +27,6 @@ val networkModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    single { get<Retrofit>().create(JikanService::class.java) }
 }
