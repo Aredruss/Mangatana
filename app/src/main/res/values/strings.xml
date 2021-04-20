@@ -30,7 +30,9 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_delete">Delete Entry</string>
+    <string name="dialog_clear">Clear the database</string>
     <string name="dialog_delete_message">Are you sure you want to delete this entry?</string>
+    <string name="dialog_clear_message">Are you sure you want to delete all your entries?</string>
 
     <string name="clear_button_text">CLEAR ALL</string>
     <string name="data_menu">Data menu</string>
@@ -39,4 +41,6 @@
     <string name="status_finished">Finished</string>
     <string name="status_backlog">In backlog</string>
     <string name="open_browser">Open in browser</string>
+    <string name="share_to">Share to...</string>
+    <string name="open_with">Open with...</string>
 </resources>

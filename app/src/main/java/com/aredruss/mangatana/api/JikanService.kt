@@ -9,13 +9,13 @@ import retrofit2.http.Query
 
 interface JikanService {
     @GET("/v3/search/{type}")
-    suspend fun searchMedia(
+    suspend fun searchByTitle(
         @Path("type") type: String,
         @Query("q") title: String
     ): JikanApiResponse<ArrayList<MediaResponse>>
 
     @GET("/v3/top/{type}/{page_num}/")
-    suspend fun exploreMedia(
+    suspend fun getTopMedia(
         @Path("type") type: String,
         @Path("page_num") pageNum: Int
     ): MediaTop
@@ -24,12 +24,5 @@ interface JikanService {
     suspend fun getMediaById(
         @Path("type") type: String,
         @Path("id") id: Long
-    ): MediaResponse
-
-    @GET("/v3/genre/{type}/{genre_id}/{page_num}")
-    suspend fun getByGenre(
-        @Path("type") type: String,
-        @Path("genre_id") id: Int,
-        @Path("page_num") pageNum: Int,
     ): MediaResponse
 }

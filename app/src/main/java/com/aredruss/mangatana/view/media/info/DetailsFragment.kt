@@ -1,16 +1,16 @@
 package com.aredruss.mangatana.view.media.info
 
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.SpannableString
 import android.view.View
-import android.widget.PopupMenu
+import androidx.appcompat.widget.PopupMenu
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.FragmentDetailsBinding
+import com.aredruss.mangatana.model.Genre
 import com.aredruss.mangatana.model.MediaResponse
 import com.aredruss.mangatana.repo.JikanRepository
+import com.aredruss.mangatana.utils.ParseHelper
 import com.aredruss.mangatana.view.extensions.context
 import com.aredruss.mangatana.view.extensions.getColor
 import com.aredruss.mangatana.view.extensions.getDrawable
@@ -21,7 +21,7 @@ import com.aredruss.mangatana.view.extensions.openLink
 import com.aredruss.mangatana.view.extensions.shareLink
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
-import com.aredruss.mangatana.view.util.DateHelper
+import com.aredruss.mangatana.view.util.DialogHelper
 import com.aredruss.mangatana.view.util.GlideHelper
 import com.github.terrakok.modo.back
 import com.google.android.material.snackbar.Snackbar
@@ -42,7 +42,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     @Suppress("EmptyFunctionBlock")
     override fun setupViews() = with(binding) {
-        genreCg.text = ""
+        genreTv.text = ""
     }
 
     private fun setupAction() {
@@ -92,7 +92,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
         setupMainInfo(media)
         setupAuthor(media)
-        if (genreCg.text.isEmpty()) setupGenres(media)
+        if (genreTv.text.isEmpty()) setupGenres(media.genreList)
         setupFab(localEntry != null)
         setupFavorite()
         setupYear(media.releaseDate.started)
@@ -136,19 +136,8 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         }
     }
 
-    private fun setupGenres(media: MediaResponse) = with(binding) {
-        media.genreList.forEach {
-            val genre = SpannableString(it.name)
-            genre.setSpan(
-                Typeface.BOLD,
-                0,
-                it.name.length,
-                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-
-            genreCg.append(genre)
-            genreCg.append(" · ")
-        }
+    private fun setupGenres(genres: List<Genre>) = with(binding) {
+        genreTv.append(ParseHelper.parseGenres(genres))
     }
 
     private fun setupAuthor(media: MediaResponse) = with(binding) {
@@ -156,25 +145,17 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             authorTv.gone()
             return@with
         }
-        when (arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA) {
-            JikanRepository.TYPE_ANIME -> {
-                authorTv.apply {
-                    authorTv.text = media.authorList?.first()?.name
-                }
-            }
-            else -> {
-                authorTv.text =
-                    media.authorList?.first()?.name
-                        ?.replace(",", "")
-                        ?.split(" ")
-                        ?.reversed()
-                        ?.joinToString(" ")
+        val author = media.authorList?.first()?.name
+        if (!author.isNullOrBlank()) {
+            when (arguments?.getString(MEDIA_TYPE)) {
+                JikanRepository.TYPE_ANIME -> authorTv.text = author
+                else -> authorTv.text = ParseHelper.parseAuthor(author)
             }
         }
     }
 
     private fun setupYear(date: String) = with(binding) {
-        yearTv.text = DateHelper.parseDate(date)
+        yearTv.text = ParseHelper.parseDate(date)
     }
 
     private fun setupViewers(count: Long) = with(binding) {
@@ -214,7 +195,14 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.action_browser -> activity?.openLink(url)
-                        R.id.action_delete -> viewModel.deleteMediaEntry(id)
+                        R.id.action_delete -> DialogHelper.buildConfirmDialog(
+                            context = binding.context(),
+                            title = R.string.dialog_delete,
+                            message = R.string.dialog_delete_message,
+                            argument = id,
+                            action = this@DetailsFragment::deleteMedia
+
+                        )
                     }
                     return@setOnMenuItemClickListener false
                 }
@@ -231,6 +219,10 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     private fun starMedia(status: Int) {
         viewModel.editMediaEntry(status, isStarred)
         if (isStarred) showActionResult(binding.getString(R.string.media_favorite))
+    }
+
+    private fun deleteMedia(malId: Long) {
+        viewModel.deleteMediaEntry(malId)
     }
 
     private fun showActionResult(message: String) {

@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import com.aredruss.mangatana.data.database.MediaDb
 
 @Dao
@@ -16,7 +18,7 @@ interface MediaDao {
     @Query("SELECT * FROM $TABLE_NAME WHERE status =:status AND type = :type")
     suspend fun getEntriesByStatus(status: Int, type: String): List<MediaDb>
 
-    @Query("SELECT * FROM $TABLE_NAME WHERE mal_id =:malId AND type = :type ")
+    @Query("SELECT * FROM $TABLE_NAME WHERE mal_id =:malId AND type = :type")
     suspend fun getEntryByIdType(malId: Long, type: String): MediaDb?
 
     @Query("SELECT * FROM $TABLE_NAME WHERE type=:type AND is_starred = 1")
@@ -26,21 +28,25 @@ interface MediaDao {
     suspend fun getEntriesByQuery(type: String, status: Int, query: String): List<MediaDb>
 
     @Query("SELECT * FROM $TABLE_NAME WHERE type = :type AND is_starred = 1 AND title LIKE :query")
-    suspend fun getEntriesByQueryStatus(
-        type: String,
-        query: String
-    ): List<MediaDb>
+    suspend fun getEntriesByQueryStatus(type: String, query: String): List<MediaDb>
 
     // update
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEntry(entry: MediaDb)
+    @Transaction
+    suspend fun upsertEntry(entry: MediaDb) {
+        if (insertEntry(entry) == -1L) {
+            updateEntry(entry)
+        }
+    }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEntries(entries: List<MediaDb>)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertEntry(entry: MediaDb): Long
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun updateEntry(entry: MediaDb)
 
     // delete
     @Query("DELETE FROM $TABLE_NAME WHERE mal_id =:malId AND type = :type")
-    suspend fun deleteEntry(malId: Long, type: String)
+    suspend fun delete(malId: Long, type: String)
 
     @Query("DELETE FROM $TABLE_NAME")
     suspend fun clearDatabase()

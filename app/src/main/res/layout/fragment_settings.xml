@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@id/menu_label_tv">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp">
 
@@ -67,10 +67,9 @@
                 android:id="@+id/export_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="Export"
-                android:textColor="@color/mainIconTint"
                 android:visibility="gone"
+                android:textColor="@color/mainIconTint"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,10 +77,9 @@
                 android:id="@+id/save_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="Save"
-                android:textColor="@color/mainIconTint"
                 android:visibility="gone"
+                android:textColor="@color/mainIconTint"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/export_btn" />
 
@@ -93,6 +91,7 @@
                 android:text="Delete all"
                 android:textColor="@color/mainIconTint"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/save_btn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

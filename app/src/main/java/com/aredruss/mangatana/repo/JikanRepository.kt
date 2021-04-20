@@ -1,6 +1,7 @@
 package com.aredruss.mangatana.repo
 
 import com.aredruss.mangatana.api.JikanService
+import com.aredruss.mangatana.utils.MediaMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -16,7 +17,7 @@ class JikanRepository(
     suspend fun searchForMedia(type: String, title: String) = flow {
         emit(
             mediaMapper.mapToMediaList(
-                media = jikanService.searchMedia(type, title).results,
+                media = jikanService.searchByTitle(type, title).results,
                 type = type
             )
         )
@@ -25,7 +26,7 @@ class JikanRepository(
     suspend fun getTopMediaList(type: String) = flow {
         emit(
             mediaMapper.mapToMediaList(
-                media = jikanService.exploreMedia(type, 1).top,
+                media = jikanService.getTopMedia(type, 1).top,
                 type = type
             )
         )
