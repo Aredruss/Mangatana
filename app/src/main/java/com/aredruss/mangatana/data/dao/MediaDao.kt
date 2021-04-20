@@ -4,8 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.Update
 import com.aredruss.mangatana.data.database.MediaDb
 
 @Dao
@@ -31,18 +29,8 @@ interface MediaDao {
     suspend fun getEntriesByQueryStatus(type: String, query: String): List<MediaDb>
 
     // update
-    @Transaction
-    suspend fun upsertEntry(entry: MediaDb) {
-        if (insertEntry(entry) == -1L) {
-            updateEntry(entry)
-        }
-    }
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertEntry(entry: MediaDb): Long
-
-    @Update(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun updateEntry(entry: MediaDb)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entry: MediaDb): Long
 
     // delete
     @Query("DELETE FROM $TABLE_NAME WHERE mal_id =:malId AND type = :type")
