@@ -4,6 +4,8 @@
 # Mangatana :shinto_shrine:
 A simple Anime and Manga tracking app built with modern Android Components using MVVM Architecture 
 
+### Try it out 	:secret:
+Grab the latest version from [here](https://github.com/Aredruss/Mangatana/releases)
 
 ### Built With :toolbox:
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.

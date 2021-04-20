@@ -142,6 +142,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         mediaTypeTl.addOnTabSelectedListener(
             object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
+                    mediaRv.scrollToPosition(0)
                     mediaType = when (tab?.position) {
                         1 -> JikanRepository.TYPE_ANIME
                         else -> JikanRepository.TYPE_MANGA
