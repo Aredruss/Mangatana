@@ -40,7 +40,6 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         setupAction()
     }
 
-    @Suppress("EmptyFunctionBlock")
     override fun setupViews() = with(binding) {
         genreTv.text = ""
     }
@@ -82,7 +81,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             isStarred = localEntry.isStarred
         } else {
             isStarred = false
-            hideViews(listOf(statusTv))
+            statusTv.gone()
         }
 
         likeBtn.setOnClickListener {
@@ -212,12 +211,12 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     }
 
     private fun saveMedia(status: Int) {
-        viewModel.editMediaEntry(status, isStarred)
+        viewModel.upsertMediaEntry(status, isStarred)
         showActionResult("Saved with status \"${getStatus(status)}\"!")
     }
 
     private fun starMedia(status: Int) {
-        viewModel.editMediaEntry(status, isStarred)
+        viewModel.upsertMediaEntry(status, isStarred)
         if (isStarred) showActionResult(binding.getString(R.string.media_favorite))
     }
 

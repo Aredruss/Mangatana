@@ -1,7 +1,6 @@
 package com.aredruss.mangatana.view.util
 
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
 import com.aredruss.mangatana.R
 import com.bumptech.glide.Glide
@@ -30,7 +29,13 @@ object GlideHelper {
         Glide.with(context)
             .load(imageLarge)
             .apply(RequestOptions().override(width, height))
-            .placeholder(ColorDrawable(context.getColor(R.color.colorPrimary)))
+            .placeholder(
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    context.getColor(R.color.colorPrimary)
+                } else {
+                    context.resources.getColor(R.color.colorPrimary)
+                }
+            )
             .transition(DrawableTransitionOptions.withCrossFade())
             .apply(requestOptions)
             .into(imageView)

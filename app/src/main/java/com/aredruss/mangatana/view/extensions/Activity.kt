@@ -31,6 +31,11 @@ fun Activity.shareLink(url: String) {
 
 fun Activity.isOnline(): Boolean {
     val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val netInfo = cm.getNetworkCapabilities(cm.activeNetwork)
-    return netInfo != null && netInfo.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        val netInfo = cm.getNetworkCapabilities(cm.activeNetwork)
+        netInfo != null && netInfo.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    } else {
+        val netInfo = cm.activeNetworkInfo
+        netInfo != null && netInfo.isConnected
+    }
 }
