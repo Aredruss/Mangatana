@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/transparent"
         android:src="@drawable/ic_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/media_type_tl" />
@@ -117,6 +117,6 @@
         app:info_text="@string/error_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/search_sv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

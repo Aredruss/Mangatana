@@ -80,6 +80,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         mediaRv.adapter = mediaRvAdapter
         mediaRv.itemAnimator = null
         mediaRv.layoutManager = GridLayoutManager(context, 2)
+        mediaRv.scrollToPosition(0)
     }
 
     private fun setupSearch() = with(binding) {
@@ -89,6 +90,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                 isSearch = false
             } else {
                 isSearch = true
+                searchIb.backgroundTintList
                 searchSv.visible()
             }
         }
@@ -142,6 +144,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         mediaTypeTl.addOnTabSelectedListener(
             object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
+                    mediaRv.scrollToPosition(0)
                     mediaType = when (tab?.position) {
                         1 -> JikanRepository.TYPE_ANIME
                         else -> JikanRepository.TYPE_MANGA
@@ -154,12 +157,12 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                     }
                 }
 
-                @Suppress("EmptyFunctionBlock")
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    mediaRv.scrollToPosition(0)
                 }
 
-                @Suppress("EmptyFunctionBlock")
                 override fun onTabReselected(tab: TabLayout.Tab?) {
+                    mediaRv.scrollToPosition(0)
                 }
             }
         )

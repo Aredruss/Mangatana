@@ -63,7 +63,7 @@ class DetailsViewModel(
     fun deleteMediaEntry(mediaId: Long) = viewModelScope.launch {
         if (detailsState.value is DetailsState.Success) {
             val successPayload = (detailsState.value as DetailsState.Success).payload
-            databaseRepository.deleteMediaEntry(mediaId, mediaType)
+            databaseRepository.deleteEntry(mediaId, mediaType)
             detailsState.postValue(DetailsState.Success(successPayload, null))
         }
     }
