@@ -1,14 +1,13 @@
 package com.aredruss.mangatana.view.media.info
 
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.SpannableString
 import android.view.View
-import android.widget.PopupMenu
+import androidx.appcompat.widget.PopupMenu
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.FragmentDetailsBinding
+import com.aredruss.mangatana.model.Genre
 import com.aredruss.mangatana.model.MediaResponse
 import com.aredruss.mangatana.repo.JikanRepository
 import com.aredruss.mangatana.utils.ParseHelper
@@ -43,7 +42,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     @Suppress("EmptyFunctionBlock")
     override fun setupViews() = with(binding) {
-        genreCg.text = ""
+        genreTv.text = ""
     }
 
     private fun setupAction() {
@@ -93,7 +92,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
         setupMainInfo(media)
         setupAuthor(media)
-        if (genreCg.text.isEmpty()) setupGenres(media)
+        if (genreTv.text.isEmpty()) setupGenres(media.genreList)
         setupFab(localEntry != null)
         setupFavorite()
         setupYear(media.releaseDate.started)
@@ -137,19 +136,8 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         }
     }
 
-    private fun setupGenres(media: MediaResponse) = with(binding) {
-        media.genreList.forEach {
-            val genre = SpannableString(it.name)
-            genre.setSpan(
-                Typeface.BOLD,
-                0,
-                it.name.length,
-                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-
-            genreCg.append(genre)
-            genreCg.append(" · ")
-        }
+    private fun setupGenres(genres: List<Genre>) = with(binding) {
+        genreTv.append(ParseHelper.parseGenres(genres))
     }
 
     private fun setupAuthor(media: MediaResponse) = with(binding) {

@@ -1,5 +1,6 @@
 package com.aredruss.mangatana.utils
 
+import com.aredruss.mangatana.model.Genre
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -25,5 +26,14 @@ object ParseHelper {
             .split(" ")
             .reversed()
             .joinToString(" ")
+    }
+
+    fun parseGenres(genres: List<Genre>): String {
+        return genres.map {
+            it.name
+        }
+            .toString()
+            .removePrefix("[")
+            .removeSuffix("]")
     }
 }
