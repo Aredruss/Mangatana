@@ -10,6 +10,7 @@ import com.aredruss.mangatana.repo.DatabaseRepository
 import com.aredruss.mangatana.repo.JikanRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
@@ -43,16 +44,18 @@ class DetailsViewModel(
     }
 
     // Save media with a certain status or update an existing entry
-    fun editMediaEntry(status: Int, isStarred: Boolean) = viewModelScope.launch {
+    fun upsertMediaEntry(status: Int, isStarred: Boolean) = viewModelScope.launch {
         if (detailsState.value is DetailsState.Success) {
             val successState = detailsState.value as DetailsState.Success
-            databaseRepository.insertMediaEntry(
+            databaseRepository.upsertMediaEntry(
                 successState.payload,
                 mediaType,
                 status,
                 isStarred
             )
-            databaseRepository.getMediaEntry(successState.payload.malId, mediaType)
+                .flatMapConcat {
+                    databaseRepository.getMediaEntry(successState.payload.malId, mediaType)
+                }
                 .catch { e -> detailsState.postValue(DetailsState.Error(e)) }
                 .collect {
                     detailsState.postValue(DetailsState.Success(successState.payload, it))

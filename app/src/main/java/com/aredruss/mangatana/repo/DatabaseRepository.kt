@@ -35,12 +35,14 @@ class DatabaseRepository(
         emit(mediaDao.getEntriesByQueryStatus(type, query))
     }.flowOn(ioDispatcher)
 
-    suspend fun insertMediaEntry(
+    suspend fun upsertMediaEntry(
         media: MediaResponse,
         type: String,
         status: Int,
         isStarred: Boolean
-    ) = mediaDao.upsertEntry(mediaMapper.mapToMedia(media, type, status, isStarred))
+    ) = flow {
+        emit(mediaDao.insert(mediaMapper.mapToMedia(media, type, status, isStarred)))
+    }
 
     suspend fun deleteEntry(malId: Long, type: String) = mediaDao.delete(malId, type)
 
