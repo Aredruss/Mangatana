@@ -63,6 +63,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/details_tb"
         android:animateLayoutChanges="true"
+        android:layout_above="@+id/action_cl"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,6 +86,7 @@
                 android:id="@+id/content_cl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
                 android:paddingBottom="30dp">
 
                 <TextView
@@ -156,7 +158,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/cover_iv"
                     app:layout_constraintTop_toBottomOf="@id/rating_icon_iv"
-                    tools:text="Author|Producer placeholder" />
+                    tools:text="Author placeholder" />
 
                 <TextView
                     android:id="@+id/viewers_tv"
@@ -209,7 +211,7 @@
                     android:textAlignment="gravity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/like_btn"/>
+                    app:layout_constraintTop_toBottomOf="@id/like_btn" />
 
 
                 <com.aredruss.mangatana.view.util.views.CollapseTextView
@@ -218,13 +220,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
                     app:arrow_drawable="@drawable/ic_arrow_right"
                     app:bg_drawable_regular="@drawable/bg_primary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cover_iv"
                     app:title_text="@string/media_about" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.aredruss.mangatana.view.util.views.InfoMessageView
@@ -241,22 +243,31 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <io.github.kobakei.materialfabspeeddial.FabSpeedDial
-        android:id="@+id/actions_fab"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/action_cl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:animateLayoutChanges="true"
+        android:background="@color/colorPrimary"
         android:layout_alignParentBottom="true"
-        android:backgroundTintMode="add"
-        app:fab_extraMargin="0dp"
-        app:fab_fabBackgroundColor="@color/colorAccent"
-        app:fab_fabDrawable="@null"
-        app:fab_fabDrawableTint="@color/mainIconTint"
-        app:fab_menu="@menu/menu_save"
-        app:fab_miniFabBackgroundColor="@color/colorAccent"
-        app:fab_miniFabDrawableTint="@color/mainIconTint"
-        app:fab_miniFabTextBackground="@drawable/bg_primary"
-        app:fab_miniFabTextColor="@color/mainIconTint" />
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/save_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mainIconTint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:backgroundTint="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </RelativeLayout>
 

@@ -31,6 +31,8 @@
     <string name="dialog_ok">ОК</string>
     <string name="dialog_cancel">Отмена</string>
     <string name="dialog_delete">Удалить запись</string>
+    <string name="dialog_save">Сохранить</string>
+    <string name="dialog_edit">Изменить</string>
     <string name="dialog_delete_message">Вы уверены, что хотите удалить эту запись?</string>
 
     <string name="clear_button_text">Очистить всё</string>

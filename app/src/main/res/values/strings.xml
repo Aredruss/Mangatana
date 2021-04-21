@@ -30,6 +30,8 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_delete">Delete Entry</string>
+    <string name="dialog_save">Save</string>
+    <string name="dialog_edit">Edit</string>
     <string name="dialog_clear">Clear the database</string>
     <string name="dialog_delete_message">Are you sure you want to delete this entry?</string>
     <string name="dialog_clear_message">Are you sure you want to delete all your entries?</string>
