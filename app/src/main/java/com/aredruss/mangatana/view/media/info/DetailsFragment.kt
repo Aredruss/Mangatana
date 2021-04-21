@@ -23,6 +23,7 @@ import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.DialogHelper
 import com.aredruss.mangatana.view.util.GlideHelper
+import com.aredruss.mangatana.view.util.dialog.SaveDialog
 import com.github.terrakok.modo.back
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -98,6 +99,14 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         setupToolbar(media.malId, media.url, localEntry != null)
         setupViewers(media.viewerCount)
 
+        saveBtn.setOnClickListener {
+            SaveDialog(
+                currentStatus = localEntry?.status ?: 0,
+                saveAction = this@DetailsFragment::saveMedia
+            )
+                .show(childFragmentManager, "")
+        }
+
         contentCl.visible()
     }
 
@@ -162,21 +171,15 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     }
 
     private fun setupFab(isLocal: Boolean) = with(binding) {
-        actionsFab.mainFab.setImageDrawable(
+
+        saveBtn.setImageDrawable(
             if (isLocal) {
                 binding.getDrawable(R.drawable.ic_edit)
             } else {
                 binding.getDrawable(R.drawable.ic_add)
             }
         )
-
-        actionsFab.addOnMenuItemClickListener { _, _, itemId ->
-            when (itemId) {
-                R.id.action_ongoing -> saveMedia(MediaDb.ONGOING_STATUS)
-                R.id.action_backlog -> saveMedia(MediaDb.BACKLOG_STATUS)
-                R.id.action_finish -> saveMedia(MediaDb.FINISHED_STATUS)
-            }
-        }
+        saveBtn.visible()
     }
 
     private fun setupToolbar(id: Long, url: String, isLocal: Boolean) = with(binding) {
@@ -188,7 +191,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         }
 
         detailsMenuIb.setOnClickListener {
-            val menu = PopupMenu(this.root.context, it).apply {
+            PopupMenu(this.root.context, it).apply {
                 inflate(R.menu.menu_details)
                 menu.findItem(R.id.action_delete).isVisible = isLocal
                 setOnMenuItemClickListener { item ->
@@ -200,7 +203,6 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                             message = R.string.dialog_delete_message,
                             argument = id,
                             action = this@DetailsFragment::deleteMedia
-
                         )
                     }
                     return@setOnMenuItemClickListener false
@@ -212,7 +214,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     private fun saveMedia(status: Int) {
         viewModel.upsertMediaEntry(status, isStarred)
-        showActionResult("Saved with status \"${getStatus(status)}\"!")
+        showActionResult("Saved with status ${getStatus(status)}!")
     }
 
     private fun starMedia(status: Int) {
