@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:clipToPadding="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/list_tb"
@@ -19,6 +20,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_arrow_back"
+            android:tint="@color/barIconTint"
             app:layout_constraintBottom_toBottomOf="@id/label_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/label_tv" />
@@ -63,11 +65,13 @@
         android:id="@+id/search_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:backgroundTint="@color/transparent"
+        android:layout_marginEnd="15dp"
+        android:padding="5dp"
+        android:background="@drawable/bg_primary"
         android:src="@drawable/ic_search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/media_type_tl" />
+        app:layout_constraintTop_toTopOf="@id/media_type_tl"
+        app:layout_constraintBottom_toBottomOf="@id/media_type_tl"/>
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_sv"
@@ -75,6 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/bg_primary"
+        android:elevation="5dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,6 +104,7 @@
         android:id="@+id/loading_av"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:tint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,10 +119,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:visibility="gone"
-        app:info_icon="@drawable/error_logo"
+        app:info_icon="@drawable/ic_error_logo"
         app:info_text="@string/error_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_sv" />
+
+    <TextView
+        android:id="@+id/info_action_tv"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:background="@drawable/bg_transparent_btn"
+        android:textColor="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/info_mv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

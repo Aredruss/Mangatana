@@ -5,5 +5,6 @@ val mangatanaModules = listOf(
     dataModule,
     databaseModule,
     mediaListModule,
-    detailsModule
+    detailsModule,
+    settingsModule
 )

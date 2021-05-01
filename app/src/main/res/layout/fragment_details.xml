@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_arrow_back"
+            android:tint="@color/barIconTint"
             app:layout_constraintBottom_toBottomOf="@id/label_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/label_tv" />
@@ -51,212 +52,290 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_more"
+            android:tint="@color/barIconTint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/info_sv"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_sl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/details_tb"
-        android:animateLayoutChanges="true"
-        android:fillViewport="true">
+        android:layout_below="@id/details_tb">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
+            android:id="@+id/info_sv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/loading_av"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/loading" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/action_cl"
+            android:layout_below="@id/details_tb"
+            android:animateLayoutChanges="true"
+            android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/content_cl"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="30dp">
+                android:layout_height="wrap_content"
+                android:clipToPadding="false">
 
-                <TextView
-                    android:id="@+id/media_title_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@drawable/bg_primary"
-                    android:padding="5dp"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/loading_av"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="TITLE" />
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loading" />
 
-                <ImageView
-                    android:id="@+id/cover_iv"
-                    android:layout_width="150dp"
-                    android:layout_height="250dp"
-                    android:layout_margin="15dp"
-                    android:contentDescription="@string/media_cover"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/media_title_tv"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-                <ImageView
-                    android:id="@+id/rating_icon_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@drawable/ic_star"
-                    app:layout_constraintStart_toEndOf="@id/cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/media_title_tv" />
-
-                <TextView
-                    android:id="@+id/rating_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/rating_icon_iv"
-                    app:layout_constraintStart_toEndOf="@id/rating_icon_iv"
-                    app:layout_constraintTop_toTopOf="@id/rating_icon_iv"
-                    tools:text="Rating" />
-
-                <TextView
-                    android:id="@+id/year_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:textColor="@color/secondaryText"
-                    app:layout_constraintBottom_toBottomOf="@id/rating_icon_iv"
-                    app:layout_constraintStart_toEndOf="@id/rating_tv"
-                    app:layout_constraintTop_toTopOf="@id/rating_icon_iv"
-                    tools:text="1999" />
-
-                <TextView
-                    android:id="@+id/author_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="15dp"
-                    android:ellipsize="end"
-                    android:padding="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/rating_icon_iv"
-                    tools:text="Author|Producer placeholder" />
-
-                <TextView
-                    android:id="@+id/viewers_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:drawableStart="@drawable/ic_viewers"
-                    android:drawablePadding="5dp"
-                    android:drawableTint="@color/colorPrimaryLight"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/secondaryText"
-                    app:layout_constraintStart_toEndOf="@id/cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/author_tv"
-                    tools:text="23234" />
-
-                <TextView
-                    android:id="@+id/status_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_status"
-                    android:padding="10dp"
-                    app:layout_constraintStart_toEndOf="@id/cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/viewers_tv"
-                    tools:text="status placeholder" />
-
-                <ImageButton
-                    android:id="@+id/like_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:background="@color/transparent"
-                    android:elevation="5dp"
-                    android:src="@drawable/ic_favorite_border"
-                    app:layout_constraintStart_toEndOf="@id/status_tv"
-                    app:layout_constraintTop_toBottomOf="@id/viewers_tv" />
-
-                <TextView
-                    android:id="@+id/genre_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@drawable/bg_primary"
-                    android:padding="10dp"
-                    android:textAlignment="gravity"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/like_btn"/>
-
-
-                <com.aredruss.mangatana.view.util.views.CollapseTextView
-                    android:id="@+id/about_tv"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/content_cl"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:animateLayoutChanges="true"
+                    android:clipToPadding="false"
+                    android:outlineProvider="bounds"
+                    android:paddingBottom="30dp">
+
+                    <TextView
+                        android:id="@+id/media_title_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_primary"
+                        android:elevation="1dp"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="TITLE" />
+
+                    <TextView
+                        android:id="@+id/alt_title_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/secondaryText"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/media_title_tv"
+                        tools:text="Generic anime title" />
+
+                    <ImageView
+                        android:id="@+id/cover_iv"
+                        android:layout_width="150dp"
+                        android:layout_height="250dp"
+                        android:layout_margin="15dp"
+                        android:layout_marginTop="10dp"
+                        android:contentDescription="@string/media_cover"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/alt_title_tv"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                    <ImageView
+                        android:id="@+id/rating_icon_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_star"
+                        app:layout_constraintStart_toEndOf="@id/cover_iv"
+                        app:layout_constraintTop_toBottomOf="@id/alt_title_tv" />
+
+                    <TextView
+                        android:id="@+id/rating_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/rating_icon_iv"
+                        app:layout_constraintStart_toEndOf="@id/rating_icon_iv"
+                        app:layout_constraintTop_toTopOf="@id/rating_icon_iv"
+                        tools:text="Rating" />
+
+                    <TextView
+                        android:id="@+id/year_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/secondaryText"
+                        app:layout_constraintBottom_toBottomOf="@id/rating_icon_iv"
+                        app:layout_constraintStart_toEndOf="@id/rating_tv"
+                        app:layout_constraintTop_toTopOf="@id/rating_icon_iv"
+                        tools:text="1999" />
+
+                    <TextView
+                        android:id="@+id/author_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:ellipsize="end"
+                        android:padding="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/cover_iv"
+                        app:layout_constraintTop_toBottomOf="@id/rating_icon_iv"
+                        tools:text="Author placeholder" />
+
+                    <TextView
+                        android:id="@+id/viewers_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/secondaryText"
+                        app:drawableStartCompat="@drawable/ic_viewers"
+                        app:drawableTint="@color/colorPrimaryLight"
+                        app:layout_constraintStart_toEndOf="@id/cover_iv"
+                        app:layout_constraintTop_toBottomOf="@id/author_tv"
+                        tools:text="23234" />
+
+                    <TextView
+                        android:id="@+id/status_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_choice"
+                        android:elevation="1dp"
+                        android:padding="10dp"
+                        android:textColor="@color/mainText"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@id/cover_iv"
+                        app:layout_constraintTop_toBottomOf="@id/viewers_tv"
+                        tools:text="status placeholder" />
+
+                    <ImageButton
+                        android:id="@+id/like_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:background="@color/transparent"
+                        android:src="@drawable/ic_favorite_border"
+                        app:layout_constraintStart_toEndOf="@id/status_tv"
+                        app:layout_constraintTop_toBottomOf="@id/viewers_tv" />
+
+                    <TextView
+                        android:id="@+id/genre_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_primary"
+                        android:elevation="1dp"
+                        android:padding="10dp"
+                        android:textAlignment="gravity"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/cover_iv"
+                        app:layout_constraintTop_toBottomOf="@id/like_btn" />
+
+
+                    <com.aredruss.mangatana.view.util.views.CollapseTextView
+                        android:id="@+id/about_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="1dp"
+                        app:arrow_drawable="@drawable/ic_arrow_right"
+                        app:bg_drawable_regular="@drawable/bg_primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cover_iv"
+                        app:title_text="@string/media_about" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.aredruss.mangatana.view.util.views.InfoMessageView
+                    android:id="@+id/info_mv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:layout_marginTop="20dp"
-                    app:arrow_drawable="@drawable/ic_arrow_right"
-                    app:bg_drawable_regular="@drawable/bg_primary"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone"
+                    app:info_icon="@drawable/ic_error_logo"
+                    app:info_text="@string/error_message"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cover_iv"
-                    app:title_text="@string/media_about" />
-
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-            <com.aredruss.mangatana.view.util.views.InfoMessageView
-                android:id="@+id/info_mv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:visibility="gone"
-                app:info_icon="@drawable/error_logo"
-                app:info_text="@string/error_message"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <io.github.kobakei.materialfabspeeddial.FabSpeedDial
-        android:id="@+id/actions_fab"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="10dp"
+        android:layout_above="@+id/action_cl"
+        android:alpha="0.1"
+        android:background="@drawable/save_btn_shadow" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/action_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:backgroundTintMode="add"
-        app:fab_extraMargin="0dp"
-        app:fab_fabBackgroundColor="@color/colorAccent"
-        app:fab_fabDrawable="@null"
-        app:fab_fabDrawableTint="@color/mainIconTint"
-        app:fab_menu="@menu/menu_save"
-        app:fab_miniFabBackgroundColor="@color/colorAccent"
-        app:fab_miniFabDrawableTint="@color/mainIconTint"
-        app:fab_miniFabTextBackground="@drawable/bg_primary"
-        app:fab_miniFabTextColor="@color/mainIconTint" />
+        android:animateLayoutChanges="true"
+        android:background="@color/colorPrimary"
+        android:clipToPadding="false"
+        android:padding="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/save_btn_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_save_btn"
+            android:elevation="1dp"
+            android:padding="5dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/save_icon_iv"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/save_text_tv"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/saveBtnTintColor" />
+
+            <TextView
+                android:id="@+id/save_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:textAllCaps="true"
+                android:textColor="@color/saveBtnTintColor"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/save_icon_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/save_icon_iv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/save_icon_iv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
 

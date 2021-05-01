@@ -2,6 +2,8 @@ package com.aredruss.mangatana.view.util.views
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+import android.os.Build
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -20,17 +22,16 @@ class CollapseTextView : ConstraintLayout {
         val defaultAngles = listOf(0f, 90.0F, 180F)
     }
 
-    var binding: CollapseTextViewBinding
+    var binding: CollapseTextViewBinding = CollapseTextViewBinding.inflate(
+        LayoutInflater.from(context),
+        this,
+        true
+    )
 
     constructor(
         context: Context,
         attributeSet: AttributeSet
     ) : super(context, attributeSet) {
-        binding = CollapseTextViewBinding.inflate(
-            LayoutInflater.from(context),
-            this,
-            true
-        )
         bind()
         setAttributes(attributeSet)
     }
@@ -45,6 +46,9 @@ class CollapseTextView : ConstraintLayout {
 
     fun setContentText(text: String) = with(binding) {
         contentTv.text = text
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            contentTv.justificationMode = JUSTIFICATION_MODE_INTER_WORD
+        }
     }
 
     fun setContentText(stringId: Int) = with(binding) {

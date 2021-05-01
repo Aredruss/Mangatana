@@ -11,6 +11,5 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/fr_settings"
-        android:visible="false"
         app:showAsAction="collapseActionView" />
 </menu>

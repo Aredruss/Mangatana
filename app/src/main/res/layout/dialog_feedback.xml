@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/bg_bottom_dialog"
+    android:paddingBottom="10dp"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="80dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/feedback_laber_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="@string/about_feedback"
+        android:textColor="@color/mainText"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cancel_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_transparent_btn"
+        android:padding="5dp"
+        android:text="@string/dialog_cancel"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/feedback_laber_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/feedback_laber_tv" />
+
+    <View
+        android:id="@+id/divider_v"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/dividerColor"
+        app:layout_constraintTop_toBottomOf="@id/feedback_laber_tv" />
+
+    <Button
+        android:id="@+id/github_btn"
+        style="@style/FeedbackButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_github"
+        android:text="@string/about_github"
+        app:layout_constraintTop_toBottomOf="@id/divider_v" />
+
+    <Button
+        android:id="@+id/twitter_btn"
+        style="@style/FeedbackButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_twitter"
+        android:text="@string/about_twitter"
+        app:layout_constraintTop_toBottomOf="@id/github_btn" />
+
+    <Button
+        android:id="@+id/email_btn"
+        style="@style/FeedbackButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_email"
+        android:text="@string/about_email"
+        app:layout_constraintTop_toBottomOf="@id/twitter_btn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

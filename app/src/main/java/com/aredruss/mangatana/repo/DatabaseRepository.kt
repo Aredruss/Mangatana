@@ -28,11 +28,11 @@ class DatabaseRepository(
     }.flowOn(ioDispatcher)
 
     fun searchCategoryByName(type: String, status: Int, query: String) = flow {
-        emit(mediaDao.getEntriesByQuery(type, status, query))
+        emit(mediaDao.getEntriesByQuery(type, status, "$query%"))
     }.flowOn(ioDispatcher)
 
     fun searchFavoriteByName(type: String, query: String) = flow {
-        emit(mediaDao.getEntriesByQueryStatus(type, query))
+        emit(mediaDao.getEntriesByQueryStatus(type, "$query%"))
     }.flowOn(ioDispatcher)
 
     suspend fun upsertMediaEntry(
