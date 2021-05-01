@@ -58,6 +58,7 @@ class SettingDialog<T : Choices>(
 
     companion object {
         private const val DELAY_DURATION = 250L
+        const val SETTING_DIALOG_TAG = "setting"
     }
 }
 

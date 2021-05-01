@@ -10,6 +10,7 @@
         <item name="android:textColor">@color/mainIconTint</item>
         <item name="fontFamily">@font/lato_regular</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
+        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomDialog</item>
         <item name="radioButtonStyle">@style/RadioButton</item>
     </style>
 
@@ -26,6 +27,15 @@
         <item name="android:textColorPrimary">@color/mainIconTint</item>
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
+    </style>
+
+    <style name="AppTheme.BottomDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">

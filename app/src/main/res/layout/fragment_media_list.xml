@@ -104,6 +104,7 @@
         android:id="@+id/loading_av"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:tint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
