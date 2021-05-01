@@ -54,6 +54,15 @@
     <string name="settings_clear_sub">Delete all saved titles</string>
     <string name="settings_clear_all">Clear all data</string>
 
+    <string name="about_feedback">Provide feedback</string>
+    <string name="about_github" translatable="false">Github</string>
+    <string name="about_twitter" translatable="false">Twitter</string>
+    <string name="about_email" translatable="false">Email</string>
+
+    <string name="by_aredruss" translatable="false">
+       by Aredruss
+    </string>
+
     <string-array name="statuses">
         <item>@string/status_ongoing</item>
         <item>@string/status_backlog</item>

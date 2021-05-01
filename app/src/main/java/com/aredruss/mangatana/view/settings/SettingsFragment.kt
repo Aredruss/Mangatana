@@ -9,10 +9,12 @@ import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentSettingsBinding
 import com.aredruss.mangatana.view.extensions.changeTheme
 import com.aredruss.mangatana.view.extensions.context
+import com.aredruss.mangatana.view.extensions.showSingle
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.DialogHelper
 import com.aredruss.mangatana.view.util.dialog.Choices
 import com.aredruss.mangatana.view.util.dialog.SettingDialog
+import com.aredruss.mangatana.view.util.dialog.SettingDialog.Companion.SETTING_DIALOG_TAG
 import com.aredruss.mangatana.view.util.dialog.THEME
 import com.github.terrakok.modo.back
 import kotlinx.coroutines.flow.collect
@@ -96,7 +98,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     private fun <T : Choices> showChoice(current: Int, choices: Array<T>, action: (Int) -> Unit) {
-        SettingDialog(current, choices, action).show(childFragmentManager, "")
+        SettingDialog(current, choices, action).showSingle(childFragmentManager, SETTING_DIALOG_TAG)
     }
 
     @Suppress("UnusedPrivateMember")

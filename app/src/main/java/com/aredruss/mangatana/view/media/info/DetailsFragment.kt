@@ -11,6 +11,7 @@ import com.aredruss.mangatana.model.Genre
 import com.aredruss.mangatana.model.MediaResponse
 import com.aredruss.mangatana.repo.JikanRepository
 import com.aredruss.mangatana.utils.ParseHelper
+import com.aredruss.mangatana.view.extensions.changeLayersColor
 import com.aredruss.mangatana.view.extensions.context
 import com.aredruss.mangatana.view.extensions.getDrawable
 import com.aredruss.mangatana.view.extensions.getString
@@ -18,11 +19,13 @@ import com.aredruss.mangatana.view.extensions.gone
 import com.aredruss.mangatana.view.extensions.hideViews
 import com.aredruss.mangatana.view.extensions.openLink
 import com.aredruss.mangatana.view.extensions.shareLink
+import com.aredruss.mangatana.view.extensions.showSingle
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.DialogHelper
 import com.aredruss.mangatana.view.util.GlideHelper
 import com.aredruss.mangatana.view.util.dialog.SaveDialog
+import com.aredruss.mangatana.view.util.dialog.SaveDialog.Companion.SAVE_DIALOG_TAG
 import com.github.terrakok.modo.back
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,6 +44,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     override fun setupViews() = with(binding) {
         genreTv.text = ""
+        loadingAv.changeLayersColor(R.color.colorAccent)
     }
 
     private fun setupAction() {
@@ -102,7 +106,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                 currentStatus = localEntry?.status ?: 0,
                 saveAction = this@DetailsFragment::saveMedia
             )
-                .show(childFragmentManager, "")
+                .showSingle(childFragmentManager, SAVE_DIALOG_TAG)
         }
 
         saveBtnCl.setOnClickListener(statusListener)

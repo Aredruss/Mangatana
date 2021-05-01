@@ -20,6 +20,14 @@ fun Activity.openLink(url: String) {
     )
 }
 
+fun Activity.composeEmail() {
+    val emailIntent = Intent().apply {
+        action = Intent.ACTION_SENDTO
+        data = Uri.parse("mailto:aredruss@gmail.com?subject=Mangatana")
+    }
+    startActivity(emailIntent)
+}
+
 fun Activity.shareLink(url: String) {
     val shareIntent = Intent().apply {
         action = Intent.ACTION_SEND

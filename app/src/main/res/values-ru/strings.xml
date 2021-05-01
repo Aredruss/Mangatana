@@ -55,4 +55,6 @@
     <string name="settings_clear_sub">Удалить все сохраненные записи</string>
     <string name="settings_clear_all">Очистить данные</string>
 
+    <string name="about_feedback">Обратная связь</string>
+
 </resources>

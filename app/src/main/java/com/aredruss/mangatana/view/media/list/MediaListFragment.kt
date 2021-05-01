@@ -12,6 +12,7 @@ import com.aredruss.mangatana.databinding.FragmentMediaListBinding
 import com.aredruss.mangatana.modo.ScreenCategory
 import com.aredruss.mangatana.modo.Screens
 import com.aredruss.mangatana.repo.JikanRepository
+import com.aredruss.mangatana.view.extensions.changeLayersColor
 import com.aredruss.mangatana.view.extensions.clear
 import com.aredruss.mangatana.view.extensions.getColor
 import com.aredruss.mangatana.view.extensions.getString
@@ -46,6 +47,8 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         setupTabs()
         setupRv()
         setupSearch()
+
+        loadingAv.changeLayersColor(R.color.colorAccent)
     }
 
     private fun setupAction() {

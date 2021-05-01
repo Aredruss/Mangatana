@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.DialogChoiceBinding
+import com.aredruss.mangatana.view.extensions.getString
 import com.aredruss.mangatana.view.extensions.setIconText
 
 class SaveDialog(
@@ -30,7 +31,7 @@ class SaveDialog(
                         null,
                         R.attr.radioButtonStyle
                     ).apply {
-                        setIconText(it.icon, it.text)
+                        setIconText(it.icon, binding.getString(it.text))
                     }
                 )
             }
@@ -60,6 +61,7 @@ class SaveDialog(
 
     companion object {
         private const val DELAY_DURATION = 250L
+        const val SAVE_DIALOG_TAG = "save_dialog"
     }
 }
 
