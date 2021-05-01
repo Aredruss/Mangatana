@@ -9,16 +9,17 @@ import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.CategoryButtonBinding
 
 class CategoryButton(
-    private val ctx: Context,
-    private val attrSet: AttributeSet
-) : ConstraintLayout(ctx, attrSet) {
+    context: Context,
+    val attr: AttributeSet
+) : ConstraintLayout(context, attr) {
 
-    var binding: CategoryButtonBinding = CategoryButtonBinding.inflate(
-        LayoutInflater.from(context),
-        this, true
-    )
+    var binding: CategoryButtonBinding
 
     init {
+        binding = CategoryButtonBinding.inflate(
+            LayoutInflater.from(context),
+            this, true
+        )
         setAttributes()
     }
 
@@ -44,7 +45,7 @@ class CategoryButton(
 
     private fun setAttributes() {
         val attributes = context.obtainStyledAttributes(
-            attrSet,
+            attr,
             R.styleable.CategoryButton
         )
         binding.apply {

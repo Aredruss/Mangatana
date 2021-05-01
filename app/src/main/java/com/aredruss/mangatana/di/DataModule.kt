@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
 val dataModule = module {
-    single { MediaMapper(defaultDispatcher = Dispatchers.Default) }
+    single { MediaMapper(Dispatchers.Default) }
     single { JikanRepository(jikanService = get(), mediaMapper = get()) }
     single { DatabaseRepository(mediaDao = get(), mediaMapper = get()) }
 }

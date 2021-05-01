@@ -6,9 +6,9 @@ import android.widget.PopupMenu
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentHomeBinding
-import com.aredruss.mangatana.modo.ScreenCategory
 import com.aredruss.mangatana.modo.Screens
 import com.aredruss.mangatana.view.util.BaseFragment
+import com.aredruss.mangatana.view.util.ScreenCategory
 import com.github.terrakok.modo.forward
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {

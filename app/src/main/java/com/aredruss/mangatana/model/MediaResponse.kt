@@ -14,13 +14,11 @@ data class MediaResponse(
     @SerializedName("type")
     val type: String,
     @SerializedName("synopsis")
-    val synopsis: String?,
+    val synopsis: String,
     @SerializedName("score")
     val score: Double,
     @SerializedName("genres")
     val genreList: List<Genre>,
-    @SerializedName("title_english")
-    val altTitle: String?,
     @SerializedName(value = "authors", alternate = ["producers"])
     val authorList: List<Author>?,
     @SerializedName(value = "chapters", alternate = ["episodes"])
@@ -28,7 +26,5 @@ data class MediaResponse(
     @SerializedName(value = "members")
     val viewerCount: Long,
     @SerializedName(value = "published", alternate = ["aired"])
-    val releaseDate: ReleaseDate,
-    @SerializedName("rating")
-    val rating: String
+    val releaseDate: ReleaseDate
 )

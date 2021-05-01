@@ -26,22 +26,15 @@
     <string name="media_favorite">Добавлено в избранное</string>
     <string name="media_action_result">Сохранено как \"%1$s\</string>
 
-    <string name="media_list_find_new">Найти что-нибудь новое</string>
-    <string name="media_list_reload">Попробовать снова</string>
-
     <string name="error_message">Ошибка:\n%1$s</string>
     <string name="empty_result_message">Здесь ничего нет…</string>
     <string name="dialog_ok">ОК</string>
     <string name="dialog_cancel">Отмена</string>
     <string name="dialog_delete">Удалить запись</string>
-    <string name="dialog_save">Сохранить</string>
-    <string name="dialog_edit">Изменить</string>
     <string name="dialog_delete_message">Вы уверены, что хотите удалить эту запись?</string>
 
     <string name="clear_button_text">Очистить всё</string>
     <string name="data_menu">Данные</string>
-    <string name="content">Контент</string>
-    <string name="look_and_feel">Внешний вид</string>
     <string name="fr_settings">Настройки</string>
     <string name="status_ongoing">Онгоинг</string>
     <string name="status_finished">Прочитанное</string>
@@ -51,13 +44,5 @@
     <string name="dialog_clear_message">Вы уверены, что хотите удалить все записи?</string>
     <string name="share_to">Поделиться</string>
     <string name="open_with">Открыть с помощью</string>
-
-    <string name="settings_color_theme">Цветовое оформление</string>
-    <string name="settings_color_vanilla">Ваниль</string>
-    <string name="settings_color_chocolate">Шоколад</string>
-    <string name="settings_clear_sub">Удалить все сохраненные записи</string>
-    <string name="settings_clear_all">Очистить данные</string>
-
-    <string name="about_feedback">Обратная связь</string>
 
 </resources>

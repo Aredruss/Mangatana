@@ -8,8 +8,3 @@ sealed class ListState {
     class Success(val payload: ArrayList<MediaDb>) : ListState()
     class Error(val error: Throwable) : ListState()
 }
-
-sealed class SearchState {
-    object Empty : SearchState()
-    class Searching(val isSearch: Boolean, val query: String) : SearchState()
-}

@@ -39,8 +39,7 @@
             android:src="@android:drawable/ic_secure"
             app:layout_constraintBottom_toBottomOf="@id/title_tv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/title_tv"
-            app:tint="@color/barIconTint" />
+            app:layout_constraintTop_toTopOf="@id/title_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

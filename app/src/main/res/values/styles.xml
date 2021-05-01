@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -9,19 +9,10 @@
         <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/mainIconTint</item>
         <item name="fontFamily">@font/lato_regular</item>
-        <item name="alertDialogTheme">@style/AlertDialog</item>
-        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomDialog</item>
-        <item name="radioButtonStyle">@style/RadioButton</item>
+        <item name="alertDialogTheme">@style/AlertDialogCustom</item>
     </style>
 
-    <style name="AppTheme.Launcher" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="android:statusBarColor">@color/transparent</item>
-        <item name="android:navigationBarColor">@color/transparent</item>
-
-    </style>
-
-    <style name="AlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+    <style name="AlertDialogCustom" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="android:background">@drawable/bg_primary</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:textColorPrimary">@color/mainIconTint</item>
@@ -29,39 +20,8 @@
         <item name="buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
     </style>
 
-    <style name="AppTheme.BottomDialog" parent="Theme.Design.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@color/transparent</item>
-    </style>
-
     <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorAccent</item>
-    </style>
-
-    <style name="RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
-        <item name="android:layout_margin">20dp</item>
-        <item name="android:button">@null</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:drawablePadding">20dp</item>
-        <item name="android:layoutDirection">rtl</item>
-        <item name="android:textSize">18sp</item>
-        <item name="paddingEnd">10dp</item>
-        <item name="android:padding">15dp</item>
-        <item name="android:background">@drawable/bg_radio_button</item>
-    </style>
-
-    <style name="FeedbackButton" parent="Widget.AppCompat.Button">
-        <item name="android:layout_marginStart">10dp</item>
-        <item name="android:layout_marginEnd">10dp</item>
-        <item name="android:background">@drawable/bg_transparent_btn</item>
-        <item name="android:textAlignment">textStart</item>
-        <item name="android:textColor">@color/mainText</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:drawablePadding">10dp</item>
     </style>
 
 </resources>

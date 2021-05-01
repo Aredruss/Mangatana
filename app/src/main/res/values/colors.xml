@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F5F5F5</color>
-    <color name="colorPrimaryDark">#FFFFFF</color>
-    <color name="colorPrimaryLight">#D6D6D6</color>
-    <color name="colorAccent">#1565C0</color>
-    <color name="colorFadeAccent">#321565C0</color>
+    <color name="colorPrimary">#292929</color>
+    <color name="colorPrimaryDark">#202020</color>
+    <color name="colorPrimaryLight">#4A4A4A</color>
+    <color name="colorAccent">#FF405D</color>
+    <color name="colorFadeAccent">#50CC234B</color>
 
-    <color name="mainText">#000000</color>
-    <color name="secondaryText">#2B2B2B</color>
+    <color name="mainText">#FFFFFF</color>
+    <color name="secondaryText">#B1B1B1</color>
 
-    <color name="mainIconTint">#000000</color>
-    <color name="barIconTint">#000000</color>
-    <color name="secondaryIconTint">#444444</color>
+    <color name="mainIconTint">#FFFFFF</color>
+    <color name="secondaryIconTint">#777777</color>
 
+    <color name="mainAlert">#D63838</color>
     <color name="mainStatus">#1565C0</color>
 
-    <color name="statusBar">#000000</color>
+    <color name="aboutBackground">#292929</color>
+    <color name="deleteBackground">#292929</color>
+
+    <color name="actionFab">#FF405D</color>
+    <color name="actionFabTint">#FFFFFF</color>
+
+    <color name="statusBar">#202020</color>
 
     <color name="transparent">#00000000</color>
-
-    <color name="secondaryBgColor">#C8C8C8</color>
-    <color name="dividerColor">#A8A8A8</color>
-
-    <color name="saveBtnColor">@color/mainStatus</color>
-    <color name="saveBtnTintColor">#FFFFFF</color>
 </resources>

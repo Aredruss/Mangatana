@@ -9,20 +9,17 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.FragmentMediaListBinding
-import com.aredruss.mangatana.modo.ScreenCategory
 import com.aredruss.mangatana.modo.Screens
 import com.aredruss.mangatana.repo.JikanRepository
-import com.aredruss.mangatana.view.extensions.changeLayersColor
 import com.aredruss.mangatana.view.extensions.clear
-import com.aredruss.mangatana.view.extensions.getColor
 import com.aredruss.mangatana.view.extensions.getString
 import com.aredruss.mangatana.view.extensions.hide
 import com.aredruss.mangatana.view.extensions.hideViews
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
+import com.aredruss.mangatana.view.util.ScreenCategory
 import com.github.terrakok.modo.back
 import com.github.terrakok.modo.forward
-import com.github.terrakok.modo.replace
 import com.google.android.material.tabs.TabLayout
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -39,6 +36,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         super.onViewCreated(view, savedInstanceState)
         lifecycle.addObserver(viewModel)
         screenCategory = this.arguments?.getInt(CATEGORY) ?: ScreenCategory.EXPLORE
+
         setupViews()
         setupAction()
     }
@@ -48,13 +46,29 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         setupTabs()
         setupRv()
         setupSearch()
-
-        loadingAv.changeLayersColor(R.color.colorAccent)
     }
 
     private fun setupAction() {
-        viewModel.getMediaList(mediaType, screenCategory)
-        observeListState()
+        viewModel.getMediaList(mediaType, screenCategory = screenCategory)
+        viewModel.listState.observe(
+            viewLifecycleOwner,
+            {
+                when (it) {
+                    is ListState.Loading -> {
+                        onLoading()
+                    }
+                    is ListState.Empty -> {
+                        onEmpty()
+                    }
+                    is ListState.Success -> {
+                        onLoaded(it.payload)
+                    }
+                    is ListState.Error -> {
+                        onError(it.error)
+                    }
+                }
+            }
+        )
     }
 
     private fun setupToolbar() = with(binding) {
@@ -79,15 +93,13 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                 searchIb.backgroundTintList
                 searchSv.visible()
             }
-            resolveSearchIbBg()
         }
 
         with(searchSv) {
-            clear()
             setOnClickListener { isIconified = false }
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    if (!query.isNullOrEmpty()) {
+                    if (query != null) {
                         viewModel.searchForMedia(query, mediaType)
                         mediaRv.scrollToPosition(0)
                         isSearch = true
@@ -95,7 +107,6 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                         isSearch = false
                         searchSv.hide()
                     }
-                    resolveSearchIbBg()
                     return false
                 }
 
@@ -105,15 +116,14 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                 }
             })
             setOnCloseListener {
-                if (this.query.isNullOrEmpty()) {
+                if (this.query.isEmpty()) {
                     hide()
+                    viewModel.getMediaList(mediaType, screenCategory = screenCategory, isSearch)
                     isSearch = false
-                    viewModel.getMediaList(mediaType, screenCategory)
                     mediaRv.scrollToPosition(0)
                 } else {
                     clear()
                 }
-                resolveSearchIbBg()
                 return@setOnCloseListener true
             }
         }
@@ -130,7 +140,6 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                 mediaTypeTl.getTabAt(0)?.select()
             }
         }
-        isSearch = false
 
         mediaTypeTl.addOnTabSelectedListener(
             object : TabLayout.OnTabSelectedListener {
@@ -140,6 +149,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                         1 -> JikanRepository.TYPE_ANIME
                         else -> JikanRepository.TYPE_MANGA
                     }
+
                     if (isSearch) {
                         viewModel.searchForMedia(searchSv.query.toString(), mediaType)
                     } else {
@@ -158,74 +168,29 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         )
     }
 
-    private fun observeListState() {
-        viewModel.listState.observe(
-            viewLifecycleOwner,
-            {
-                when (it) {
-                    is ListState.Loading -> {
-                        onLoading()
-                    }
-                    is ListState.Empty -> {
-                        onEmpty()
-                    }
-                    is ListState.Success -> {
-                        onLoaded(it.payload)
-                    }
-                    is ListState.Error -> {
-                        onError(it.error)
-                    }
-                }
-            }
-        )
-    }
-
     private fun onLoading() = with(binding) {
-        hideViews(listOf(mediaRv, infoMv, infoActionTv))
+        hideViews(listOf(mediaRv, infoMv))
         loadingAv.visible()
     }
 
     private fun onEmpty() = with(binding) {
         hideViews(listOf(loadingAv, mediaRv))
-        infoMv.apply {
-            setIcon(R.drawable.ic_empty_msg)
-            setText(R.string.empty_result_message)
-            visible()
-        }
-        infoActionTv.apply {
-            binding.getString(R.string.media_list_reload)
-            setOnClickListener(null)
-            setOnClickListener {
-                modo.replace(
-                    Screens.MediaList(screenCategory),
-                    Screens.MediaList(ScreenCategory.EXPLORE)
-                )
-            }
-            visible()
-        }
+        infoMv.setIcon(R.drawable.empty_logo)
+        infoMv.setText(R.string.empty_result_message)
+        infoMv.visible()
     }
 
     private fun onLoaded(payload: ArrayList<MediaDb>) = with(binding) {
-        hideViews(listOf(loadingAv, infoMv, infoActionTv))
+        hideViews(listOf(loadingAv, infoMv))
         mediaRv.visible()
         mediaRvAdapter.setMedia(payload)
     }
 
     private fun onError(e: Throwable) = with(binding) {
         hideViews(listOf(loadingAv, mediaRv))
-        infoMv.apply {
-            setIcon(R.drawable.ic_error_logo)
-            setText(e.localizedMessage ?: e::class.java.name)
-            visible()
-        }
-        infoActionTv.apply {
-            text = binding.getString(R.string.media_list_reload)
-            setOnClickListener(null)
-            setOnClickListener {
-                viewModel.getMediaList(mediaType, screenCategory)
-            }
-            visible()
-        }
+        infoMv.setIcon(R.drawable.error_logo)
+        infoMv.setText(e::class.java.name)
+        infoMv.visible()
     }
 
     private fun openMedia(id: Long) {
@@ -240,16 +205,6 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
             ScreenCategory.FINISHED -> R.string.fr_finished_title
             ScreenCategory.EXPLORE -> R.string.fr_explore_title
             else -> R.string.fr_starred_title
-        }
-    }
-
-    private fun resolveSearchIbBg() = with(binding) {
-        searchIb.apply {
-            if (isSearch) {
-                setColorFilter(binding.getColor(R.color.colorAccent))
-            } else {
-                setColorFilter(binding.getColor(R.color.barIconTint))
-            }
         }
     }
 

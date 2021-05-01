@@ -5,7 +5,7 @@ import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
-import java.util.*
+import java.util.Locale
 
 object ParseHelper {
     private const val PATTERN = "yyyy-MM-dd'T'HH:mm:ss'+'hh:mm"

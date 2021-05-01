@@ -10,10 +10,7 @@ import com.aredruss.mangatana.databinding.FragmentDetailsBinding
 import com.aredruss.mangatana.model.Genre
 import com.aredruss.mangatana.model.MediaResponse
 import com.aredruss.mangatana.repo.JikanRepository
-import com.aredruss.mangatana.utils.OPENED_BROWSER
 import com.aredruss.mangatana.utils.ParseHelper
-import com.aredruss.mangatana.utils.SHARED_TITLE
-import com.aredruss.mangatana.view.extensions.changeLayersColor
 import com.aredruss.mangatana.view.extensions.context
 import com.aredruss.mangatana.view.extensions.getColor
 import com.aredruss.mangatana.view.extensions.getDrawable
@@ -22,15 +19,12 @@ import com.aredruss.mangatana.view.extensions.gone
 import com.aredruss.mangatana.view.extensions.hideViews
 import com.aredruss.mangatana.view.extensions.openLink
 import com.aredruss.mangatana.view.extensions.shareLink
-import com.aredruss.mangatana.view.extensions.showSingle
 import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.DialogHelper
 import com.aredruss.mangatana.view.util.GlideHelper
-import com.aredruss.mangatana.view.util.dialog.SaveDialog
-import com.aredruss.mangatana.view.util.dialog.SaveDialog.Companion.SAVE_DIALOG_TAG
 import com.github.terrakok.modo.back
-import com.microsoft.appcenter.analytics.Analytics
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : BaseFragment(R.layout.fragment_details) {
@@ -48,23 +42,13 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     override fun setupViews() = with(binding) {
         genreTv.text = ""
-        loadingAv.changeLayersColor(R.color.colorAccent)
-        refreshSl.setProgressBackgroundColorSchemeColor(
-            binding.getColor(R.color.colorAccent)
-        )
     }
 
-    private fun setupAction() = with(binding) {
-
-        val type = arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA
-        val malId = arguments?.getLong(MEDIA_ID) ?: 1L
-
-        getMediaDetails(type, malId)
-
-        refreshSl.setOnRefreshListener {
-            refreshSl.isRefreshing = false
-            getMediaDetails(type, malId)
-        }
+    private fun setupAction() {
+        viewModel.getMediaDetails(
+            type = arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA,
+            malId = arguments?.getLong(MEDIA_ID) ?: 1L
+        )
 
         viewModel.detailsState.observe(
             viewLifecycleOwner,
@@ -108,47 +92,26 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         setupMainInfo(media)
         setupAuthor(media)
         if (genreTv.text.isEmpty()) setupGenres(media.genreList)
-        setupSaveEditButton(localEntry != null)
+        setupFab(localEntry != null)
         setupFavorite()
         setupYear(media.releaseDate.started)
         setupToolbar(media.malId, media.url, localEntry != null)
         setupViewers(media.viewerCount)
-
-        val statusListener = View.OnClickListener {
-            SaveDialog(
-                currentStatus = localEntry?.status ?: 0,
-                saveAction = this@DetailsFragment::saveMedia
-            )
-                .showSingle(childFragmentManager, SAVE_DIALOG_TAG)
-        }
-
-        saveBtnCl.setOnClickListener(statusListener)
-        statusTv.setOnClickListener(statusListener)
 
         contentCl.visible()
     }
 
     private fun onError(e: Throwable) = with(binding) {
         hideViews(listOf(loadingAv, contentCl))
-        infoMv.setIcon(R.drawable.ic_error_logo)
+        infoMv.setIcon(R.drawable.error_logo)
         infoMv.setText(e::class.java.name)
         infoMv.visible()
     }
 
     private fun setupMainInfo(media: MediaResponse) = with(binding) {
         mediaTitleTv.text = media.title
-        if (media.altTitle != null && media.altTitle != media.title) {
-            altTitleTv.text = media.altTitle
-            altTitleTv.visible()
-        } else {
-            altTitleTv.gone()
-        }
         ratingTv.text = media.score.toString()
-        if (!media.synopsis.isNullOrBlank()) {
-            aboutTv.setContentText(media.synopsis)
-        } else {
-            aboutTv.gone()
-        }
+        aboutTv.setContentText(media.synopsis)
 
         GlideHelper.loadCover(
             root.context,
@@ -198,20 +161,26 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         viewersTv.text = count.toString()
     }
 
-    private fun setupSaveEditButton(isLocal: Boolean) = with(binding) {
-        if (isLocal) {
-            saveIconIv.setImageDrawable(binding.getDrawable(R.drawable.ic_edit))
-            saveTextTv.text = "EDIT"
-        } else {
-            saveIconIv.setImageDrawable(binding.getDrawable(R.drawable.ic_add))
-            saveTextTv.text = "SAVE"
+    private fun setupFab(isLocal: Boolean) = with(binding) {
+        actionsFab.mainFab.setImageDrawable(
+            if (isLocal) {
+                binding.getDrawable(R.drawable.ic_edit)
+            } else {
+                binding.getDrawable(R.drawable.ic_add)
+            }
+        )
+
+        actionsFab.addOnMenuItemClickListener { _, _, itemId ->
+            when (itemId) {
+                R.id.action_ongoing -> saveMedia(MediaDb.ONGOING_STATUS)
+                R.id.action_backlog -> saveMedia(MediaDb.BACKLOG_STATUS)
+                R.id.action_finish -> saveMedia(MediaDb.FINISHED_STATUS)
+            }
         }
-        saveBtnCl.visible()
     }
 
     private fun setupToolbar(id: Long, url: String, isLocal: Boolean) = with(binding) {
         shareBtn.setOnClickListener {
-            Analytics.trackEvent(SHARED_TITLE)
             activity?.shareLink(url)
         }
         backBtn.setOnClickListener {
@@ -219,21 +188,19 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         }
 
         detailsMenuIb.setOnClickListener {
-            PopupMenu(this.root.context, it).apply {
+            val menu = PopupMenu(this.root.context, it).apply {
                 inflate(R.menu.menu_details)
                 menu.findItem(R.id.action_delete).isVisible = isLocal
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.action_browser -> {
-                            Analytics.trackEvent(OPENED_BROWSER)
-                            activity?.openLink(url)
-                        }
+                        R.id.action_browser -> activity?.openLink(url)
                         R.id.action_delete -> DialogHelper.buildConfirmDialog(
                             context = binding.context(),
                             title = R.string.dialog_delete,
                             message = R.string.dialog_delete_message,
                             argument = id,
                             action = this@DetailsFragment::deleteMedia
+
                         )
                     }
                     return@setOnMenuItemClickListener false
@@ -243,23 +210,30 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         }
     }
 
-    private fun getMediaDetails(type: String, malId: Long) {
-        viewModel.getMediaDetails(
-            type = type,
-            malId = malId
-        )
-    }
-
     private fun saveMedia(status: Int) {
         viewModel.upsertMediaEntry(status, isStarred)
+        showActionResult("Saved with status \"${getStatus(status)}\"!")
     }
 
     private fun starMedia(status: Int) {
         viewModel.upsertMediaEntry(status, isStarred)
+        if (isStarred) showActionResult(binding.getString(R.string.media_favorite))
     }
 
     private fun deleteMedia(malId: Long) {
         viewModel.deleteMediaEntry(malId)
+    }
+
+    private fun showActionResult(message: String) {
+        Snackbar.make(
+            binding.context(),
+            binding.root,
+            message,
+            Snackbar.LENGTH_SHORT
+        )
+            .setBackgroundTint(binding.getColor(R.color.mainStatus))
+            .setTextColor(binding.getColor(R.color.mainIconTint))
+            .show()
     }
 
     private fun getStatus(status: Int) = when (status) {
