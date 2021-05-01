@@ -19,7 +19,7 @@ android {
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
-        versionName "v0.0.1"
+        versionName "v0.0.2"
         resValue "string", "appcenter_key", properties.getProperty("appcenter_key", "")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
