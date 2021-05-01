@@ -193,7 +193,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
             visible()
         }
         infoActionTv.apply {
-            binding.getString(R.string.media_list_reload)
+            setText(R.string.media_list_find_new)
             setOnClickListener(null)
             setOnClickListener {
                 modo.replace(
