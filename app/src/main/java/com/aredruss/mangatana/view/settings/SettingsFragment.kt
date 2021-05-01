@@ -26,7 +26,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         backBtn.setOnClickListener {
             modo.back()
         }
-        clearBtn.setOnClickListener {
+        clearCl.setOnClickListener {
             DialogHelper.buildConfirmDialog(
                 context = this.context(),
                 title = R.string.dialog_clear,

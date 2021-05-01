@@ -16,10 +16,6 @@
     <color name="mainStatus">#1565C0</color>
 
     <color name="aboutBackground">#292929</color>
-    <color name="deleteBackground">#292929</color>
-
-    <color name="actionFab">#FF405D</color>
-    <color name="actionFabTint">#FFFFFF</color>
 
     <color name="statusBar">#202020</color>
 

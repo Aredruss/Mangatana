@@ -9,10 +9,11 @@
         <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/mainIconTint</item>
         <item name="fontFamily">@font/lato_regular</item>
-        <item name="alertDialogTheme">@style/AlertDialogCustom</item>
+        <item name="alertDialogTheme">@style/AlertDialog</item>
+        <item name="radioButtonStyle">@style/RadioButton</item>
     </style>
 
-    <style name="AlertDialogCustom" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+    <style name="AlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="android:background">@drawable/bg_primary</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:textColorPrimary">@color/mainIconTint</item>
@@ -22,6 +23,18 @@
 
     <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:textSize">18sp</item>
+        <item name="paddingEnd">10dp</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:background">@drawable/bg_radio_button</item>
     </style>
 
 </resources>

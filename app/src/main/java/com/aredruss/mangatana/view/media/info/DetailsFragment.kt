@@ -99,13 +99,16 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         setupToolbar(media.malId, media.url, localEntry != null)
         setupViewers(media.viewerCount)
 
-        saveBtn.setOnClickListener {
+        val statusListener = View.OnClickListener {
             SaveDialog(
                 currentStatus = localEntry?.status ?: 0,
                 saveAction = this@DetailsFragment::saveMedia
             )
                 .show(childFragmentManager, "")
         }
+
+        saveBtn.setOnClickListener(statusListener)
+        statusTv.setOnClickListener(statusListener)
 
         contentCl.visible()
     }

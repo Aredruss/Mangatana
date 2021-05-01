@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -35,67 +36,99 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <TextView
-        android:id="@+id/menu_label_tv"
+        android:id="@+id/look_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:text="@string/data_menu"
+        android:text="@string/look_and_feel"
+        android:textAllCaps="true"
+        android:textColor="@color/secondaryText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settings_tb" />
 
-    <androidx.cardview.widget.CardView
+    <Spinner
+        android:id="@+id/lang_sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:layout_margin="10dp"
+        android:entries="@array/locales"
         android:padding="10dp"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:prompt="@string/look_and_feel"
+        app:layout_constraintTop_toBottomOf="@id/look_label_tv"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <Spinner
+        android:id="@+id/theme_sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:entries="@array/color_themes"
+        android:padding="10dp"
+        android:prompt="@string/look_and_feel"
+        app:layout_constraintTop_toBottomOf="@id/lang_sp"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <TextView
+        android:id="@+id/content_label_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/content"
+        android:textAllCaps="true"
+        android:textColor="@color/secondaryText"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/theme_sp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/filter_sw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:text="Filter adult content"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/content_label_tv" />
+
+
+    <TextView
+        android:id="@+id/menu_label_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/data_menu"
+        android:textAllCaps="true"
+        android:textColor="@color/secondaryText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_sw" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clear_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/bg_category_btn"
+        app:layout_constraintStart_toStartOf="@id/menu_label_tv"
         app:layout_constraintTop_toBottomOf="@id/menu_label_tv">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_marginTop="10dp"
+            android:text="Delete all"
+            android:textColor="@color/mainIconTint"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/export_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Export"
-                android:visibility="gone"
-                android:textColor="@color/mainIconTint"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/save_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save"
-                android:visibility="gone"
-                android:textColor="@color/mainIconTint"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/export_btn" />
-
-            <Button
-                android:id="@+id/clear_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/mainAlert"
-                android:text="Delete all"
-                android:textColor="@color/mainIconTint"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/save_btn" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

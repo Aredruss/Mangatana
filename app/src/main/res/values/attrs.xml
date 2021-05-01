@@ -18,4 +18,6 @@
         <attr name="arrow_drawable" format="reference" />
         <attr name="expand_duration" format="integer" />
     </declare-styleable>
+    
+    <attr name="radioButtonStyle" format="reference"/>
 </resources>

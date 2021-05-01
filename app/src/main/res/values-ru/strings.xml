@@ -37,6 +37,8 @@
 
     <string name="clear_button_text">Очистить всё</string>
     <string name="data_menu">Данные</string>
+    <string name="content">Контент</string>
+    <string name="look_and_feel">Внешний вид</string>
     <string name="fr_settings">Настройки</string>
     <string name="status_ongoing">Онгоинг</string>
     <string name="status_finished">Прочитанное</string>
