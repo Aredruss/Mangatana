@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.DialogFeedbackBinding
+import com.aredruss.mangatana.utils.OPENED_ISSUES
 import com.aredruss.mangatana.view.extensions.composeEmail
 import com.aredruss.mangatana.view.extensions.openLink
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.microsoft.appcenter.analytics.Analytics
 
 class FeedbackDialog : BottomSheetDialogFragment() {
 
@@ -35,6 +37,7 @@ class FeedbackDialog : BottomSheetDialogFragment() {
 
             githubBtn.setOnClickListener {
                 activity?.openLink(GITHUB_ISSUE_LINK)
+                Analytics.trackEvent(OPENED_ISSUES)
             }
             twitterBtn.setOnClickListener {
                 activity?.openLink(TWITTER_MENTION_LINK)

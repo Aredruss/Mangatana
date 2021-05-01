@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import com.aredruss.mangatana.R
+import com.aredruss.mangatana.utils.ENABLE_LIGHT_THEME
+import com.microsoft.appcenter.analytics.Analytics
 
 fun Activity.openLink(url: String) {
     val shareIntent = Intent().apply {
@@ -52,6 +54,11 @@ fun Activity.isOnline(): Boolean {
 
 fun Activity.changeTheme(isDark: Boolean) {
     AppCompatDelegate.setDefaultNightMode(
-        if (isDark) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        if (isDark) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            Analytics.trackEvent(ENABLE_LIGHT_THEME)
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
     )
 }

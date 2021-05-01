@@ -21,6 +21,9 @@ import com.github.terrakok.modo.android.ModoRender
 import com.github.terrakok.modo.android.init
 import com.github.terrakok.modo.back
 import com.github.terrakok.modo.forward
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import kotlinx.coroutines.flow.first
 import org.koin.android.ext.android.inject
 
@@ -63,6 +66,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         binding.apply {
             setContentView(root)
         }
+        setupAppCenter()
         modo.init(savedInstanceState, Screens.Home())
     }
 
@@ -107,6 +111,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private fun applyColorTheme() {
         lifecycleScope.launchWhenCreated {
             changeTheme(dataStore.getUiMode().first())
+        }
+    }
+
+    private fun setupAppCenter() {
+        try {
+            val key = resources.getString(R.string.appcenter_key)
+            AppCenter.start(
+                application, key,
+                Analytics::class.java, Crashes::class.java
+            )
+            Crashes.setEnabled(true)
+        } catch (e: Exception) {
+            Crashes.trackError(e)
         }
     }
 }

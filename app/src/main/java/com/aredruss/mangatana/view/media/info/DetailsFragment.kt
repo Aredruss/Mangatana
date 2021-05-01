@@ -10,9 +10,12 @@ import com.aredruss.mangatana.databinding.FragmentDetailsBinding
 import com.aredruss.mangatana.model.Genre
 import com.aredruss.mangatana.model.MediaResponse
 import com.aredruss.mangatana.repo.JikanRepository
+import com.aredruss.mangatana.utils.OPENED_BROWSER
 import com.aredruss.mangatana.utils.ParseHelper
+import com.aredruss.mangatana.utils.SHARED_TITLE
 import com.aredruss.mangatana.view.extensions.changeLayersColor
 import com.aredruss.mangatana.view.extensions.context
+import com.aredruss.mangatana.view.extensions.getColor
 import com.aredruss.mangatana.view.extensions.getDrawable
 import com.aredruss.mangatana.view.extensions.getString
 import com.aredruss.mangatana.view.extensions.gone
@@ -27,6 +30,7 @@ import com.aredruss.mangatana.view.util.GlideHelper
 import com.aredruss.mangatana.view.util.dialog.SaveDialog
 import com.aredruss.mangatana.view.util.dialog.SaveDialog.Companion.SAVE_DIALOG_TAG
 import com.github.terrakok.modo.back
+import com.microsoft.appcenter.analytics.Analytics
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : BaseFragment(R.layout.fragment_details) {
@@ -45,13 +49,22 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     override fun setupViews() = with(binding) {
         genreTv.text = ""
         loadingAv.changeLayersColor(R.color.colorAccent)
+        refreshSl.setProgressBackgroundColorSchemeColor(
+            binding.getColor(R.color.colorAccent)
+        )
     }
 
-    private fun setupAction() {
-        viewModel.getMediaDetails(
-            type = arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA,
-            malId = arguments?.getLong(MEDIA_ID) ?: 1L
-        )
+    private fun setupAction() = with(binding) {
+
+        val type = arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA
+        val malId = arguments?.getLong(MEDIA_ID) ?: 1L
+
+        getMediaDetails(type, malId)
+
+        refreshSl.setOnRefreshListener {
+            refreshSl.isRefreshing = false
+            getMediaDetails(type, malId)
+        }
 
         viewModel.detailsState.observe(
             viewLifecycleOwner,
@@ -198,6 +211,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     private fun setupToolbar(id: Long, url: String, isLocal: Boolean) = with(binding) {
         shareBtn.setOnClickListener {
+            Analytics.trackEvent(SHARED_TITLE)
             activity?.shareLink(url)
         }
         backBtn.setOnClickListener {
@@ -210,7 +224,10 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                 menu.findItem(R.id.action_delete).isVisible = isLocal
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.action_browser -> activity?.openLink(url)
+                        R.id.action_browser -> {
+                            Analytics.trackEvent(OPENED_BROWSER)
+                            activity?.openLink(url)
+                        }
                         R.id.action_delete -> DialogHelper.buildConfirmDialog(
                             context = binding.context(),
                             title = R.string.dialog_delete,
@@ -224,6 +241,13 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                 show()
             }
         }
+    }
+
+    private fun getMediaDetails(type: String, malId: Long) {
+        viewModel.getMediaDetails(
+            type = type,
+            malId = malId
+        )
     }
 
     private fun saveMedia(status: Int) {

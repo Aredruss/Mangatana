@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.FragmentSettingsBinding
+import com.aredruss.mangatana.utils.CLEARED_ALL_DATA
 import com.aredruss.mangatana.view.extensions.changeTheme
 import com.aredruss.mangatana.view.extensions.context
 import com.aredruss.mangatana.view.extensions.showSingle
@@ -17,6 +18,7 @@ import com.aredruss.mangatana.view.util.dialog.SettingDialog
 import com.aredruss.mangatana.view.util.dialog.SettingDialog.Companion.SETTING_DIALOG_TAG
 import com.aredruss.mangatana.view.util.dialog.THEME
 import com.github.terrakok.modo.back
+import com.microsoft.appcenter.analytics.Analytics
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -103,6 +105,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     @Suppress("UnusedPrivateMember")
     private fun clearDatabase(unit: Unit) {
+        Analytics.trackEvent(CLEARED_ALL_DATA)
         viewModel.clearDatabase()
     }
 

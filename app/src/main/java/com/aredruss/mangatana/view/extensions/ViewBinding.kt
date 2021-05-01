@@ -1,6 +1,5 @@
 package com.aredruss.mangatana.view.extensions
 
-import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 
@@ -8,7 +7,6 @@ fun ViewBinding.context() = root.context
 
 fun ViewBinding.getString(id: Int) = root.context.getString(id)
 
-@ColorRes
 fun ViewBinding.getColor(id: Int) =
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
         root.context.getColor(id)

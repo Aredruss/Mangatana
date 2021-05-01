@@ -22,6 +22,7 @@ import com.aredruss.mangatana.view.extensions.visible
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.github.terrakok.modo.back
 import com.github.terrakok.modo.forward
+import com.github.terrakok.modo.replace
 import com.google.android.material.tabs.TabLayout
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -180,28 +181,51 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
     }
 
     private fun onLoading() = with(binding) {
-        hideViews(listOf(mediaRv, infoMv))
+        hideViews(listOf(mediaRv, infoMv, infoActionTv))
         loadingAv.visible()
     }
 
     private fun onEmpty() = with(binding) {
         hideViews(listOf(loadingAv, mediaRv))
-        infoMv.setIcon(R.drawable.ic_empty_msg)
-        infoMv.setText(R.string.empty_result_message)
-        infoMv.visible()
+        infoMv.apply {
+            setIcon(R.drawable.ic_empty_msg)
+            setText(R.string.empty_result_message)
+            visible()
+        }
+        infoActionTv.apply {
+            binding.getString(R.string.media_list_reload)
+            setOnClickListener(null)
+            setOnClickListener {
+                modo.replace(
+                    Screens.MediaList(screenCategory),
+                    Screens.MediaList(ScreenCategory.EXPLORE)
+                )
+            }
+            visible()
+        }
     }
 
     private fun onLoaded(payload: ArrayList<MediaDb>) = with(binding) {
-        hideViews(listOf(loadingAv, infoMv))
+        hideViews(listOf(loadingAv, infoMv, infoActionTv))
         mediaRv.visible()
         mediaRvAdapter.setMedia(payload)
     }
 
     private fun onError(e: Throwable) = with(binding) {
         hideViews(listOf(loadingAv, mediaRv))
-        infoMv.setIcon(R.drawable.ic_error_logo)
-        infoMv.setText(e::class.java.name)
-        infoMv.visible()
+        infoMv.apply {
+            setIcon(R.drawable.ic_error_logo)
+            setText(e.localizedMessage ?: e::class.java.name)
+            visible()
+        }
+        infoActionTv.apply {
+            text = binding.getString(R.string.media_list_reload)
+            setOnClickListener(null)
+            setOnClickListener {
+                viewModel.getMediaList(mediaType, screenCategory)
+            }
+            visible()
+        }
     }
 
     private fun openMedia(id: Long) {

@@ -125,4 +125,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_sv" />
 
+    <TextView
+        android:id="@+id/info_action_tv"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:background="@drawable/bg_transparent_btn"
+        android:textColor="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/info_mv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,12 +12,11 @@ import com.aredruss.mangatana.modo.ScreenCategory
 import com.aredruss.mangatana.repo.DatabaseRepository
 import com.aredruss.mangatana.repo.JikanRepository
 import com.aredruss.mangatana.repo.JikanRepository.Companion.TYPE_MANGA
-import com.aredruss.mangatana.view.util.ErrorCodes
+import com.aredruss.mangatana.view.util.ErrorHelper
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 class MediaListViewModel(
     private val jikanRepository: JikanRepository,
@@ -99,7 +98,7 @@ class MediaListViewModel(
                 listState.postValue(ListState.Loading)
             }
             .catch { e ->
-                listState.postValue(ListState.Error(e))
+                postEmptyOrError(e)
             }
             .collect { list ->
                 listState.postValue(
@@ -118,7 +117,7 @@ class MediaListViewModel(
                 listState.postValue(ListState.Loading)
             }
             .catch { e ->
-                listState.postValue(ListState.Error(e))
+                postEmptyOrError(e)
             }
             .collect { list ->
                 listState.postValue(
@@ -145,14 +144,7 @@ class MediaListViewModel(
                 listState.postValue(ListState.Loading)
             }
             .catch { e ->
-                if (e is HttpException) {
-                    listState.postValue(
-                        when (e.code()) {
-                            ErrorCodes.NOT_FOUND -> ListState.Empty
-                            else -> ListState.Error(e)
-                        }
-                    )
-                }
+                postEmptyOrError(e)
             }
             .collect { list ->
                 listState.postValue(
@@ -163,6 +155,16 @@ class MediaListViewModel(
                     }
                 )
             }
+    }
+
+    private fun postEmptyOrError(e: Throwable) {
+        listState.postValue(
+            if (ErrorHelper.processError(e)) {
+                ListState.Error(e)
+            } else {
+                ListState.Empty
+            }
+        )
     }
 
     private fun cancelJobs() {

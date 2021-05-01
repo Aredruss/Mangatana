@@ -25,6 +25,9 @@
     <string name="media_favorite">Marked as a favorite</string>
     <string name="media_action_result">Marked as \"%1$s\"</string>
 
+    <string name="media_list_find_new">Explore new titles</string>
+    <string name="media_list_reload">Reload</string>
+
     <string name="error_message">Error:\n%1$s</string>
     <string name="empty_result_message">There\'s nothing here…</string>
     <string name="dialog_ok">OK</string>

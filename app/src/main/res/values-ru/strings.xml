@@ -26,6 +26,9 @@
     <string name="media_favorite">Добавлено в избранное</string>
     <string name="media_action_result">Сохранено как \"%1$s\</string>
 
+    <string name="media_list_find_new">Найти что-нибудь новое</string>
+    <string name="media_list_reload">Попробовать снова</string>
+
     <string name="error_message">Ошибка:\n%1$s</string>
     <string name="empty_result_message">Здесь ничего нет…</string>
     <string name="dialog_ok">ОК</string>
