@@ -61,13 +61,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
-        applyColorTheme()
         super.onCreate(savedInstanceState)
+        initApp(savedInstanceState)
+        setupAppCenter()
         binding.apply {
             setContentView(root)
         }
-        setupAppCenter()
-        modo.init(savedInstanceState, Screens.Home())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -108,9 +107,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return true
     }
 
-    private fun applyColorTheme() {
+    private fun initApp(savedInstanceState: Bundle?) {
         lifecycleScope.launchWhenCreated {
             changeTheme(dataStore.getUiMode().first())
+        }.invokeOnCompletion {
+            modo.init(savedInstanceState, Screens.Home())
         }
     }
 
