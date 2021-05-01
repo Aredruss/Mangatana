@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_arrow_back"
+            android:tint="@color/barIconTint"
             app:layout_constraintBottom_toBottomOf="@id/label_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/label_tv" />

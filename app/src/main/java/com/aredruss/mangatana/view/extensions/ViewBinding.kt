@@ -14,5 +14,3 @@ fun ViewBinding.getColor(id: Int) = if (android.os.Build.VERSION.SDK_INT >= andr
 }
 
 fun ViewBinding.getDrawable(id: Int) = ContextCompat.getDrawable(root.context, id)
-
-fun ViewBinding.getStringArray(id: Int) = context().resources.getStringArray(id)

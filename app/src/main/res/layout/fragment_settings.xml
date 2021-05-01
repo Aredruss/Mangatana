@@ -1,134 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/settings_tb"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintBottom_toBottomOf="@id/label_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_tb"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/label_tv" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="@color/barIconTint"
+                app:layout_constraintBottom_toBottomOf="@id/label_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/label_tv" />
+
+            <TextView
+                android:id="@+id/label_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/fr_settings"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/back_btn"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
-            android:id="@+id/label_tv"
+            android:id="@+id/look_label_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/fr_settings"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/back_btn"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/look_and_feel"
+            android:textAllCaps="true"
+            android:textColor="@color/secondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settings_tb" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <TextView
-        android:id="@+id/look_label_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/look_and_feel"
-        android:textAllCaps="true"
-        android:textColor="@color/secondaryText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settings_tb" />
-
-    <Spinner
-        android:id="@+id/lang_sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:entries="@array/locales"
-        android:padding="10dp"
-        android:prompt="@string/look_and_feel"
-        app:layout_constraintTop_toBottomOf="@id/look_label_tv"
-        tools:layout_editor_absoluteX="10dp" />
-
-    <Spinner
-        android:id="@+id/theme_sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:entries="@array/color_themes"
-        android:padding="10dp"
-        android:prompt="@string/look_and_feel"
-        app:layout_constraintTop_toBottomOf="@id/lang_sp"
-        tools:layout_editor_absoluteX="10dp" />
-
-    <TextView
-        android:id="@+id/content_label_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/content"
-        android:textAllCaps="true"
-        android:textColor="@color/secondaryText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/theme_sp" />
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/filter_sw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:text="Filter adult content"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/content_label_tv" />
-
-
-    <TextView
-        android:id="@+id/menu_label_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/data_menu"
-        android:textAllCaps="true"
-        android:textColor="@color/secondaryText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_sw" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clear_cl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@drawable/bg_category_btn"
-        app:layout_constraintStart_toStartOf="@id/menu_label_tv"
-        app:layout_constraintTop_toBottomOf="@id/menu_label_tv">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <com.aredruss.mangatana.view.util.views.PreferenceView
+            android:id="@+id/theme_pv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Delete all"
-            android:textColor="@color/mainIconTint"
-            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/look_label_tv"
+            app:setting_bg="@drawable/bg_regular_btn"
+            app:setting_title="@string/settings_color_theme" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/content_label_tv"
+            app:layout_constraintTop_toBottomOf="@id/theme_pv" />
+
+        <TextView
+            android:id="@+id/content_label_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/content"
+            android:textAllCaps="true"
+            android:textColor="@color/secondaryText"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/theme_pv" />
+
+        <com.aredruss.mangatana.view.util.views.PreferenceView
+            android:id="@+id/filter_pv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/content_label_tv"
+            app:setting_subtitle="Hide NSFW titles from search results"
+            app:setting_title="Filter adult content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"
+            app:layout_constraintBottom_toTopOf="@id/menu_label_tv"
+            app:layout_constraintTop_toBottomOf="@id/filter_pv" />
+
+        <TextView
+            android:id="@+id/menu_label_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/data_menu"
+            android:textAllCaps="true"
+            android:textColor="@color/secondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_pv" />
+
+        <com.aredruss.mangatana.view.util.views.PreferenceView
+            android:id="@+id/delete_pv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/menu_label_tv"
+            app:setting_bg="@drawable/bg_regular_btn"
+            app:setting_subtitle="@string/settings_clear_sub"
+            app:setting_title="@string/settings_clear_all" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

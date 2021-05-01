@@ -48,6 +48,12 @@
     <string name="share_to">Share to…</string>
     <string name="open_with">Open with…</string>
 
+    <string name="settings_color_theme">Color Theme</string>
+    <string name="settings_color_vanilla">Vanilla</string>
+    <string name="settings_color_chocolate">Chocolate</string>
+    <string name="settings_clear_sub">Delete all saved titles</string>
+    <string name="settings_clear_all">Clear all data</string>
+
     <string-array name="statuses">
         <item>@string/status_ongoing</item>
         <item>@string/status_backlog</item>

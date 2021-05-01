@@ -8,10 +8,11 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.viewModelScope
 import com.aredruss.mangatana.App
 import com.aredruss.mangatana.data.database.MediaDb
+import com.aredruss.mangatana.modo.ScreenCategory
 import com.aredruss.mangatana.repo.DatabaseRepository
 import com.aredruss.mangatana.repo.JikanRepository
+import com.aredruss.mangatana.repo.JikanRepository.Companion.TYPE_MANGA
 import com.aredruss.mangatana.view.util.ErrorCodes
-import com.aredruss.mangatana.view.util.ScreenCategory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
@@ -36,34 +37,10 @@ class MediaListViewModel(
 
     // Get Content for the list Screen
     // Need to check what type of content list should be populated with
-    fun getMediaList(tabType: String?, screenCategory: Int, isSearch: Boolean = false) {
-        // Screen state differs (after failed search, etc) -> the list should be loaded
-        if (listState.value !is ListState.Success) getMedia(mediaType, screenCategory)
-
-        // State of search differs -> the list should be reloaded
-        if (this.isSearch != isSearch) {
-            this.isSearch = isSearch
-            getMedia(mediaType, screenCategory)
-        }
-
-        // Category of content differs -> the list should be fully reloaded
-        if (this.screenCategory != screenCategory) {
-            this.screenCategory = screenCategory
-            getMedia(mediaType, screenCategory)
-            return
-        }
-        // The fragment's selected tab wasn't changed -> if the list is already populated we don't need to reload it
-        // If the tab was, in fact, changed, the list should be reloaded
-        if (tabType == null) {
-            if (listState.value is ListState.Success) {
-                if ((listState.value as ListState.Success).payload.isNullOrEmpty()) {
-                    getMedia(mediaType, screenCategory)
-                }
-            }
-        } else if (tabType != mediaType) {
-            mediaType = tabType
-            getMedia(mediaType, screenCategory)
-        }
+    fun getMediaList(tabType: String?, screenCategory: Int) {
+        mediaType = tabType ?: TYPE_MANGA
+        this.screenCategory = screenCategory
+        getMedia(mediaType, screenCategory)
     }
 
     fun searchForMedia(query: String, type: String) {
@@ -90,11 +67,6 @@ class MediaListViewModel(
                 )
             }
         }
-    }
-
-    // Debug function as if now - clears all entries from the database
-    fun clearDatabase() = viewModelScope.launch {
-        databaseRepository.clear()
     }
 
     // Get Media either from the database or the API depending on the category of the screen

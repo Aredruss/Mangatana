@@ -8,21 +8,27 @@ import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.App
 import com.aredruss.mangatana.R
+import com.aredruss.mangatana.data.datastore.SettingsDataStore
 import com.aredruss.mangatana.databinding.ActivityMainBinding
 import com.aredruss.mangatana.modo.Screens
+import com.aredruss.mangatana.view.extensions.changeTheme
 import com.github.terrakok.modo.android.AppScreen
 import com.github.terrakok.modo.android.ModoRender
 import com.github.terrakok.modo.android.init
 import com.github.terrakok.modo.back
 import com.github.terrakok.modo.forward
+import kotlinx.coroutines.flow.first
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val binding: ActivityMainBinding by viewBinding(R.id.main_cl)
     private val modo = App.INSTANCE.modo
+    private val dataStore: SettingsDataStore by inject()
 
     var menu: Menu? = null
 
@@ -51,8 +57,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+        applyColorTheme()
         super.onCreate(savedInstanceState)
-
         binding.apply {
             setContentView(root)
         }
@@ -95,5 +102,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onSupportNavigateUp(): Boolean {
         modo.back()
         return true
+    }
+
+    private fun applyColorTheme() {
+        lifecycleScope.launchWhenCreated {
+            changeTheme(dataStore.getUiMode().first())
+        }
     }
 }

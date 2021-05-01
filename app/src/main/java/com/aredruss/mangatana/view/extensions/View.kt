@@ -30,8 +30,17 @@ fun Button.setDrawableEnd(id: Int) {
     )
 }
 
-fun RadioButton.setIconText(icon: Int, text: Int) {
-    setDrawableEnd(icon)
+fun RadioButton.setIconText(icon: Int?, text: Int) {
+    if (icon != null) setDrawableEnd(icon)
+    setText(text)
+    layoutParams = ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+    )
+}
+
+fun RadioButton.setIconText(icon: Int?, text: String) {
+    if (icon != null) setDrawableEnd(icon)
     setText(text)
     layoutParams = ViewGroup.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -47,4 +56,3 @@ fun SearchView.hide() {
     this.gone()
     onActionViewCollapsed()
 }
-

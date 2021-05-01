@@ -10,7 +10,6 @@ import androidx.fragment.app.DialogFragment
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.DialogChoiceBinding
-import com.aredruss.mangatana.view.extensions.context
 import com.aredruss.mangatana.view.extensions.setIconText
 
 class SaveDialog(
@@ -23,33 +22,17 @@ class SaveDialog(
         binding = DialogChoiceBinding.inflate(LayoutInflater.from(context))
         val dialog = AlertDialog.Builder(requireActivity()).setView(binding.root)
 
-        val choices = listOf(
-            RadioButton(binding.context(), null, R.attr.radioButtonStyle)
-                .apply {
-                    setIconText(
-                        R.drawable.ic_progress,
-                        R.string.status_ongoing
-                    )
-                },
-            RadioButton(binding.context(), null, R.attr.radioButtonStyle)
-                .apply {
-                    setIconText(
-                        R.drawable.ic_backlog,
-                        R.string.status_backlog
-                    )
-                },
-            RadioButton(binding.context(), null, R.attr.radioButtonStyle)
-                .apply {
-                    setIconText(
-                        R.drawable.ic_finished,
-                        R.string.status_finished
-                    )
-                },
-        )
-
         binding.apply {
-            choices.forEach {
-                statusRg.addView(it)
+            STATUS.values().forEach {
+                statusRg.addView(
+                    RadioButton(
+                        context,
+                        null,
+                        R.attr.radioButtonStyle
+                    ).apply {
+                        setIconText(it.icon, it.text)
+                    }
+                )
             }
 
             statusRg.apply {
@@ -78,4 +61,10 @@ class SaveDialog(
     companion object {
         private const val DELAY_DURATION = 250L
     }
+}
+
+enum class STATUS(val text: Int, val icon: Int) {
+    ONGOING(R.string.status_ongoing, R.drawable.ic_progress),
+    BACKLOG(R.string.status_backlog, R.drawable.ic_backlog),
+    FINISHED(R.string.status_finished, R.drawable.ic_finished)
 }

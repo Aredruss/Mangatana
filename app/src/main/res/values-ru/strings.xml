@@ -49,4 +49,10 @@
     <string name="share_to">Поделиться</string>
     <string name="open_with">Открыть с помощью</string>
 
+    <string name="settings_color_theme">Цветовое оформление</string>
+    <string name="settings_color_vanilla">Ваниль</string>
+    <string name="settings_color_chocolate">Шоколад</string>
+    <string name="settings_clear_sub">Удалить все сохраненные записи</string>
+    <string name="settings_clear_all">Очистить данные</string>
+
 </resources>
