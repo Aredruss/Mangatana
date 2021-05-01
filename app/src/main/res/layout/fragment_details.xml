@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_arrow_back"
+            android:tint="@color/barIconTint"
             app:layout_constraintBottom_toBottomOf="@id/label_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/label_tv" />
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_more"
+            android:tint="@color/barIconTint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,14 +63,15 @@
         android:id="@+id/info_sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/action_cl"
         android:layout_below="@id/details_tb"
         android:animateLayoutChanges="true"
-        android:layout_above="@+id/action_cl"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipToPadding="false">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/loading_av"
@@ -87,6 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
+                android:clipToPadding="false"
+                android:outlineProvider="bounds"
                 android:paddingBottom="30dp">
 
                 <TextView
@@ -97,6 +102,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/bg_primary"
+                    android:elevation="1dp"
                     android:padding="5dp"
                     android:textAlignment="center"
                     android:textSize="18sp"
@@ -106,15 +112,30 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="TITLE" />
 
+                <TextView
+                    android:id="@+id/alt_title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/secondaryText"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/media_title_tv"
+                    tools:text="Generic anime title" />
+
                 <ImageView
                     android:id="@+id/cover_iv"
                     android:layout_width="150dp"
                     android:layout_height="250dp"
                     android:layout_margin="15dp"
+                    android:layout_marginTop="10dp"
                     android:contentDescription="@string/media_cover"
                     android:scaleType="centerCrop"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/media_title_tv"
+                    app:layout_constraintTop_toBottomOf="@id/alt_title_tv"
                     tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
                 <ImageView
@@ -122,10 +143,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:src="@drawable/ic_star"
                     app:layout_constraintStart_toEndOf="@id/cover_iv"
-                    app:layout_constraintTop_toBottomOf="@id/media_title_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/alt_title_tv" />
 
                 <TextView
                     android:id="@+id/rating_tv"
@@ -166,12 +187,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
-                    android:drawableStart="@drawable/ic_viewers"
                     android:drawablePadding="5dp"
-                    android:drawableTint="@color/colorPrimaryLight"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
                     android:textColor="@color/secondaryText"
+                    app:drawableStartCompat="@drawable/ic_viewers"
+                    app:drawableTint="@color/colorPrimaryLight"
                     app:layout_constraintStart_toEndOf="@id/cover_iv"
                     app:layout_constraintTop_toBottomOf="@id/author_tv"
                     tools:text="23234" />
@@ -182,8 +203,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_status"
+                    android:background="@drawable/bg_choice"
+                    android:elevation="1dp"
                     android:padding="10dp"
+                    android:textColor="@color/mainText"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/cover_iv"
                     app:layout_constraintTop_toBottomOf="@id/viewers_tv"
                     tools:text="status placeholder" />
@@ -194,7 +218,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:background="@color/transparent"
-                    android:elevation="5dp"
                     android:src="@drawable/ic_favorite_border"
                     app:layout_constraintStart_toEndOf="@id/status_tv"
                     app:layout_constraintTop_toBottomOf="@id/viewers_tv" />
@@ -207,6 +230,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/bg_primary"
+                    android:elevation="1dp"
                     android:padding="10dp"
                     android:textAlignment="gravity"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -221,6 +245,7 @@
                     android:layout_margin="15dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"
+                    android:elevation="1dp"
                     app:arrow_drawable="@drawable/ic_arrow_right"
                     app:bg_drawable_regular="@drawable/bg_primary"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -235,7 +260,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
                 android:visibility="gone"
-                app:info_icon="@drawable/error_logo"
+                app:info_icon="@drawable/ic_error_logo"
                 app:info_text="@string/error_message"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -243,31 +268,66 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_above="@+id/action_cl"
+        android:alpha="0.1"
+        android:background="@drawable/save_btn_shadow" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/action_cl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:animateLayoutChanges="true"
         android:background="@color/colorPrimary"
-        android:layout_alignParentBottom="true"
+        android:clipToPadding="false"
         android:padding="10dp">
 
-        <ImageButton
-            android:id="@+id/save_btn"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/save_btn_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/mainIconTint"
+            android:background="@drawable/bg_save_btn"
+            android:elevation="1dp"
+            android:padding="5dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textAlignment="center"
-            android:visibility="gone"
-            android:backgroundTint="@color/colorPrimaryDark"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/save_icon_iv"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/save_text_tv"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/saveBtnTintColor" />
+
+            <TextView
+                android:id="@+id/save_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:textAllCaps="true"
+                android:textColor="@color/saveBtnTintColor"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/save_icon_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/save_icon_iv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/save_icon_iv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#292929</color>
+    <color name="colorPrimaryDark">#202020</color>
+    <color name="colorPrimaryLight">#4A4A4A</color>
+    <color name="colorAccent">#FF405D</color>
+    <color name="colorFadeAccent">#50CC234B</color>
+
+    <color name="mainText">#FFFFFF</color>
+    <color name="secondaryText">#B1B1B1</color>
+
+    <color name="mainIconTint">#FFFFFF</color>
+    <color name="barIconTint">#FFFFFF</color>
+    <color name="secondaryIconTint">#777777</color>
+
+    <color name="mainStatus">#1565C0</color>
+
+
+    <color name="aboutBackground">#292929</color>
+
+    <color name="statusBar">#202020</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="secondaryBgColor">#292929</color>
+    <color name="dividerColor">@color/colorPrimary</color>
+
+    <color name="saveBtnColor">@color/colorPrimaryDark</color>
+    <color name="saveBtnTintColor">#FFFFFF</color>
+</resources>

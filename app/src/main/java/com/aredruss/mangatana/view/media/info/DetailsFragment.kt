@@ -12,7 +12,6 @@ import com.aredruss.mangatana.model.MediaResponse
 import com.aredruss.mangatana.repo.JikanRepository
 import com.aredruss.mangatana.utils.ParseHelper
 import com.aredruss.mangatana.view.extensions.context
-import com.aredruss.mangatana.view.extensions.getColor
 import com.aredruss.mangatana.view.extensions.getDrawable
 import com.aredruss.mangatana.view.extensions.getString
 import com.aredruss.mangatana.view.extensions.gone
@@ -25,7 +24,6 @@ import com.aredruss.mangatana.view.util.DialogHelper
 import com.aredruss.mangatana.view.util.GlideHelper
 import com.aredruss.mangatana.view.util.dialog.SaveDialog
 import com.github.terrakok.modo.back
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : BaseFragment(R.layout.fragment_details) {
@@ -93,13 +91,13 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         setupMainInfo(media)
         setupAuthor(media)
         if (genreTv.text.isEmpty()) setupGenres(media.genreList)
-        setupFab(localEntry != null)
+        setupSaveEditButton(localEntry != null)
         setupFavorite()
         setupYear(media.releaseDate.started)
         setupToolbar(media.malId, media.url, localEntry != null)
         setupViewers(media.viewerCount)
 
-        saveBtn.setOnClickListener {
+        val statusListener = View.OnClickListener {
             SaveDialog(
                 currentStatus = localEntry?.status ?: 0,
                 saveAction = this@DetailsFragment::saveMedia
@@ -107,20 +105,33 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                 .show(childFragmentManager, "")
         }
 
+        saveBtnCl.setOnClickListener(statusListener)
+        statusTv.setOnClickListener(statusListener)
+
         contentCl.visible()
     }
 
     private fun onError(e: Throwable) = with(binding) {
         hideViews(listOf(loadingAv, contentCl))
-        infoMv.setIcon(R.drawable.error_logo)
+        infoMv.setIcon(R.drawable.ic_error_logo)
         infoMv.setText(e::class.java.name)
         infoMv.visible()
     }
 
     private fun setupMainInfo(media: MediaResponse) = with(binding) {
         mediaTitleTv.text = media.title
+        if (media.altTitle != null && media.altTitle != media.title) {
+            altTitleTv.text = media.altTitle
+            altTitleTv.visible()
+        } else {
+            altTitleTv.gone()
+        }
         ratingTv.text = media.score.toString()
-        aboutTv.setContentText(media.synopsis)
+        if (!media.synopsis.isNullOrBlank()) {
+            aboutTv.setContentText(media.synopsis)
+        } else {
+            aboutTv.gone()
+        }
 
         GlideHelper.loadCover(
             root.context,
@@ -170,16 +181,15 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         viewersTv.text = count.toString()
     }
 
-    private fun setupFab(isLocal: Boolean) = with(binding) {
-
-        saveBtn.setImageDrawable(
-            if (isLocal) {
-                binding.getDrawable(R.drawable.ic_edit)
-            } else {
-                binding.getDrawable(R.drawable.ic_add)
-            }
-        )
-        saveBtn.visible()
+    private fun setupSaveEditButton(isLocal: Boolean) = with(binding) {
+        if (isLocal) {
+            saveIconIv.setImageDrawable(binding.getDrawable(R.drawable.ic_edit))
+            saveTextTv.text = "EDIT"
+        } else {
+            saveIconIv.setImageDrawable(binding.getDrawable(R.drawable.ic_add))
+            saveTextTv.text = "SAVE"
+        }
+        saveBtnCl.visible()
     }
 
     private fun setupToolbar(id: Long, url: String, isLocal: Boolean) = with(binding) {
@@ -214,28 +224,14 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     private fun saveMedia(status: Int) {
         viewModel.upsertMediaEntry(status, isStarred)
-        showActionResult("Saved with status ${getStatus(status)}!")
     }
 
     private fun starMedia(status: Int) {
         viewModel.upsertMediaEntry(status, isStarred)
-        if (isStarred) showActionResult(binding.getString(R.string.media_favorite))
     }
 
     private fun deleteMedia(malId: Long) {
         viewModel.deleteMediaEntry(malId)
-    }
-
-    private fun showActionResult(message: String) {
-        Snackbar.make(
-            binding.context(),
-            binding.root,
-            message,
-            Snackbar.LENGTH_SHORT
-        )
-            .setBackgroundTint(binding.getColor(R.color.mainStatus))
-            .setTextColor(binding.getColor(R.color.mainIconTint))
-            .show()
     }
 
     private fun getStatus(status: Int) = when (status) {

@@ -20,17 +20,16 @@ class CollapseTextView : ConstraintLayout {
         val defaultAngles = listOf(0f, 90.0F, 180F)
     }
 
-    var binding: CollapseTextViewBinding
+    var binding: CollapseTextViewBinding = CollapseTextViewBinding.inflate(
+        LayoutInflater.from(context),
+        this,
+        true
+    )
 
     constructor(
         context: Context,
         attributeSet: AttributeSet
     ) : super(context, attributeSet) {
-        binding = CollapseTextViewBinding.inflate(
-            LayoutInflater.from(context),
-            this,
-            true
-        )
         bind()
         setAttributes(attributeSet)
     }

@@ -37,6 +37,8 @@
 
     <string name="clear_button_text">Очистить всё</string>
     <string name="data_menu">Данные</string>
+    <string name="content">Контент</string>
+    <string name="look_and_feel">Внешний вид</string>
     <string name="fr_settings">Настройки</string>
     <string name="status_ongoing">Онгоинг</string>
     <string name="status_finished">Прочитанное</string>
@@ -46,5 +48,11 @@
     <string name="dialog_clear_message">Вы уверены, что хотите удалить все записи?</string>
     <string name="share_to">Поделиться</string>
     <string name="open_with">Открыть с помощью</string>
+
+    <string name="settings_color_theme">Цветовое оформление</string>
+    <string name="settings_color_vanilla">Ваниль</string>
+    <string name="settings_color_chocolate">Шоколад</string>
+    <string name="settings_clear_sub">Удалить все сохраненные записи</string>
+    <string name="settings_clear_all">Очистить данные</string>
 
 </resources>

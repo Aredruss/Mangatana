@@ -9,18 +9,32 @@ import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
 import com.aredruss.mangatana.R
 import com.aredruss.mangatana.data.database.MediaDb
-import com.aredruss.mangatana.databinding.DialogSaveBinding
+import com.aredruss.mangatana.databinding.DialogChoiceBinding
+import com.aredruss.mangatana.view.extensions.setIconText
 
 class SaveDialog(
     private val currentStatus: Int,
     private val saveAction: (Int) -> Unit
 ) : DialogFragment() {
-    private lateinit var binding: DialogSaveBinding
+    private lateinit var binding: DialogChoiceBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = DialogSaveBinding.inflate(LayoutInflater.from(context))
+        binding = DialogChoiceBinding.inflate(LayoutInflater.from(context))
         val dialog = AlertDialog.Builder(requireActivity()).setView(binding.root)
+
         binding.apply {
+            STATUS.values().forEach {
+                statusRg.addView(
+                    RadioButton(
+                        context,
+                        null,
+                        R.attr.radioButtonStyle
+                    ).apply {
+                        setIconText(it.icon, it.text)
+                    }
+                )
+            }
+
             statusRg.apply {
                 check(
                     when (currentStatus) {
@@ -30,11 +44,11 @@ class SaveDialog(
                         else -> 0
                     }
                 )
-                setOnCheckedChangeListener { group, checkedId ->
-                    when (group.findViewById<RadioButton>(checkedId).id) {
-                        R.id.progress_rb -> saveAction(MediaDb.ONGOING_STATUS)
-                        R.id.backlog_rb -> saveAction(MediaDb.BACKLOG_STATUS)
-                        R.id.finished_rb -> saveAction(MediaDb.FINISHED_STATUS)
+                setOnCheckedChangeListener { _, checkedId ->
+                    when (checkedId) {
+                        statusRg[0].id -> saveAction(MediaDb.ONGOING_STATUS)
+                        statusRg[1].id -> saveAction(MediaDb.BACKLOG_STATUS)
+                        statusRg[2].id -> saveAction(MediaDb.FINISHED_STATUS)
                     }
 
                     postDelayed({ this@SaveDialog.dismiss() }, DELAY_DURATION)
@@ -47,4 +61,10 @@ class SaveDialog(
     companion object {
         private const val DELAY_DURATION = 250L
     }
+}
+
+enum class STATUS(val text: Int, val icon: Int) {
+    ONGOING(R.string.status_ongoing, R.drawable.ic_progress),
+    BACKLOG(R.string.status_backlog, R.drawable.ic_backlog),
+    FINISHED(R.string.status_finished, R.drawable.ic_finished)
 }

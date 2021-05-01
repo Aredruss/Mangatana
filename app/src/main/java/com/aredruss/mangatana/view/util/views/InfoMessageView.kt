@@ -9,22 +9,22 @@ import com.aredruss.mangatana.R
 import com.aredruss.mangatana.databinding.InfoViewBinding
 
 class InfoMessageView(
-    context: Context,
-    private val attr: AttributeSet
-) : ConstraintLayout(context, attr) {
+    private val ctx: Context,
+    private val attrSet: AttributeSet
+) : ConstraintLayout(ctx, attrSet) {
 
     var binding: InfoViewBinding
 
     init {
         binding = InfoViewBinding.inflate(
-            LayoutInflater.from(context),
+            LayoutInflater.from(ctx),
             this, true
         )
         setAttributes()
     }
 
     fun setIcon(image: Int) = with(binding) {
-        iconIv.setImageDrawable(ContextCompat.getDrawable(context, image))
+        iconIv.setImageDrawable(ContextCompat.getDrawable(ctx, image))
     }
 
     fun setText(text: String) = with(binding) {
@@ -36,8 +36,8 @@ class InfoMessageView(
     }
 
     private fun setAttributes() {
-        val attributes = context.obtainStyledAttributes(
-            attr,
+        val attributes = ctx.obtainStyledAttributes(
+            attrSet,
             R.styleable.InfoMessageView
         )
         binding.apply {
