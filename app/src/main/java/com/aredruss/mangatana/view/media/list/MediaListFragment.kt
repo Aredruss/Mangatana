@@ -30,7 +30,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
 
     private val viewModel: MediaListViewModel by sharedViewModel()
     private val binding: FragmentMediaListBinding by viewBinding()
-    private val mediaRvAdapter = MediaRvAdapter(this::openMedia)
+    private val mediaRvAdapter = MediaRvAdapter(this::openMedia, true)
     private var mediaType: String = JikanRepository.TYPE_MANGA
     private var screenCategory = 0
     private var isSearch: Boolean = false

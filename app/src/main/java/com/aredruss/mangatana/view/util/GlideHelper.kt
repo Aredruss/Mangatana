@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.ImageView
 import com.aredruss.mangatana.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -16,9 +17,7 @@ object GlideHelper {
     fun loadCover(
         context: Context,
         imageUrl: String,
-        imageView: ImageView,
-        width: Int,
-        height: Int
+        imageView: ImageView
     ) {
 
         val imageLarge = imageUrl.replace(".jpg", "l.jpg")
@@ -28,7 +27,7 @@ object GlideHelper {
 
         Glide.with(context)
             .load(imageLarge)
-            .apply(RequestOptions().override(width, height))
+            .fitCenter()
             .placeholder(
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     context.getColor(R.color.colorPrimary)
@@ -36,8 +35,11 @@ object GlideHelper {
                     context.resources.getColor(R.color.colorPrimary)
                 }
             )
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .transition(DrawableTransitionOptions.withCrossFade())
             .apply(requestOptions)
             .into(imageView)
     }
+
 }

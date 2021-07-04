@@ -27,6 +27,10 @@ class DatabaseRepository(
         emit(mediaDao.getEntryByIdType(malId, type))
     }.flowOn(ioDispatcher)
 
+    fun getRecentEntries(type: String) = flow {
+        emit(mediaDao.getRecentEntries(type))
+    }.flowOn(ioDispatcher)
+
     fun searchCategoryByName(type: String, status: Int, query: String) = flow {
         emit(mediaDao.getEntriesByQuery(type, status, "$query%"))
     }.flowOn(ioDispatcher)

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.aredruss.mangatana.data.database.AppDatabase
 import com.aredruss.mangatana.di.mangatanaModules
+import com.bumptech.glide.Glide
 import com.github.terrakok.modo.Modo
 import com.github.terrakok.modo.android.AppReducer
 import org.koin.android.ext.koin.androidContext
@@ -34,5 +35,10 @@ class App : Application() {
             Room.databaseBuilder(this, AppDatabase::class.java, "database").build()
 
         Timber.plant(Timber.DebugTree())
+    }
+
+    override fun onTrimMemory(level: Int) {
+        Glide.with(applicationContext).onTrimMemory(TRIM_MEMORY_MODERATE)
+        super.onTrimMemory(level)
     }
 }

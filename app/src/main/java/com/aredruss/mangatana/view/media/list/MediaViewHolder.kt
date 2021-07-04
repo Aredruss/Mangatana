@@ -12,11 +12,14 @@ class MediaViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     companion object {
-        private const val COVER_HEIGHT = 270
-        private const val COVER_WIDTH = 170
+        private const val MAX_COVER_HEIGHT = 270
+        private const val MAX_COVER_WIDTH = 170
+        private const val MIN_COVER_HEIGHT = 150
+        private const val MIN_COVER_WIDTH = 100
+
     }
 
-    fun onBind(media: MediaDb) = with(binding) {
+    fun onBind(media: MediaDb, useMaxImages: Boolean) = with(binding) {
 
         root.setOnClickListener {
             open(media.malId)
@@ -25,11 +28,9 @@ class MediaViewHolder(
         titleTv.text = media.title
 
         GlideHelper.loadCover(
-            binding.context(),
+            context(),
             media.imageUrl,
-            binding.coverIv,
-            COVER_WIDTH,
-            COVER_HEIGHT
+            coverIv
         )
     }
 }

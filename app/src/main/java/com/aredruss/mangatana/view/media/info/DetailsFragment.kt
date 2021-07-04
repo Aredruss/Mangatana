@@ -153,9 +153,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         GlideHelper.loadCover(
             root.context,
             media.imageUrl,
-            coverIv,
-            COVER_WIDTH,
-            COVER_HEIGHT
+            coverIv
         )
     }
 

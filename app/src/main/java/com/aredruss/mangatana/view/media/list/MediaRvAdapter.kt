@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.ListItemMediaBinding
 
-class MediaRvAdapter(val open: (Long) -> Unit) : RecyclerView.Adapter<MediaViewHolder>() {
+class MediaRvAdapter(
+    val open: (Long) -> Unit,
+    val useMaxImages: Boolean
+) : RecyclerView.Adapter<MediaViewHolder>() {
 
     private var mediaList = ArrayList<MediaDb>()
 
@@ -30,8 +33,9 @@ class MediaRvAdapter(val open: (Long) -> Unit) : RecyclerView.Adapter<MediaViewH
     }
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
-        holder.onBind(mediaList[position])
+        holder.onBind(mediaList[position], useMaxImages)
     }
 
     override fun getItemCount() = mediaList.size
+
 }
