@@ -35,6 +35,8 @@ object GlideHelper {
                     context.resources.getColor(R.color.colorPrimary)
                 }
             )
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .transition(DrawableTransitionOptions.withCrossFade())
             .apply(requestOptions)
             .into(imageView)
