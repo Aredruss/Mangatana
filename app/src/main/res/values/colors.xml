@@ -19,7 +19,6 @@
 
     <color name="transparent">#00000000</color>
 
-    <color name="secondaryBgColor">#C8C8C8</color>
     <color name="dividerColor">#A8A8A8</color>
 
     <color name="saveBtnColor">@color/mainStatus</color>

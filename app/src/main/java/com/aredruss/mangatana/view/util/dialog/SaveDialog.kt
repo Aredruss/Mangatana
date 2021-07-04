@@ -47,9 +47,9 @@ class SaveDialog(
                 )
                 setOnCheckedChangeListener { _, checkedId ->
                     when (checkedId) {
-                        statusRg[0].id -> saveAction(MediaDb.ONGOING_STATUS)
-                        statusRg[1].id -> saveAction(MediaDb.BACKLOG_STATUS)
-                        statusRg[2].id -> saveAction(MediaDb.FINISHED_STATUS)
+                        statusRg.id -> saveAction(MediaDb.ONGOING_STATUS)
+                        statusRg.id -> saveAction(MediaDb.BACKLOG_STATUS)
+                        statusRg.id -> saveAction(MediaDb.FINISHED_STATUS)
                     }
 
                     postDelayed({ this@SaveDialog.dismiss() }, DELAY_DURATION)

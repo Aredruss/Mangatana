@@ -66,12 +66,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
-        android:padding="5dp"
         android:background="@drawable/bg_primary"
+        android:padding="5dp"
         android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@id/media_type_tl"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/media_type_tl"
-        app:layout_constraintBottom_toBottomOf="@id/media_type_tl"/>
+        app:layout_constraintTop_toTopOf="@id/media_type_tl" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_sv"
@@ -127,17 +127,18 @@
 
     <TextView
         android:id="@+id/info_action_tv"
-        android:layout_marginTop="10dp"
-        android:visibility="invisible"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:background="@drawable/bg_transparent_btn"
-        android:textColor="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/info_mv"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_explore_btn"
+        android:backgroundTint="@color/colorPrimary"
+        android:padding="10dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/info_mv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

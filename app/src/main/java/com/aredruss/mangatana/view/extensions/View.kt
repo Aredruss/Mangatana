@@ -30,6 +30,12 @@ fun hideViews(views: List<View>) {
     }
 }
 
+fun showViews(views: List<View>) {
+    views.forEach {
+        it.visible()
+    }
+}
+
 fun Button.setDrawableEnd(@DrawableRes id: Int) {
     setCompoundDrawablesWithIntrinsicBounds(
         ContextCompat.getDrawable(context, id),

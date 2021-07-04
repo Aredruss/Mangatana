@@ -72,7 +72,8 @@
             android:layout_above="@+id/action_cl"
             android:layout_below="@id/details_tb"
             android:animateLayoutChanges="true"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:paddingBottom="?android:attr/actionBarSize">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -264,10 +265,10 @@
                     android:id="@+id/info_mv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="100dp"
                     android:visibility="gone"
                     app:info_icon="@drawable/ic_error_logo"
                     app:info_text="@string/error_message"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

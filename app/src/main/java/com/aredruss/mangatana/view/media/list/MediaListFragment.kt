@@ -25,6 +25,7 @@ import com.github.terrakok.modo.forward
 import com.github.terrakok.modo.replace
 import com.google.android.material.tabs.TabLayout
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
 
@@ -41,6 +42,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         screenCategory = this.arguments?.getInt(CATEGORY) ?: ScreenCategory.EXPLORE
         setupViews()
         setupAction()
+        viewModel.getMediaList(mediaType, screenCategory)
     }
 
     override fun setupViews() = with(binding) {
@@ -48,12 +50,10 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
         setupTabs()
         setupRv()
         setupSearch()
-
         loadingAv.changeLayersColor(R.color.colorAccent)
     }
 
     private fun setupAction() {
-        viewModel.getMediaList(mediaType, screenCategory)
         observeListState()
     }
 
@@ -159,25 +159,21 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
     }
 
     private fun observeListState() {
-        viewModel.listState.observe(
-            viewLifecycleOwner,
-            {
-                when (it) {
-                    is ListState.Loading -> {
-                        onLoading()
-                    }
-                    is ListState.Empty -> {
-                        onEmpty()
-                    }
-                    is ListState.Success -> {
-                        onLoaded(it.payload)
-                    }
-                    is ListState.Error -> {
-                        onError(it.error)
-                    }
-                }
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            Timber.e("STATE UPDATE%s", state.toString())
+            state.content?.let {
+                onLoaded(it as ArrayList<MediaDb>)
             }
-        )
+            state.error?.consume()?.let {
+                onError(it)
+            }
+            if (state.isLoading) {
+                onLoading()
+            }
+            if (state.isEmpty) {
+                onEmpty()
+            }
+        }
     }
 
     private fun onLoading() = with(binding) {

@@ -45,10 +45,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 newFragment: Fragment
             ) {
                 transaction.setCustomAnimations(
-                    R.anim.fragment_fade_enter,
-                    R.anim.fragment_fade_exit,
-                    R.anim.fragment_fade_enter,
-                    R.anim.fragment_fade_exit
+                    R.animator.fragment_fade_enter,
+                    R.animator.fragment_fade_exit,
+                    R.animator.fragment_fade_enter,
+                    R.animator.fragment_fade_exit
                 )
 
                 menu?.forEach {
