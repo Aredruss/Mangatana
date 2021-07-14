@@ -123,5 +123,8 @@
             app:setting_subtitle="@string/settings_clear_sub"
             app:setting_title="@string/settings_clear_all" />
 
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

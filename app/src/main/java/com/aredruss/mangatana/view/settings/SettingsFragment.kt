@@ -48,7 +48,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                 when (state) {
                     is SettingsState.Success -> {
                         setupThemeBtn(state.appState.isDark)
-                        setupFilterBtn(state.appState.allowNsfw)
+                        //setupFilterBtn(state.appState.allowNsfw)
                     }
                     is SettingsState.Empty -> {
                     }

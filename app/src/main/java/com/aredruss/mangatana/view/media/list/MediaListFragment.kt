@@ -31,7 +31,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
 
     private val viewModel: MediaListViewModel by sharedViewModel()
     private val binding: FragmentMediaListBinding by viewBinding()
-    private val mediaRvAdapter = MediaRvAdapter(this::openMedia, true)
+    private val mediaRvAdapter = MediaRvAdapter(this::openMedia)
     private var mediaType: String = JikanRepository.TYPE_MANGA
     private var screenCategory = 0
     private var isSearch: Boolean = false
@@ -76,7 +76,6 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                 isSearch = false
             } else {
                 isSearch = true
-                searchIb.backgroundTintList
                 searchSv.visible()
             }
             resolveSearchIbBg()
@@ -160,7 +159,6 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
 
     private fun observeListState() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            Timber.e("STATE UPDATE%s", state.toString())
             state.content?.let {
                 onLoaded(it as ArrayList<MediaDb>)
             }
@@ -188,16 +186,18 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
             setText(R.string.empty_result_message)
             visible()
         }
-        infoActionTv.apply {
-            setText(R.string.media_list_find_new)
-            setOnClickListener(null)
-            setOnClickListener {
-                modo.replace(
-                    Screens.MediaList(screenCategory),
-                    Screens.MediaList(ScreenCategory.EXPLORE)
-                )
+        if (screenCategory != ScreenCategory.EXPLORE) {
+            infoActionTv.apply {
+                setText(R.string.media_list_find_new)
+                setOnClickListener(null)
+                setOnClickListener {
+                    modo.replace(
+                        Screens.MediaList(screenCategory),
+                        Screens.MediaList(ScreenCategory.EXPLORE)
+                    )
+                }
+                visible()
             }
-            visible()
         }
     }
 
@@ -226,7 +226,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
 
     private fun openMedia(id: Long) {
         viewModel.mediaType = mediaType
-        modo.forward(Screens.MediaInfo(id, mediaType))
+        modo.forward(Screens.MediaInfo(id, mediaType, true))
     }
 
     private fun getFragmentTitle(screenCategory: Int): Int {

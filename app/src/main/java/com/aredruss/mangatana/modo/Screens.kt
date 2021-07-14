@@ -28,8 +28,8 @@ object Screens {
     }
 
     @Parcelize
-    class MediaInfo(val malId: Long, val type: String) : AppScreen(INFO) {
-        override fun create() = DetailsFragment.create(malId, type)
+    class MediaInfo(val malId: Long, val type: String, val isList: Boolean) : AppScreen(INFO) {
+        override fun create() = DetailsFragment.create(malId, type, isList)
     }
 
     @Parcelize

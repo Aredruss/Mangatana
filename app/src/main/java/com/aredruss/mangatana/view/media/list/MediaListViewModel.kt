@@ -18,14 +18,11 @@ import com.aredruss.mangatana.view.util.ErrorHelper
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MediaListViewModel(
     private val jikanRepository: JikanRepository,
     private val databaseRepository: DatabaseRepository
 ) : ViewModel(), LifecycleObserver {
-
-    var listState = MutableLiveData<ListState>()
     var mediaType: String = TYPE_MANGA
 
     val state = MutableLiveData(
@@ -40,17 +37,30 @@ class MediaListViewModel(
         )
     )
 
+
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onFragmentDestroy() {
-        listState.postValue(null)
+        mediaType = TYPE_MANGA
         cancelJobs()
+    }
+
+    fun syncLists() {
+        state.value?.let {
+            if (it.screenCategory != ScreenCategory.EXPLORE) {
+                getMedia(
+                    it.mediaType,
+                    it.screenCategory
+                )
+            }
+        }
     }
 
     // Get Content for the list Screen
     // Need to check what type of content list should be populated with
     fun getMediaList(tabType: String?, screenCategory: Int) {
         if (tabType == state.value?.mediaType
-            && screenCategory == state.value?.screenCategory && !state.value?.content.isNullOrEmpty()
+            && screenCategory == state.value?.screenCategory
+            && !state.value?.content.isNullOrEmpty()
         ) return
         state.update {
             it.copy(
@@ -164,7 +174,6 @@ class MediaListViewModel(
     }
 
     private fun postEmptyOrSuccess(list: List<MediaDb>) {
-        Timber.e(list.toString())
         state.update {
             if (list.isEmpty()) {
                 it.copy(isLoading = false, isEmpty = true)

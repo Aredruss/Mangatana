@@ -18,8 +18,8 @@ android {
         applicationId "com.aredruss.mangatana"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 1
-        versionName "v0.0.2"
+        versionCode 100
+        versionName "v1.0.0"
         resValue "string", "appcenter_key", properties.getProperty("appcenter_key", "")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

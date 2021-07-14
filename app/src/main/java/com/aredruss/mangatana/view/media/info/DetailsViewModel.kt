@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aredruss.mangatana.repo.DatabaseRepository
 import com.aredruss.mangatana.repo.JikanRepository
+import com.aredruss.mangatana.view.extensions.Event
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapConcat
@@ -22,6 +23,8 @@ class DetailsViewModel(
 
     var detailsState = MutableLiveData<DetailsState>(DetailsState.Loading)
     var mediaType: String = JikanRepository.TYPE_MANGA
+
+    val updateState = MutableLiveData(UpdateState())
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onFragmentDestroy() {
@@ -59,6 +62,7 @@ class DetailsViewModel(
                 .catch { e -> detailsState.postValue(DetailsState.Error(e)) }
                 .collect {
                     detailsState.postValue(DetailsState.Success(successState.payload, it))
+                    updateState.postValue(UpdateState(Event(true)))
                 }
         }
     }

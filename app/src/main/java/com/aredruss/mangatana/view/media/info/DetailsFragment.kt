@@ -24,6 +24,7 @@ import com.aredruss.mangatana.view.extensions.openLink
 import com.aredruss.mangatana.view.extensions.shareLink
 import com.aredruss.mangatana.view.extensions.showSingle
 import com.aredruss.mangatana.view.extensions.visible
+import com.aredruss.mangatana.view.media.list.MediaListViewModel
 import com.aredruss.mangatana.view.util.BaseFragment
 import com.aredruss.mangatana.view.util.DialogHelper
 import com.aredruss.mangatana.view.util.GlideHelper
@@ -31,12 +32,15 @@ import com.aredruss.mangatana.view.util.dialog.SaveDialog
 import com.aredruss.mangatana.view.util.dialog.SaveDialog.Companion.SAVE_DIALOG_TAG
 import com.github.terrakok.modo.back
 import com.microsoft.appcenter.analytics.Analytics
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     private val binding: FragmentDetailsBinding by viewBinding()
     private val viewModel: DetailsViewModel by viewModel()
+    private val listViewModel: MediaListViewModel by sharedViewModel()
     private var isStarred: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,6 +62,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
         val type = arguments?.getString(MEDIA_TYPE) ?: JikanRepository.TYPE_MANGA
         val malId = arguments?.getLong(MEDIA_ID) ?: 1L
+        val isFromList = arguments?.getBoolean(MEDIA_IS_RECENT) ?: false
 
         getMediaDetails(type, malId)
 
@@ -82,6 +87,14 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                 }
             }
         )
+
+        viewModel.updateState.observe(viewLifecycleOwner){
+            it.needUpdate?.consume()?.let {
+                if(isFromList) {
+                    listViewModel.syncLists()
+                }
+            }
+        }
     }
 
     private fun onLoading() = with(binding) {
@@ -249,7 +262,9 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     }
 
     private fun saveMedia(status: Int) {
+        Timber.e("SAVE MEDIA")
         viewModel.upsertMediaEntry(status, isStarred)
+        Timber.e(status.toString())
     }
 
     private fun starMedia(status: Int) {
@@ -269,14 +284,13 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     companion object {
         private const val MEDIA_ID = "malId"
         private const val MEDIA_TYPE = "type"
+        private const val MEDIA_IS_RECENT = "isRecent"
 
-        private const val COVER_WIDTH = 150
-        private const val COVER_HEIGHT = 250
-
-        fun create(malId: Long, mediaType: String) = DetailsFragment().apply {
+        fun create(malId: Long, mediaType: String, isList: Boolean) = DetailsFragment().apply {
             arguments = Bundle().apply {
                 putLong(MEDIA_ID, malId)
                 putString(MEDIA_TYPE, mediaType)
+                putBoolean(MEDIA_IS_RECENT, isList)
             }
         }
     }

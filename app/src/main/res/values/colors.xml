@@ -17,8 +17,11 @@
 
     <color name="statusBar">#000000</color>
 
+    <color name="aboutBackground">#292929</color>
+
     <color name="transparent">#00000000</color>
 
+    <color name="secondaryBgColor">#292929</color>
     <color name="dividerColor">#A8A8A8</color>
 
     <color name="saveBtnColor">@color/mainStatus</color>

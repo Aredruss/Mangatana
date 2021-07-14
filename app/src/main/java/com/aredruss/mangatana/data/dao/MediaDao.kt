@@ -47,7 +47,7 @@ interface MediaDao {
     @Query("SELECT COUNT(id) FROM $TABLE_NAME WHERE type = \"${JikanRepository.TYPE_ANIME}\" and status = ${MediaDb.FINISHED_STATUS}")
     suspend fun getFinishedAnimeCount(): Int
 
-    @Query("SELECT COUNT(id) FROM $TABLE_NAME WHERE type = \"${JikanRepository.TYPE_MANGA}\"  and status = ${MediaDb.FINISHED_STATUS}")
+    @Query("SELECT COUNT(id) FROM $TABLE_NAME WHERE type = \"${JikanRepository.TYPE_MANGA}\" and status = ${MediaDb.FINISHED_STATUS}")
     suspend fun getFinishedMangaCount(): Int
 
     // update

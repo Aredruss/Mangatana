@@ -99,7 +99,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun openMedia(id: Long) {
-        modo.forward(Screens.MediaInfo(id, JikanRepository.TYPE_MANGA))
+        modo.forward(Screens.MediaInfo(id, JikanRepository.TYPE_MANGA, false))
     }
 
     companion object {

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.RadioButton
+import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
@@ -12,6 +13,7 @@ import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.databinding.DialogChoiceBinding
 import com.aredruss.mangatana.view.extensions.getString
 import com.aredruss.mangatana.view.extensions.setIconText
+import timber.log.Timber
 
 class SaveDialog(
     private val currentStatus: Int,
@@ -46,10 +48,11 @@ class SaveDialog(
                     }
                 )
                 setOnCheckedChangeListener { _, checkedId ->
+                    Timber.e(checkedId.toString())
                     when (checkedId) {
-                        statusRg.id -> saveAction(MediaDb.ONGOING_STATUS)
-                        statusRg.id -> saveAction(MediaDb.BACKLOG_STATUS)
-                        statusRg.id -> saveAction(MediaDb.FINISHED_STATUS)
+                        statusRg[0].id -> saveAction(MediaDb.ONGOING_STATUS)
+                        statusRg[1].id -> saveAction(MediaDb.BACKLOG_STATUS)
+                        statusRg[2].id -> saveAction(MediaDb.FINISHED_STATUS)
                     }
 
                     postDelayed({ this@SaveDialog.dismiss() }, DELAY_DURATION)

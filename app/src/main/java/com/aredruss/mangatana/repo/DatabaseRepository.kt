@@ -6,6 +6,8 @@ import com.aredruss.mangatana.utils.MediaMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
@@ -14,6 +16,9 @@ class DatabaseRepository(
     private val mediaDao: MediaDao,
     private val mediaMapper: MediaMapper
 ) {
+
+    private val _update = MutableStateFlow(false)
+    val requiresUpdate: Flow<Boolean> = _update
 
     fun getSavedMediaList(status: Int, type: String) = flow {
         emit(mediaDao.getEntriesByStatus(status, type))
@@ -45,8 +50,12 @@ class DatabaseRepository(
         status: Int,
         isStarred: Boolean
     ) = flow {
-        emit(mediaDao.insert(mediaMapper.mapToMedia(media, type, status, isStarred)))
+        mediaDao.insert(mediaMapper.mapToMedia(media, type, status, isStarred))
+        emit {
+            _update.value = true
+        }
     }
+
 
     suspend fun deleteEntry(malId: Long, type: String) = mediaDao.delete(malId, type)
 

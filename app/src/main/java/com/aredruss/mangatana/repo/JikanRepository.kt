@@ -18,7 +18,9 @@ class JikanRepository(
         kotlinx.coroutines.delay(DEBOUNCE_TIME)
         emit(
             mediaMapper.mapToMediaList(
-                media = jikanService.searchByTitle(type, title).results,
+                media = jikanService.searchByTitle(type, title).results.apply {
+                                                                              
+                },
                 type = type
             )
         )
