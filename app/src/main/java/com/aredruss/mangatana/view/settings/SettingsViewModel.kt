@@ -21,8 +21,8 @@ class SettingsViewModel(
         }
     }
 
-    fun updateTheme(isDark: Boolean) = viewModelScope.launch {
-        dataStore.updateTheme(isDark)
+    fun updateTheme(themeCode: Int) = viewModelScope.launch {
+        dataStore.updateTheme(themeCode)
     }
 
     fun updateFilter(isOn: Boolean) = viewModelScope.launch {

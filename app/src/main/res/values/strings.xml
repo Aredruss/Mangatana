@@ -52,6 +52,7 @@
     <string name="open_with">Open with…</string>
 
     <string name="settings_color_theme">Color Theme</string>
+    <string name="settings_color_auto">System</string>
     <string name="settings_color_vanilla">Vanilla</string>
     <string name="settings_color_chocolate">Chocolate</string>
     <string name="settings_clear_sub">Delete all saved titles</string>
@@ -76,10 +77,4 @@
         <item>English</item>
         <item>Русский</item>
     </string-array>
-
-    <string-array name="color_themes">
-        <item>Vanilla</item>
-        <item>Chocolate</item>
-    </string-array>
-
 </resources>

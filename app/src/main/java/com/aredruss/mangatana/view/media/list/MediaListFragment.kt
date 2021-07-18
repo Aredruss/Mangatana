@@ -191,6 +191,7 @@ class MediaListFragment : BaseFragment(R.layout.fragment_media_list) {
                 setText(R.string.media_list_find_new)
                 setOnClickListener(null)
                 setOnClickListener {
+                    viewModel.resetState()
                     modo.replace(
                         Screens.MediaList(screenCategory),
                         Screens.MediaList(ScreenCategory.EXPLORE)

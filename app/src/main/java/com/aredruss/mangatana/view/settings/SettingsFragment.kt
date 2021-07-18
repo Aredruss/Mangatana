@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.aredruss.mangatana.R
+import com.aredruss.mangatana.data.datastore.AppState
 import com.aredruss.mangatana.databinding.FragmentSettingsBinding
 import com.aredruss.mangatana.utils.CLEARED_ALL_DATA
 import com.aredruss.mangatana.view.extensions.changeTheme
@@ -47,8 +48,8 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             viewModel.settingState.collect { state ->
                 when (state) {
                     is SettingsState.Success -> {
-                        setupThemeBtn(state.appState.isDark)
-                        //setupFilterBtn(state.appState.allowNsfw)
+                        setupThemeBtn(state.appState.darkModeState)
+                        setupFilterBtn(state.appState.allowNsfw)
                     }
                     is SettingsState.Empty -> {
                     }
@@ -57,12 +58,19 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         }
     }
 
-    private fun setupThemeBtn(isDark: Boolean) = with(binding) {
-        val themeCode = if (isDark) DARK_THEME else LIGHT_THEME
-        themePv.setSubText(
-            if (isDark) "Chocolate"
-            else "Vanilla"
-        )
+    private fun setupThemeBtn(themeCode: Int) = with(binding) {
+        themePv.setSubText(when(themeCode) {
+            AppState.DARK_MODE_DISABLED -> {
+                getString(R.string.settings_color_vanilla)
+            }
+            AppState.DARK_MODE_ENABLED -> {
+                getString(R.string.settings_color_chocolate)
+            }
+            else -> {
+                getString(R.string.settings_color_auto)
+            }
+        })
+
         themePv.setOnClickListener {
             showChoice(themeCode, THEME.values(), this@SettingsFragment::changeTheme)
         }
@@ -90,9 +98,8 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     private fun changeTheme(themeCode: Int) {
-        val isDark = themeCode == DARK_THEME
-        activity?.changeTheme(isDark)
-        viewModel.updateTheme(isDark)
+        activity?.changeTheme(themeCode)
+        viewModel.updateTheme(themeCode)
     }
 
     private fun changeFilter(isOn: Boolean) {

@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import com.aredruss.mangatana.R
+import com.aredruss.mangatana.data.datastore.AppState
 import com.aredruss.mangatana.utils.ENABLE_LIGHT_THEME
 import com.microsoft.appcenter.analytics.Analytics
 
@@ -52,13 +53,19 @@ fun Activity.isOnline(): Boolean {
     }
 }
 
-fun Activity.changeTheme(isDark: Boolean) {
+fun Activity.changeTheme(themeCode: Int) {
     AppCompatDelegate.setDefaultNightMode(
-        if (isDark) {
-            AppCompatDelegate.MODE_NIGHT_YES
-        } else {
-            Analytics.trackEvent(ENABLE_LIGHT_THEME)
-            AppCompatDelegate.MODE_NIGHT_NO
+        when(themeCode) {
+            AppState.DARK_MODE_DISABLED -> {
+                Analytics.trackEvent(ENABLE_LIGHT_THEME)
+                AppCompatDelegate.MODE_NIGHT_NO
+            }
+            AppState.DARK_MODE_ENABLED -> {
+                AppCompatDelegate.MODE_NIGHT_YES
+            }
+            else -> {
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
         }
     )
 }

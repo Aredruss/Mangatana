@@ -8,10 +8,11 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface JikanService {
-    @GET("/v3/search/{type}")
+    @GET("/v4/{type}")
     suspend fun searchByTitle(
         @Path("type") type: String,
-        @Query("q") title: String
+        @Query("q") title: String,
+        @Query("sfw") sfw:Boolean?
     ): JikanApiResponse<ArrayList<MediaResponse>>
 
     @GET("/v3/top/{type}/{page_num}/")

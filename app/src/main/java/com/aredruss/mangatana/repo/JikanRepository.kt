@@ -1,26 +1,42 @@
 package com.aredruss.mangatana.repo
 
+import androidx.preference.PreferenceDataStore
 import com.aredruss.mangatana.api.JikanService
+import com.aredruss.mangatana.data.datastore.SettingsDataStore
 import com.aredruss.mangatana.utils.MediaMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 
 class JikanRepository(
     private val jikanService: JikanService,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val dataStore: SettingsDataStore,
     private val mediaMapper: MediaMapper,
 ) {
 
     suspend fun searchForMedia(type: String, title: String) = flow {
         kotlinx.coroutines.delay(DEBOUNCE_TIME)
+
+        val results = jikanService.searchByTitle(
+            type = type,
+            title = title,
+            sfw = dataStore.allowNsfw().first()
+        ).results
+
+        Timber.e("results:")
+        results.forEach {
+            Timber.e(it.toString())
+        }
+
         emit(
             mediaMapper.mapToMediaList(
-                media = jikanService.searchByTitle(type, title).results.apply {
-                                                                              
-                },
+                media = results ,
                 type = type
             )
         )

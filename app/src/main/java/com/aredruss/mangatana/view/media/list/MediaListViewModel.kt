@@ -15,9 +15,11 @@ import com.aredruss.mangatana.view.extensions.Event
 import com.aredruss.mangatana.view.extensions.update
 import com.aredruss.mangatana.view.home.MediaListState
 import com.aredruss.mangatana.view.util.ErrorHelper
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MediaListViewModel(
     private val jikanRepository: JikanRepository,
@@ -37,10 +39,18 @@ class MediaListViewModel(
         )
     )
 
+    fun resetState() {
+        state.value = state.value?.copy(
+            isEmpty = false,
+            isLoading = false,
+            error = null
+        )
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onFragmentDestroy() {
         mediaType = TYPE_MANGA
+        resetState()
         cancelJobs()
     }
 

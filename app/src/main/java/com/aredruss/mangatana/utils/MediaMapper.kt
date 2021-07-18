@@ -4,6 +4,7 @@ import com.aredruss.mangatana.data.database.MediaDb
 import com.aredruss.mangatana.model.MediaResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class MediaMapper(
     private val defaultDispatcher: CoroutineDispatcher,
@@ -32,6 +33,9 @@ class MediaMapper(
         return withContext(defaultDispatcher) {
             val mediaList = media.map {
                 mapToMedia(it, type)
+            }
+            mediaList.forEach {
+                Timber.e(it.toString())
             }
             return@withContext mediaList as ArrayList<MediaDb>
         }

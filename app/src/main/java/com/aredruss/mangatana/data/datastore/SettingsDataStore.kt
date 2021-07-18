@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,21 +18,21 @@ class SettingsDataStore(private val context: Context) {
     fun getAppState(): Flow<AppState> {
         return context.dataStore.data.map { prefs ->
             AppState(
-                isDark = prefs[THEME_KEY] ?: true,
+                darkModeState = prefs[THEME_KEY] ?: 0,
                 allowNsfw = prefs[AGE_KEY] ?: true
             )
         }
     }
 
-    fun getUiMode(): Flow<Boolean> {
+    fun getUiMode(): Flow<Int> {
         return context.dataStore.data.map { prefs ->
-            prefs[THEME_KEY] ?: true
+            prefs[THEME_KEY] ?: 0
         }
     }
 
-    suspend fun updateTheme(isDark: Boolean) {
+    suspend fun updateTheme(darkModeState: Int) {
         context.dataStore.edit { prefs ->
-            prefs[THEME_KEY] = isDark
+            prefs[THEME_KEY] = darkModeState
         }
     }
 
@@ -41,17 +42,15 @@ class SettingsDataStore(private val context: Context) {
         }
     }
 
-    // Content filter is being delayed until further notice due to the fact that
-    // API lacks capabilities to filter manga titles by age rating
-    fun allowNsfw(): Flow<Boolean> = flow {
+    fun allowNsfw(): Flow<Boolean> =
         context.dataStore.data.map { prefs ->
-            prefs[AGE_KEY] ?: true
-        }
-    }
+               prefs[AGE_KEY] ?: true
+           }
+
 
     private companion object {
         private const val PREF_FILENAME = "MANGATANA_PREFS"
-        private val THEME_KEY = booleanPreferencesKey("is_dark")
+        private val THEME_KEY = intPreferencesKey("is_dark")
         private val AGE_KEY = booleanPreferencesKey("allow_nsfw")
     }
 }

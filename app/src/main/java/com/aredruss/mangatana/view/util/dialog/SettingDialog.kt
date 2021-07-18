@@ -44,7 +44,8 @@ class SettingDialog<T : Choices>(
                         {
                             when (checkedId) {
                                 statusRg[0].id -> action(0)
-                                else -> action(1)
+                                statusRg[1].id -> action(1)
+                                else -> action(2)
                             }
                             dismiss()
                         },
@@ -68,6 +69,7 @@ interface Choices {
 }
 
 enum class THEME(override val text: Int, override val icon: Int) : Choices {
-    DARK(R.string.settings_color_chocolate, R.drawable.ic_night),
+    AUTO(R.string.settings_color_auto, R.drawable.ic_android),
     LIGHT(R.string.settings_color_vanilla, R.drawable.ic_day),
+    DARK(R.string.settings_color_chocolate, R.drawable.ic_night)
 }
